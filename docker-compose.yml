@@ -2,12 +2,15 @@ version: '2'
 services:
   database:
     image: postgres
-    env_file: .env
+    env_file:
+      - .postgres.env
     ports:
       - "5432:5432"
   opennms:
     image: indigo/docker-opennms
-    env_file: .env
+    env_file:
+      - .opennms.env
+      - .postgres.env
     depends_on:
       - database
     command: ["-s"]
