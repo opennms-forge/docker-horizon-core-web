@@ -7,6 +7,8 @@
 #
 # =====================================================================
 
+START_DELAY=5
+
 # Error codes
 E_ILLEGAL_ARGS=126
 
@@ -38,11 +40,13 @@ initdb() {
 
     cd ${OPENNMS_HOME}/bin
     ./runjava -s
+    sleep ${START_DELAY}
     ./install -dis
 }
 
 start() {
     cd ${OPENNMS_HOME}/bin
+    sleep ${START_DELAY}
     exec ./opennms -f start
 }
 

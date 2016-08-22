@@ -10,7 +10,7 @@ services:
     env_file: .env
     depends_on:
       - database
-    command: ["-f"]
+    command: ["-s"]
     ports:
       - "8980:8980"
       - "18980:18980"

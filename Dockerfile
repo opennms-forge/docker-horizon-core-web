@@ -5,6 +5,7 @@ ENV OPENNMS_VERSION branches-release-18.0.1
 
 RUN rpm -Uvh http://yum.opennms.eu/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
     rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \
+    yum -y install iplike && \
     yum -y install opennms-core && \
     yum -y install opennms-webapp-jetty
 
