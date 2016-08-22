@@ -3,9 +3,12 @@ MAINTAINER Ronny Trommer <ronny@opennms.org>
 
 ENV OPENNMS_VERSION branches-release-18.0.1
 
+ENV POSTGRES_HOST "localhost"
+ENV POSTGRES_PORT "5432"
 ENV POSTGRES_USER "postgres"
 ENV POSTGRES_PASSWORD "postgres"
 
+ENV OPENNMS_DBNAME "opennms"
 ENV OPENNMS_DBUSER "opennms"
 ENV OPENNMS_DBPASS "opennms"
 

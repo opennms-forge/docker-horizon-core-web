@@ -14,8 +14,11 @@ services:
     links:
       - db:database
     environment:
+      - POSTGRES_HOST=database
+      - POSTGRES_PORT=5432
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - OPENNMS_DBNAME=opennms
       - OPENNMS_DBUSER=opennms
       - OPENNMS_DBPASS=opennms
       - OPENNMS_HOME=/opt/opennms
