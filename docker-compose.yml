@@ -5,14 +5,12 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
-    expose:
-      - 5432/tcp
+    ports:
+      - "5432:5432"
   opennms:
     image: indigo/docker-opennms
     depends_on:
-      - db
-    links:
-      - db:database
+      - database
     environment:
       - POSTGRES_HOST=database
       - POSTGRES_PORT=5432
@@ -24,11 +22,11 @@ services:
       - OPENNMS_HOME=/opt/opennms
       - OPENNMS_DB_CONFIG=/opt/opennms/etc/opennms-datasources.xml
     command: ["-f"]
-    expose:
-      - 8980/tcp
-      - 18980/tcp
-      - 1099/tcp
-      - 8101/tcp
-      - 61616/tcp
-      - 5817/tcp
-      - 162/udp
+    ports:
+      - "8980:8980"
+      - "18980:18980"
+      - "1099:1099"
+      - "8101:8101"
+      - "61616:61616"
+      - "5817:5817"
+      - "162:162/udp"

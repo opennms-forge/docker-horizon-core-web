@@ -15,10 +15,10 @@ usage() {
     echo ""
     echo "Docker entry script for OpenNMS service container"
     echo ""
-    echo "-i: Initialize/Update database and Java environment"
-    echo "-s: Start OpenNMS core monitoring and webapplication services"
     echo "-f: Initialize/Update the database and start OpenNMS in forground in one step"
     echo "-h: Show this help"
+    echo "-i: Initialize/Update database and Java environment"
+    echo "-s: Start OpenNMS core monitoring and webapplication services"
     echo ""
 }
 
@@ -53,8 +53,13 @@ if [[ "${#}" == 0 ]]; then
 fi
 
 # Evaluate arguments for build script.
-while getopts his flag; do
+while getopts fhis flag; do
     case ${flag} in
+        f)
+            initdb
+            start
+            exit
+            ;;
         h)
             usage
             exit
@@ -64,11 +69,6 @@ while getopts his flag; do
             exit
             ;;
         s)
-            start
-            exit
-            ;;
-        f)
-            initdb
             start
             exit
             ;;
