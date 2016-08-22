@@ -7,18 +7,6 @@
 #
 # =====================================================================
 
-POSTGRES_HOST="localhost"
-POSTGRES_PORT="5432"
-POSTGRES_USER="postgres"
-POSTGRES_PASSWORD="postgres"
-
-OPENNMS_DBNAME="opennms"
-OPENNMS_DBUSER="opennms"
-OPENNMS_DBPASS="opennms"
-
-OPENNMS_HOME="/opt/opennms"
-OPENNMS_DB_CONFIG="${OPENNMS_HOME}/etc/opennms-datasources.xml"
-
 # Error codes
 E_ILLEGAL_ARGS=126
 
