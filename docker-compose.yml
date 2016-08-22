@@ -8,20 +8,24 @@ services:
     expose:
       - 5432/tcp
   opennms:
-    build:
-      context: /
-      args:
-        var1: -i
+    image: indigo/docker-opennms
+    depends_on:
+      - db
+    links:
+      - db:database
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - OPENNMS_DBUSER=opennms
       - OPENNMS_DBPASS=opennms
       - OPENNMS_HOME=/opt/opennms
-      - OPENNMS_DB_CONFIG=${OPENNMS_HOME}/etc/opennms-datasources.xml
+      - OPENNMS_DB_CONFIG=/opt/opennms/etc/opennms-datasources.xml
+    command: ["-f"]
     expose:
       - 8980/tcp
-    depends_on:
-      - db
-    links:
-      - db:database
+      - 18980/tcp
+      - 1099/tcp
+      - 8101/tcp
+      - 61616/tcp
+      - 5817/tcp
+      - 162/udp
