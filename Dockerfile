@@ -3,18 +3,6 @@ MAINTAINER Ronny Trommer <ronny@opennms.org>
 
 ENV OPENNMS_VERSION branches-release-18.0.1
 
-ENV POSTGRES_HOST "localhost"
-ENV POSTGRES_PORT "5432"
-ENV POSTGRES_USER "postgres"
-ENV POSTGRES_PASSWORD "postgres"
-
-ENV OPENNMS_DBNAME "opennms"
-ENV OPENNMS_DBUSER "opennms"
-ENV OPENNMS_DBPASS "opennms"
-
-ENV OPENNMS_HOME "/opt/opennms"
-ENV OPENNMS_DB_CONFIG "${OPENNMS_HOME}/etc/opennms-datasources.xml"
-
 RUN rpm -Uvh http://yum.opennms.eu/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
     rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \
     yum -y install opennms-core && \
