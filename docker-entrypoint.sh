@@ -44,6 +44,13 @@ initdb() {
     ./install -dis
 }
 
+initConfig() {
+    if [ ! "$(ls -A ${OPENNMS_HOME}/etc)"  ]; then
+        cp -r ${OPENNMS_HOME}/share/etc-pristine/* ${OPENNMS_HOME}/etc/
+    else
+        echo "OpenNMS configuration already initialized"
+    fi
+}
 start() {
     cd ${OPENNMS_HOME}/bin
     sleep ${START_DELAY}
@@ -60,6 +67,7 @@ fi
 while getopts fhis flag; do
     case ${flag} in
         f)
+            initConfig
             initdb
             start
             exit
@@ -69,6 +77,7 @@ while getopts fhis flag; do
             exit
             ;;
         i)
+            initConfig
             initdb
             exit
             ;;
