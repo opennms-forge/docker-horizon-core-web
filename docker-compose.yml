@@ -1,13 +1,9 @@
 version: '2'
 services:
-  data:
+  db_data:
     image: tianon/true
     volumes:
         - /var/lib/postgresql/data
-        - /var/log/opennms
-        - /var/opennms/rrd
-        - /var/opennms/reports
-        - /opt/opennms/etc
   database:
     image: postgres
     env_file:
@@ -15,7 +11,16 @@ services:
     ports:
       - "5432:5432"
     depends_on:
-      - data
+      - db_data
+    volumes_from:
+      - db_data:rw
+  opennms_data:
+    image: tianon/true
+    volumes:
+        - /var/log/opennms
+        - /var/opennms/rrd
+        - /var/opennms/reports
+        - /opt/opennms/etc
   opennms:
     image: indigo/docker-opennms
     env_file:
@@ -23,9 +28,9 @@ services:
       - .postgres.env
     depends_on:
       - database
-      - data
+      - opennms_data
     volumes_from:
-      - data:rw
+      - opennms_data:rw
     command: ["-f"]
     ports:
       - "8980:8980"
