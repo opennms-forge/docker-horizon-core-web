@@ -1,5 +1,5 @@
 FROM indigo/centos-jdk8:latest
-MAINTAINER Ronny Trommer <ronny@no42.org>
+MAINTAINER Ronny Trommer <ronny@opennms.org>
 
 ENV OPENNMS_VERSION branches-release-18.0.1
 
