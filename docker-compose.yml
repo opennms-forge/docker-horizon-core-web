@@ -1,6 +1,6 @@
 version: '2'
 services:
-  db:
+  database:
     image: postgres
     environment:
       - POSTGRES_USER=postgres
