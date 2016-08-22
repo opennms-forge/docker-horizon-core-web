@@ -2,16 +2,26 @@ version: '2'
 services:
   db:
     image: postgres
-    volumes_from:
-      - data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     expose:
-      - 5432
-  web:
-    build: .
-    command: bundle exec rails s -p 3000 -b '0.0.0.0'
-    volumes:
-      - .:/myapp
-    ports:
-      - "3000:3000"
+      - 5432/tcp
+  opennms:
+    build:
+      context: /
+      args:
+        var1: -i
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - OPENNMS_DBUSER=opennms
+      - OPENNMS_DBPASS=opennms
+      - OPENNMS_HOME=/opt/opennms
+      - OPENNMS_DB_CONFIG=${OPENNMS_HOME}/etc/opennms-datasources.xml
+    expose:
+      - 8980/tcp
     depends_on:
       - db
+    links:
+      - db:database
