@@ -4,9 +4,9 @@ services:
     image: tianon/true
     volumes:
         - /var/lib/postgresql/data
-        - /opt/opennms/share
+        - /var/log/opennms
+        - /var/opennms
         - /opt/opennms/etc
-        - /opt/opennms/logs
   database:
     image: postgres
     env_file:
