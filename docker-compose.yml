@@ -5,8 +5,8 @@ services:
     volumes:
         - /var/lib/postgresql/data
         - /var/log/opennms
-        - /var/opennms
-        - /opt/opennms/etc
+        - /var/opennms/rrd
+        - /var/opennms/reports
   database:
     image: postgres
     env_file:

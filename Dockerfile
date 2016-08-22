@@ -13,7 +13,7 @@ RUN rpm -Uvh http://yum.opennms.eu/repofiles/opennms-repo-${OPENNMS_VERSION}-rhe
 COPY ./docker-entrypoint.sh /
 
 ## Volumes for storing data outside of the container
-VOLUME ["/opt/opennms/etc","/var/log/opennms","/var/opennnms"]
+VOLUME ["/opt/opennms/etc","/var/log/opennms","/var/opennnms/rrd", "/var/opennms/reports"]
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
