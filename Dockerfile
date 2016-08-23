@@ -6,11 +6,24 @@ ENV OPENNMS_HOME=/opt/opennms
 
 RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
     rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \
-    yum -y install iplike && \
-    yum -y install rrdtool && \
-    yum -y install jrrd2 && \
-    yum -y install opennms-core && \
-    yum -y install opennms-webapp-jetty
+    yum -y install iplike \
+                   rrdtool \
+                   jrrd2 \
+                   opennms-core \
+                   opennms-webapp-jetty \
+                   opennms-plugin-provisioning-snmp-asset \
+                   opennms-jmx-config-generator \
+                   opennms-plugin-northbounder-jms \
+                   opennms-plugin-protocol-cifs \
+                   opennms-plugin-protocol-dhcp \
+                   opennms-plugin-protocol-xml \
+                   opennms-plugin-protocol-nsclient \
+                   opennms-plugin-provisioning-dns \
+                   opennms-plugin-provisioning-snmp-asset \
+                   opennms-plugin-provisioning-snmp-hardware-inventory \
+                   opennms-plugin-ticketer-jira \
+                   opennms-plugin-ticketer-otrs \
+                   opennms-plugin-ticketer-rt
 
 COPY ./docker-entrypoint.sh /
 
