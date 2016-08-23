@@ -1,7 +1,7 @@
 FROM indigo/centos-jdk8:latest
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
-ENV OPENNMS_VERSION stable
+ENV OPENNMS_VERSION develop
 ENV OPENNMS_HOME=/opt/opennms
 
 RUN rpm -Uvh http://yum.opennms.eu/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
