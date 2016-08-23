@@ -4,7 +4,7 @@ MAINTAINER Ronny Trommer <ronny@opennms.org>
 ENV OPENNMS_VERSION stable
 ENV OPENNMS_HOME=/opt/opennms
 
-RUN rpm -Uvh http://yum.opennms.eu/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
+RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
     rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \
     yum -y install iplike && \
     yum -y install rrdtool && \
