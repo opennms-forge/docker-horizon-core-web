@@ -1,4 +1,4 @@
-FROM indigo/centos-jdk8:latest
+FROM indigo/centos-jdk8:8u102
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
 ENV OPENNMS_VERSION stable
