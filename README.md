@@ -1,4 +1,4 @@
-![](https://images.microbadger.com/badges/image/indigo/docker-opennms.svg) ![](https://images.microbadger.com/badges/version/indigo/docker-opennms.svg)
+![https://microbadger.com/#/images/indigo/docker-opennms](https://images.microbadger.com/badges/image/indigo/docker-opennms.svg) ![https://microbadger.com/#/images/indigo/docker-opennms](https://images.microbadger.com/badges/version/indigo/docker-opennms.svg)
 ## Supported tags
 
 * `latest`, latest develop release
