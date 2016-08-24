@@ -1,3 +1,5 @@
+![](https://images.microbadger.com/badges/image/indigo/docker-opennms.svg)
+
 ## Supported tags
 
 * `latest`, latest develop release
