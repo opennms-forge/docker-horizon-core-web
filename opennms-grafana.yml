@@ -1,0 +1,50 @@
+version: '2'
+services:
+  db_data:
+    image: tianon/true
+    volumes:
+        - /var/lib/postgresql/data
+  database:
+    image: postgres:9.5.4
+    env_file:
+      - .postgres.env
+    ports:
+      - "5432:5432"
+    depends_on:
+      - db_data
+    volumes_from:
+      - db_data:rw
+  opennms_data:
+    image: tianon/true
+    volumes:
+        - /var/log/opennms
+        - /var/opennms/rrd
+        - /var/opennms/reports
+        - /opt/opennms/etc
+  opennms:
+    image: indigo/docker-opennms:18.0.1-1
+    env_file:
+      - .opennms.env
+      - .postgres.env
+    depends_on:
+      - database
+      - opennms_data
+    volumes_from:
+      - opennms_data:rw
+    command: ["-f"]
+    ports:
+      - "8980:8980"
+      - "18980:18980"
+      - "1099:1099"
+      - "8101:8101"
+      - "61616:61616"
+      - "5817:5817"
+      - "162:162/udp"
+  grafana:
+    image: grafana/grafana:3.1.1
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    env_file:
+      - .grafana.env
+    ports:
+      - "3000:3000"
