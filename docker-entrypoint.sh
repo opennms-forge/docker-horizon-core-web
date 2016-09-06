@@ -17,7 +17,7 @@ usage() {
     echo ""
     echo "Docker entry script for OpenNMS service container"
     echo ""
-    echo "-f: Initialize as in -i and start OpenNMS in forground."
+    echo "-f: Initialize as in -i and start OpenNMS in foreground."
     echo "-h: Show this help."
     echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files."
     echo "-s: Start OpenNMS core monitoring and web application services."
