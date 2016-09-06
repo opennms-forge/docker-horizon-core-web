@@ -37,11 +37,12 @@ CMD [ "-h" ]
 ##------------------------------------------------------------------------------
 ## EXPOSED PORTS
 ##------------------------------------------------------------------------------
-## -- OpenNMS HTTP       8980/TCP
+## -- OpenNMS HTTP        8980/TCP
 ## -- OpenNMS JMX        18980/TCP
-## -- OpenNMS KARAF RMI  1099/TCP
-## -- OpenNMS KARAF SSH  8101/TCP
+## -- OpenNMS KARAF RMI   1099/TCP
+## -- OpenNMS KARAF SSH   8101/TCP
 ## -- OpenNMS MQ         61616/TCP
-## -- OpenNMS Eventd     5817/TCP
-## -- SNMP (SERVER)      162/UDP
-EXPOSE 8980 18980 1099 8101 61616 5817 162/udp
+## -- OpenNMS Eventd      5817/TCP
+## -- SNMP Trapd           162/UDP
+## -- Syslog Receiver      514/UDP
+EXPOSE 8980 18980 1099 8101 61616 5817 162/udp 514/udp
