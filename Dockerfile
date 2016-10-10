@@ -23,12 +23,19 @@ RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rh
                    opennms-plugin-provisioning-snmp-hardware-inventory \
                    opennms-plugin-ticketer-jira \
                    opennms-plugin-ticketer-otrs \
-                   opennms-plugin-ticketer-rt
+                   opennms-plugin-ticketer-rt && \
+    mkdir /opennms-data && \
+    mv /var/log/opennms /opennms-data/logs && \
+    ln -s /opennms-data/logs /var/log/opennms && \
+    mv /var/opennms/rrd /opennms-data && \
+    ln -s /opennms-data/rrd /var/opennms/rrd && \
+    mv /var/opennms/reports /opennms-data && \
+    ln -s /opennms-data/reports /var/opennms/reports
 
 COPY ./docker-entrypoint.sh /
 
 ## Volumes for storing data outside of the container
-VOLUME ["/opt/opennms/etc","/var/log/opennms","/var/opennnms/rrd", "/var/opennms/reports"]
+VOLUME ["/opt/opennms/etc", "/opennms-data"]
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 

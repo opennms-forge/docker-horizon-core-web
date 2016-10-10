@@ -17,12 +17,10 @@ services:
   opennms_data:
     image: tianon/true
     volumes:
-        - /var/log/opennms
-        - /var/opennms/rrd
-        - /var/opennms/reports
-        - /opt/opennms/etc
+        - /opennms-data
+        - /Users/indigo/test:/opt/opennms/etc
   opennms:
-    image: indigo/docker-opennms
+    image: indigo/docker-opennms:latest
     env_file:
       - .opennms.env
       - .postgres.env
