@@ -2,7 +2,6 @@ FROM indigo/centos-jdk8:latest
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
 ENV OPENNMS_VERSION develop
-ENV OPENNMS_HOME=/opt/opennms
 
 RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
     rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \

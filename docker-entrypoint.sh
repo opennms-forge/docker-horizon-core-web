@@ -8,6 +8,8 @@
 # =====================================================================
 
 START_DELAY=5
+OPENNMS_DATA_DIR=/opennms-data
+OPENNMS_HOME=/opt/opennms
 
 # Error codes
 E_ILLEGAL_ARGS=126
@@ -55,6 +57,13 @@ initConfig() {
         echo "OpenNMS configuration already initialized."
     fi
 }
+
+initData() {
+    mkdir -p ${OPENNMS_DATA_DIR}/logs \
+             ${OPENNMS_DATA_DIR}/rrd \
+             ${OPENNMS_DATA_DIR}/reports
+}
+
 start() {
     cd ${OPENNMS_HOME}/bin
     sleep ${START_DELAY}
@@ -73,6 +82,7 @@ while getopts fhis flag; do
         f)
             initConfig
             initdb
+            initData
             start
             exit
             ;;
@@ -83,6 +93,7 @@ while getopts fhis flag; do
         i)
             initConfig
             initdb
+            initData
             exit
             ;;
         s)
