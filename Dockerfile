@@ -26,10 +26,10 @@ RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rh
                    opennms-plugin-ticketer-rt && \
     rm -rf /opt/opennms/logs \
            /var/opennms/rrd \
-           /var/opennms/reports \
+           /var/opennms/reports && \
     mkdir -p /opennms-data/logs \
              /opennms-data/rrd \
-             /opennms-data/reports \
+             /opennms-data/reports && \
     ln -s /opennms-data/logs /opt/opennms/logs && \
     ln -s /opennms-data/rrd /var/opennms/rrd && \
     ln -s /opennms-data/reports /var/opennms/reports
