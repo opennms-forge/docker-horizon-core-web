@@ -15,7 +15,7 @@
 
 ### 18.0.2
 
-* Strict CentOS with Oracle JDK 8 update 102
+* Strict CentOS with Oracle JDK 8 update 112
 * Strict official PostgreSQL 9.5.4
 * Strict Horizon 18.0.2-1
 
