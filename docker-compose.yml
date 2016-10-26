@@ -3,9 +3,9 @@ services:
   db_data:
     image: tianon/true
     volumes:
-        - /var/lib/postgresql/data
+      - /var/lib/postgresql/data
   database:
-    image: postgres
+    image: postgres:latest
     env_file:
       - .postgres.env
     ports:
@@ -17,8 +17,8 @@ services:
   opennms_data:
     image: tianon/true
     volumes:
-        - /opennms-data
-        - /Users/indigo/test:/opt/opennms/etc
+      - /opennms-data
+      - /Users/indigo/test:/opt/opennms/etc
   opennms:
     image: indigo/docker-opennms:latest
     env_file:
@@ -38,3 +38,4 @@ services:
       - "61616:61616"
       - "5817:5817"
       - "162:162/udp"
+
