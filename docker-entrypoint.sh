@@ -91,9 +91,8 @@ while getopts fhis flag; do
             exit
             ;;
         i)
-            initConfig
-            initdb
-            initData
+            ${OPENNMS_HOME}/bin/runjava -s
+            ${OPENNMS_HOME}/bin/install -dis
             exit
             ;;
         s)
