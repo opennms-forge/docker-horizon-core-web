@@ -41,6 +41,8 @@ initdb() {
         sed -i "s,user-name=\"opennms\",user-name=\"${OPENNMS_DBUSER}\"," ${OPENNMS_DB_CONFIG}
         sed -i "s,password=\"opennms\",password=\"${OPENNMS_DBPASS}\"," ${OPENNMS_DB_CONFIG}
 
+        # Allow connection to Karaf console into Docker container
+        sed -i "s,sshHost = 127.0.0.1,sshHost = 0.0.0.0," ${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
         cd ${OPENNMS_HOME}/bin
         ./runjava -s
         sleep ${START_DELAY}
@@ -53,6 +55,7 @@ initdb() {
 initConfig() {
     if [ ! "$(ls -A ${OPENNMS_HOME}/etc)"  ]; then
         cp -r ${OPENNMS_HOME}/share/etc-pristine/* ${OPENNMS_HOME}/etc/
+
     else
         echo "OpenNMS configuration already initialized."
     fi
