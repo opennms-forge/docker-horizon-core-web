@@ -31,7 +31,7 @@ services:
       - opennms_data
     volumes_from:
       - opennms_data:rw
-    command: ["-f"]
+    command: ["-s"]
     ports:
       - "8980:8980"
       - "18980:18980"

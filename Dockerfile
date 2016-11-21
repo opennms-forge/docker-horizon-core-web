@@ -17,7 +17,6 @@ RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rh
                    opennms-plugin-protocol-dhcp \
                    opennms-plugin-protocol-xml \
                    opennms-plugin-protocol-nsclient \
-                   opennms-plugin-provisioning-dns \
                    opennms-plugin-provisioning-snmp-asset \
                    opennms-plugin-provisioning-snmp-hardware-inventory \
                    opennms-plugin-ticketer-jira \
@@ -33,10 +32,13 @@ RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rh
     ln -s /opennms-data/rrd /var/opennms/rrd && \
     ln -s /opennms-data/reports /var/opennms/reports
 
+COPY ./assets/opennms-datasources.xml.tpl /tmp
 COPY ./docker-entrypoint.sh /
 
 ## Volumes for storing data outside of the container
 VOLUME ["/opt/opennms/etc", "/opennms-data"]
+
+HEALTHCHECK --interval=10s --timeout=3s CMD curl --fail -s -I http://localhost:8980/opennms/login.jsp | grep "HTTP/1.1 200 OK" || exit 1
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 

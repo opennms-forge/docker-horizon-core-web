@@ -7,9 +7,13 @@
 #
 # =====================================================================
 
+
+
 START_DELAY=5
 OPENNMS_DATA_DIR=/opennms-data
 OPENNMS_HOME=/opt/opennms
+OPENNMS_DATASOURCES_TPL=/tmp/opennms-datasources.xml.tpl
+OPENNMS_DATASOURCES_CFG=${OPENNMS_HOME}/etc/opennms-datasources.xml
 
 # Error codes
 E_ILLEGAL_ARGS=126
@@ -19,10 +23,10 @@ usage() {
     echo ""
     echo "Docker entry script for OpenNMS service container"
     echo ""
-    echo "-f: Initialize as in -i and start OpenNMS in foreground."
+    echo "-f: Start OpenNMS in foreground with existing configuration."
     echo "-h: Show this help."
-    echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files."
-    echo "-s: Start OpenNMS core monitoring and web application services."
+    echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files, do not start OpenNMS."
+    echo "-s: Initialize environment like -i and start OpenNMS in foreground."
     echo ""
 }
 
@@ -33,13 +37,7 @@ initdb() {
     fi
 
     if [ ! -f ${OPENNMS_HOME}/etc/configured ]; then
-        sed -i "s,url=\"jdbc:postgresql:\/\/localhost:5432\/template1\",url=\"jdbc:postgresql:\/\/${POSTGRES_HOST}:${POSTGRES_PORT}\/template1\"," ${OPENNMS_DB_CONFIG}
-        sed -i "s,user-name=\"postgres\",user-name=\"${POSTGRES_USER}\"," ${OPENNMS_DB_CONFIG}
-        sed -i "s,password=\"\",password=\"${POSTGRES_PASSWORD}\"," ${OPENNMS_DB_CONFIG}
-
-        sed -i "s,url=\"jdbc:postgresql:\/\/localhost:5432\/opennms\",url=\"jdbc:postgresql:\/\/${POSTGRES_HOST}:${POSTGRES_PORT}\/${OPENNMS_DBNAME}\"," ${OPENNMS_DB_CONFIG}
-        sed -i "s,user-name=\"opennms\",user-name=\"${OPENNMS_DBUSER}\"," ${OPENNMS_DB_CONFIG}
-        sed -i "s,password=\"opennms\",password=\"${OPENNMS_DBPASS}\"," ${OPENNMS_DB_CONFIG}
+        envsubst < ${OPENNMS_DATASOURCES_TPL} > ${OPENNMS_DATASOURCES_CFG}
 
         # Allow connection to Karaf console into Docker container
         sed -i "s,sshHost = 127.0.0.1,sshHost = 0.0.0.0," ${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
@@ -83,9 +81,6 @@ fi
 while getopts fhis flag; do
     case ${flag} in
         f)
-            initConfig
-            initdb
-            initData
             start
             exit
             ;;
@@ -100,6 +95,9 @@ while getopts fhis flag; do
             exit
             ;;
         s)
+            initConfig
+            initdb
+            initData
             start
             exit
             ;;
