@@ -3,7 +3,8 @@
 
 ## Supported tags
 
-* `latest`, latest develop release
+* `latest`, latest develop release Horizon 20
+* `rc-19.0.0`, release candidate for Horizon 19
 * `18.0.2-1`, stable Horizon
 * `18.0.1-1`, stable Horizon
 
@@ -11,7 +12,13 @@
 
 * Centos Oracle JDK 8 latest
 * Official PostgreSQL latest
-* Horizon develop latest
+* Horizon 20 develop latest
+
+### rc-19.0.0
+
+* Centos Oracle JDK 8 latest
+* Official PostgreSQL latest
+* Horizon 19.0.0 release candidate
 
 ### 18.0.2
 
