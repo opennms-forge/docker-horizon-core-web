@@ -18,7 +18,7 @@ services:
     image: tianon/true
     volumes:
       - /opennms-data
-      - /Users/indigo/test:/opt/opennms/etc
+      - /myhost/opennms/etc:/opt/opennms/etc
   opennms:
     image: indigo/docker-opennms:latest
     env_file:
