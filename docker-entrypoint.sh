@@ -20,85 +20,90 @@ E_ILLEGAL_ARGS=126
 
 # Help function used in error messages and -h option
 usage() {
-    echo ""
-    echo "Docker entry script for OpenNMS service container"
-    echo ""
-    echo "-f: Start OpenNMS in foreground with existing configuration."
-    echo "-h: Show this help."
-    echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files, do not start OpenNMS."
-    echo "-s: Initialize environment like -i and start OpenNMS in foreground."
-    echo ""
+  echo ""
+  echo "Docker entry script for OpenNMS service container"
+  echo ""
+  echo "-f: Start OpenNMS in foreground with existing configuration."
+  echo "-h: Show this help."
+  echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files, do not start OpenNMS."
+  echo "-s: Initialize environment like -i and start OpenNMS in foreground."
+  echo ""
 }
 
 initdb() {
-    if [ ! -d ${OPENNMS_HOME} ]; then
-        echo "OpenNMS home directory doesn't exist in ${OPENNMS_HOME}."
-        exit ${E_ILLEGAL_ARGS}
-    fi
+  if [ ! -d ${OPENNMS_HOME} ]; then
+    echo "OpenNMS home directory doesn't exist in ${OPENNMS_HOME}."
+    exit ${E_ILLEGAL_ARGS}
+  fi
 
-    if [ ! -f ${OPENNMS_HOME}/etc/configured ]; then
-        envsubst < ${OPENNMS_DATASOURCES_TPL} > ${OPENNMS_DATASOURCES_CFG}
+  if [ ! -f ${OPENNMS_HOME}/etc/configured ]; then
+    envsubst < ${OPENNMS_DATASOURCES_TPL} > ${OPENNMS_DATASOURCES_CFG}
 
-        # Allow connection to Karaf console into Docker container
-        sed -i "s,sshHost = 127.0.0.1,sshHost = 0.0.0.0," ${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
-        cd ${OPENNMS_HOME}/bin
-        ./runjava -s
-        sleep ${START_DELAY}
-        ./install -dis
-    else
-        echo "OpenNMS is already configured skip initdb."
-    fi
+    # Allow connection to Karaf console into Docker container
+    sed -i "s,sshHost = 127.0.0.1,sshHost = 0.0.0.0," ${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
+    cd ${OPENNMS_HOME}/bin
+    ./runjava -s
+    sleep ${START_DELAY}
+    ./install -dis
+  else
+    echo "OpenNMS is already configured skip initdb."
+  fi
 }
 
 initConfig() {
-    if [ ! "$(ls -A ${OPENNMS_HOME}/etc)"  ]; then
-        cp -r ${OPENNMS_HOME}/share/etc-pristine/* ${OPENNMS_HOME}/etc/
+  if [ ! "$(ls -A ${OPENNMS_HOME}/etc)"  ]; then
+    cp -r ${OPENNMS_HOME}/share/etc-pristine/* ${OPENNMS_HOME}/etc/
+  else
+    echo "OpenNMS configuration already initialized."
+  fi
+}
 
-    else
-        echo "OpenNMS configuration already initialized."
-    fi
+initData() {
+  mkdir -p ${OPENNMS_DATA_DIR}/logs \
+           ${OPENNMS_DATA_DIR}/rrd \
+           ${OPENNMS_DATA_DIR}/reports
 }
 start() {
-    cd ${OPENNMS_HOME}/bin
-    sleep ${START_DELAY}
-    exec ./opennms -f start
+  cd ${OPENNMS_HOME}/bin
+  sleep ${START_DELAY}
+  exec ./opennms -f start
 }
 
 # Evaluate arguments for build script.
 if [[ "${#}" == 0 ]]; then
-    usage
-    exit ${E_ILLEGAL_ARGS}
+  usage
+  exit ${E_ILLEGAL_ARGS}
 fi
 
 # Evaluate arguments for build script.
 while getopts fhis flag; do
-    case ${flag} in
-        f)
-            start
-            exit
-            ;;
-        h)
-            usage
-            exit
-            ;;
-        i)
-            initConfig
-            initdb
-            initData
-            exit
-            ;;
-        s)
-            initConfig
-            initdb
-            initData
-            start
-            exit
-            ;;
-        *)
-            usage
-            exit ${E_ILLEGAL_ARGS}
-            ;;
-    esac
+  case ${flag} in
+    f)
+      start
+      exit
+      ;;
+    h)
+      usage
+      exit
+      ;;
+    i)
+      initConfig
+      initdb
+      initData
+      exit
+      ;;
+    s)
+      initConfig
+      initdb
+      initData
+      start
+      exit
+      ;;
+    *)
+      usage
+      exit ${E_ILLEGAL_ARGS}
+      ;;
+  esac
 done
 
 # Strip of all remaining arguments
@@ -106,7 +111,7 @@ shift $((OPTIND - 1));
 
 # Check if there are remaining arguments
 if [[ "${#}" > 0 ]]; then
-    echo "Error: To many arguments: ${*}."
-    usage
-    exit ${E_ILLEGAL_ARGS}
+  echo "Error: To many arguments: ${*}."
+  usage
+  exit ${E_ILLEGAL_ARGS}
 fi
