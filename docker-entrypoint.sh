@@ -40,7 +40,7 @@ initdb() {
     envsubst < ${OPENNMS_DATASOURCES_TPL} > ${OPENNMS_DATASOURCES_CFG}
 
     # Allow connection to Karaf console into Docker container
-    sed -i "s,sshHost = 127.0.0.1,sshHost = 0.0.0.0," ${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
+    sed -i "s,sshHost=127.0.0.1,sshHost=0.0.0.0," ${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
     cd ${OPENNMS_HOME}/bin
     ./runjava -s
     sleep ${START_DELAY}
