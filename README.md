@@ -5,6 +5,7 @@
 
 * `latest`, latest develop release Horizon 20
 * `rc-19.0.0`, release candidate for Horizon 19
+* `18.0.3-1`, stable Horizon
 * `18.0.2-1`, stable Horizon
 * `18.0.1-1`, stable Horizon
 
@@ -20,6 +21,12 @@
 * Official PostgreSQL latest
 * Horizon 19.0.0 release candidate
 
+### 18.0.3
+
+* Strict CentOS with Oracle JDK 8 update 112
+* Strict official PostgreSQL 9.5.4
+* Strict Horizon 18.0.3-1
+
 ### 18.0.2
 
 * Strict CentOS with Oracle JDK 8 update 112
@@ -31,7 +38,6 @@
 * Strict CentOS with Oracle JDK 8 update 102
 * Strict official PostgreSQL 9.5.4
 * Strict Horizon 18.0.1-1
-
 
 ## OpenNMS Horizon Docker files
 
