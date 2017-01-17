@@ -66,7 +66,7 @@ initData() {
 
   # Remove symlinks and pristine empty data directories
   rm -rf $OPENNMS_HOME/logs
-  rm -rf ${OPENNMS_HOME}share/rrd
+  rm -rf ${OPENNMS_HOME}/share/rrd
   rm -rf ${OPENNMS_HOME}/share/reports
 
   # Create links to directories which can be mounted into a data container
