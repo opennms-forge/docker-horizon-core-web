@@ -59,9 +59,20 @@ initConfig() {
 }
 
 initData() {
+  # Create OpenNMS data directories
   mkdir -p ${OPENNMS_DATA_DIR}/logs \
            ${OPENNMS_DATA_DIR}/rrd \
            ${OPENNMS_DATA_DIR}/reports
+
+  # Remove symlinks and pristine empty data directories
+  rm -rf $OPENNMS_HOME/logs
+  rm -rf ${OPENNMS_HOME}share/rrd
+  rm -rf ${OPENNMS_HOME}/share/reports
+
+  # Create links to directories which can be mounted into a data container
+  ln -s ${OPENNMS_DATA_DIR}/logs ${OPENNMS_HOME}/logs
+  ln -s ${OPENNMS_DATA_DIR}/share/rrd ${OPENNMS_HOME}/share/rrd
+  ln -s ${OPENNMS_DATA_DIR}/share/reports ${OPENNMS_HOME}/share/reports
 }
 start() {
   cd ${OPENNMS_HOME}/bin
