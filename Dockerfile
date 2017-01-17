@@ -28,7 +28,7 @@ COPY ./assets/opennms-datasources.xml.tpl /tmp
 COPY ./docker-entrypoint.sh /
 
 ## Volumes for storing data outside of the container
-VOLUME ["/opt/opennms/etc","/var/log/opennms","/var/opennnms/rrd", "/var/opennms/reports"]
+VOLUME ["/opt/opennms/etc","/var/log/opennms","/var/opennms/rrd", "/var/opennms/reports"]
 
 HEALTHCHECK --interval=10s --timeout=3s CMD curl --fail -s -I http://localhost:8980/opennms/login.jsp | grep "HTTP/1.1 200 OK" || exit 1
 
