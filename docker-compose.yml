@@ -22,7 +22,7 @@ services:
         - /var/opennms/reports
         - /opt/opennms/etc
   opennms:
-    image: indigo/docker-opennms:18.0.1-1
+    image: indigo/docker-opennms:18.0.3-1
     env_file:
       - .opennms.env
       - .postgres.env
@@ -31,7 +31,7 @@ services:
       - opennms_data
     volumes_from:
       - opennms_data:rw
-    command: ["-s"]
+    command: ["-i"]
     ports:
       - "8980:8980"
       - "18980:18980"

@@ -51,7 +51,7 @@ initdb() {
 }
 
 initConfig() {
-  if [ ! "$(ls -A ${OPENNMS_HOME}/etc)"  ]; then
+  if [ ! "$(ls --ignore .git --ignore .gitignore --ignore ${OPENNMS_DATASOURCES_CFG} -A ${OPENNMS_HOME}/etc)"  ]; then
     cp -r ${OPENNMS_HOME}/share/etc-pristine/* ${OPENNMS_HOME}/etc/
   else
     echo "OpenNMS configuration already initialized."
