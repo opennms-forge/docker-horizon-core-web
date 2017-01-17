@@ -72,8 +72,8 @@ initData() {
 
   # Create links to directories which can be mounted into a data container
   ln -s ${OPENNMS_DATA_DIR}/logs ${OPENNMS_HOME}/logs
-  ln -s ${OPENNMS_DATA_DIR}/share/rrd ${OPENNMS_HOME}/share/rrd
-  ln -s ${OPENNMS_DATA_DIR}/share/reports ${OPENNMS_HOME}/share/reports
+  ln -s ${OPENNMS_DATA_DIR}/rrd ${OPENNMS_HOME}/share/rrd
+  ln -s ${OPENNMS_DATA_DIR}/reports ${OPENNMS_HOME}/share/reports
 }
 
 start() {
