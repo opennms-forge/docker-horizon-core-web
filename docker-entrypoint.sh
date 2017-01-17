@@ -74,6 +74,7 @@ initData() {
   ln -s ${OPENNMS_DATA_DIR}/share/rrd ${OPENNMS_HOME}/share/rrd
   ln -s ${OPENNMS_DATA_DIR}/share/reports ${OPENNMS_HOME}/share/reports
 }
+
 start() {
   cd ${OPENNMS_HOME}/bin
   sleep ${START_DELAY}
