@@ -61,7 +61,8 @@ initConfig() {
 initData() {
   # Create OpenNMS data directories
   mkdir -p ${OPENNMS_DATA_DIR}/logs \
-           ${OPENNMS_DATA_DIR}/rrd \
+           ${OPENNMS_DATA_DIR}/rrd/response \
+           ${OPENNMS_DATA_DIR}/rrd/snmp \
            ${OPENNMS_DATA_DIR}/reports
 
   # Remove symlinks and pristine empty data directories
