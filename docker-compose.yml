@@ -5,7 +5,7 @@ services:
     volumes:
       - /var/lib/postgresql/data
   database:
-    image: postgres:9.5.4
+    image: postgres:latest
     env_file:
       - .postgres.env
     ports:

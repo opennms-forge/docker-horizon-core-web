@@ -1,7 +1,7 @@
-FROM indigo/centos-jdk8:8u121
+FROM indigo/centos-jdk8:latest
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
-ARG OPENNMS_VERSION=stable
+ARG OPENNMS_VERSION=develop
 
 RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
     rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \
