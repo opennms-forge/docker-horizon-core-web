@@ -1,8 +1,7 @@
 FROM indigo/centos-jdk8:8u121
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
-ENV OPENNMS_VERSION stable
-ENV OPENNMS_HOME=/opt/opennms
+ARG OPENNMS_VERSION=stable
 
 RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
     rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \
@@ -22,7 +21,16 @@ RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rh
                    opennms-plugin-provisioning-snmp-hardware-inventory \
                    opennms-plugin-ticketer-jira \
                    opennms-plugin-ticketer-otrs \
-                   opennms-plugin-ticketer-rt
+                   opennms-plugin-ticketer-rt && \
+    rm -rf /opt/opennms/logs \
+           /var/opennms/rrd \
+           /var/opennms/reports && \
+    mkdir -p /opennms-data/logs \
+             /opennms-data/rrd \
+             /opennms-data/reports && \
+    ln -s /opennms-data/logs /opt/opennms/logs && \
+    ln -s /opennms-data/rrd /var/opennms/rrd && \
+    ln -s /opennms-data/reports /var/opennms/reports
 
 COPY ./assets/opennms-datasources.xml.tpl /tmp
 COPY ./docker-entrypoint.sh /

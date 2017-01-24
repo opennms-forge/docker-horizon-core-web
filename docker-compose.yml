@@ -3,7 +3,7 @@ services:
   db_data:
     image: tianon/true
     volumes:
-        - /var/lib/postgresql/data
+      - /var/lib/postgresql/data
   database:
     image: postgres:9.5.4
     env_file:
@@ -17,10 +17,8 @@ services:
   opennms_data:
     image: tianon/true
     volumes:
-        - /var/log/opennms
-        - /var/opennms/rrd
-        - /var/opennms/reports
-        - /opt/opennms/etc
+      - /opennms-data
+      - /myhost/opennms/etc:/opt/opennms/etc
   opennms:
     image: indigo/docker-opennms:18.0.3-1
     env_file:
@@ -31,7 +29,7 @@ services:
       - opennms_data
     volumes_from:
       - opennms_data:rw
-    command: ["-i"]
+    command: ["-s"]
     ports:
       - "8980:8980"
       - "18980:18980"
