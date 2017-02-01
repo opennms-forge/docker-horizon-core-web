@@ -19,7 +19,7 @@
 ### 18.0.3-1
 
 * CentOS 7 with OpenJDK 8u121-jdk
-* Official PostgreSQL 9.6.1
+* Official PostgreSQL 9.5
 * Horizon 18.0.3-1
 
 ## Horizon Docker files
