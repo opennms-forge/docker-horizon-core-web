@@ -30,9 +30,9 @@ VOLUME ["/opt/opennms/etc", "/opennms-data"]
 HEALTHCHECK --interval=10s --timeout=3s CMD curl --fail -s -I http://localhost:8980/opennms/login.jsp | grep "HTTP/1.1 200 OK" || exit 1
 
 LABEL license="AGPLv3" \
-      org.opennms.horizon.version="20.0.0-SNAPSHOT" \
+      org.opennms.horizon.version="${OPENNMS_VERSION}" \
       vendor="OpenNMS Community" \
-      name="Horizon 20.0.0-SNAPSHOT"
+      name="Horizon"
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
