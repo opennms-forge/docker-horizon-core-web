@@ -6,19 +6,19 @@
 
 ### latest
 
-* CentOS OpenJDK 8u121-jdk
+* CentOS 7 with OpenJDK 8u121-jdk
 * Official PostgreSQL 9.6.1
 * Horizon 20 develop snapshot
 
 ### rc-19.0.0
 
-* CentOS OpenJDK 8u121-jdk
+* CentOS 7 with OpenJDK 8u121-jdk
 * Official PostgreSQL 9.6.1
 * Horizon 19.0.0 release candidate
 
 ### 18.0.3
 
-* CentOS OpenJDK 8u121-jdk
+* CentOS 7 with OpenJDK 8u121-jdk
 * Official PostgreSQL 9.6.1
 * Horizon 18.0.3-1
 
