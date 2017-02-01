@@ -9,19 +9,7 @@ RUN rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rh
                    rrdtool \
                    jrrd2 \
                    opennms-core \
-                   opennms-webapp-jetty \
-                   opennms-plugin-provisioning-snmp-asset \
-                   opennms-jmx-config-generator \
-                   opennms-plugin-northbounder-jms \
-                   opennms-plugin-protocol-cifs \
-                   opennms-plugin-protocol-dhcp \
-                   opennms-plugin-protocol-xml \
-                   opennms-plugin-protocol-nsclient \
-                   opennms-plugin-provisioning-snmp-asset \
-                   opennms-plugin-provisioning-snmp-hardware-inventory \
-                   opennms-plugin-ticketer-jira \
-                   opennms-plugin-ticketer-otrs \
-                   opennms-plugin-ticketer-rt && \
+                   opennms-webapp-jetty && \
     rm -rf /opt/opennms/logs \
            /var/opennms/rrd \
            /var/opennms/reports && \
