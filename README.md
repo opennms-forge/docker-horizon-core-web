@@ -16,7 +16,7 @@
 * Official PostgreSQL 9.6.1
 * Horizon 19.0.0 release candidate
 
-### 18.0.3
+### 18.0.3-1
 
 * CentOS 7 with OpenJDK 8u121-jdk
 * Official PostgreSQL 9.6.1
