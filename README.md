@@ -65,6 +65,20 @@ docker-compose up -d
 The web application is exposed on TCP port 8980. You can login with default user *admin* with password *admin*.
 Please change immediately the default password to a secure password.
 
+## Update and Maintenance
+
+The entrypoint script is used to control starting behavior.
+You can provide the following arguments in you `docker run` command or in your `docker-compose.yml`.
+
+```
+-f: Just start Horizon binary and do nothing else.
+-i: Initialize database, pristine configuration files and data directory, do not start Horizon
+-s: Initialize database, pristine configuration files and data directory and start Horizon
+```
+
+In case you want to update existing configuration the configuration initialization is guarded by the `configured` file in `/opt/opennms/etc`.
+You can update the database by deleting the `configured` file and run with `-s`.
+
 ## Support and Issues
 
 Please open issues in the [GitHub issue](https://github.com/opennms-forge/docker-horizon-core-web) section.
