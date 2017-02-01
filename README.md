@@ -1,51 +1,37 @@
-[![](https://images.microbadger.com/badges/image/indigo/docker-opennms.svg)](http://microbadger.com/images/indigo/docker-opennms "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/indigo/docker-opennms.svg)](http://microbadger.com/images/indigo/docker-opennms "Get your own version badge on microbadger.com")
-
 ## Supported tags
 
 * `latest`, latest develop release Horizon 20
 * `rc-19.0.0`, release candidate for Horizon 19
 * `18.0.3-1`, stable Horizon
-* `18.0.2-1`, stable Horizon
-* `18.0.1-1`, stable Horizon
 
 ### latest
 
-* Centos Oracle JDK 8 latest
-* Official PostgreSQL latest
-* Horizon 20 develop latest
+* CentOS OpenJDK 8u121-jdk
+* Official PostgreSQL 9.6.1
+* Horizon 20 develop snapshot
 
 ### rc-19.0.0
 
-* Centos Oracle JDK 8 latest
-* Official PostgreSQL latest
+* CentOS OpenJDK 8u121-jdk
+* Official PostgreSQL 9.6.1
 * Horizon 19.0.0 release candidate
 
 ### 18.0.3
 
-* Strict CentOS with Oracle JDK 8 update 121
-* Strict official PostgreSQL 9.5.4
-* Strict Horizon 18.0.3-1
+* CentOS OpenJDK 8u121-jdk
+* Official PostgreSQL 9.6.1
+* Horizon 18.0.3-1
 
-### 18.0.2
+## Horizon Docker files
 
-* Strict CentOS with Oracle JDK 8 update 112
-* Strict official PostgreSQL 9.5.4
-* Strict Horizon 18.0.2-1
+This repository provides snapshots for Horizon as docker images.
+The image provides the Horizon core monitoring services and the web application.
 
-### 18.0.1
-
-* Strict CentOS with Oracle JDK 8 update 102
-* Strict official PostgreSQL 9.5.4
-* Strict Horizon 18.0.1-1
-
-## OpenNMS Horizon Docker files
-
-This repository provides snapshots for OpenNMS Horizon docker images.
-It is recommended to use `docker-compose` to build an environment using the official PostgreSQL image.
+It is recommended to use `docker-compose` to build a service stack using the official PostgreSQL images.
 In case you have already a PostgreSQL database running, you can provide the database configuration in the `.opennms.env` and `.postgres.env` environment files.
 
-The compose file uses two data container. They are not running and just for persisting data purposes:
+The compose file uses two data container.
+They are not running and just for persisting data purposes:
 
 * opennms_data: RRD/JRobin files, logs and configuration files
 * db_data: PostgreSQL database files
@@ -58,7 +44,7 @@ For the reason it is required to manually edit OpenNMS configuration files, it i
 Just add the volumes directive in `docker-compose.yml` in the opennms service section:
 ```
 volumes:
-      - /myhost/opennms/etc:/opt/opennms/etc
+    - /myhost/opennms/etc:/opt/opennms/etc
 ```
 
 ## Requirements
@@ -71,16 +57,17 @@ volumes:
 ## Usage
 
 ```
-git clone https://github.com/indigo423/docker-opennms
-cd docker-opennms
+git clone https://github.com/opennms-forge/docker-horizon-core-web.git
+cd docker-horizon-core-web
 docker-compose up -d
 ```
 
-The web application is exposed on TCP port 8980. You can login with default user *admin* with password *admin*. Please change immediately the default password to a secure password.
+The web application is exposed on TCP port 8980. You can login with default user *admin* with password *admin*.
+Please change immediately the default password to a secure password.
 
 ## Support and Issues
 
-Please open issues in the [GitHub issue](https://github.com/indigo423/docker-opennms) section.
+Please open issues in the [GitHub issue](https://github.com/opennms-forge/docker-horizon-core-web) section.
 
 ## Author
 

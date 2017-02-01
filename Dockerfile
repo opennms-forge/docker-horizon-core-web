@@ -1,4 +1,5 @@
-FROM indigo/centos-jdk8:latest
+FROM opennms/openjdk:8u121-jdk
+
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
 ARG OPENNMS_VERSION=develop
