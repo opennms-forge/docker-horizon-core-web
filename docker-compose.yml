@@ -18,7 +18,6 @@ services:
     image: tianon/true
     volumes:
       - /opennms-data
-      - /myhost/opennms/etc:/opt/opennms/etc
   opennms:
     image: opennms/horizon-core-web:latest
     env_file:
@@ -29,6 +28,8 @@ services:
       - opennms_data
     volumes_from:
       - opennms_data:rw
+    volumes:
+      - /myhost/opennms/etc:/opt/opennms/etc
     command: ["-s"]
     ports:
       - "8980:8980"
