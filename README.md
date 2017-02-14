@@ -5,9 +5,9 @@
 ## Supported tags
 
 * `latest`, latest develop release Horizon 20
-* `rc-19.0.0`, release candidate for Horizon 19
-* `18.0.4-1`, stable Horizon
-* `18.0.3-1`, stable Horizon
+* `19.0.0-1`, stable Horizon 19
+* `18.0.4-1`, stable Horizon 18
+* `18.0.3-1`, stable Horizon 18
 * `foundation-2016` release candidate 17.0.1 as base for Meridian
 
 ### latest
@@ -16,7 +16,7 @@
 * Official PostgreSQL 9.6.1
 * Horizon 20 develop snapshot
 
-### rc-19.0.0
+### 19.0.0-1
 
 * CentOS 7 with OpenJDK 8u121-jdk
 * Official PostgreSQL 9.6.1
