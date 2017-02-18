@@ -7,8 +7,6 @@
 #
 # =====================================================================
 
-
-
 START_DELAY=5
 OPENNMS_DATA_DIR=/opennms-data
 OPENNMS_HOME=/opt/opennms
