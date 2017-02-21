@@ -22,7 +22,7 @@ services:
         - /var/opennms/reports
         - /opt/opennms/etc
   opennms:
-    image: opennms/horizon-core-web:19.0.1-1
+    image: opennms/horizon-core-web:latest
     env_file:
       - .opennms.env
       - .postgres.env
