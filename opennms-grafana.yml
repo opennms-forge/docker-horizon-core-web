@@ -5,7 +5,7 @@ services:
     volumes:
         - /var/lib/postgresql/data
   database:
-    image: postgres:9.5.4
+    image: postgres:9.6.1
     env_file:
       - .postgres.env
     ports:
@@ -22,7 +22,7 @@ services:
         - /var/opennms/reports
         - /opt/opennms/etc
   opennms:
-    image: indigo/docker-opennms:18.0.1-1
+    image: opennms/horizon-core-web:19.0.1-1
     env_file:
       - .opennms.env
       - .postgres.env
@@ -41,7 +41,7 @@ services:
       - "5817:5817"
       - "162:162/udp"
   grafana:
-    image: grafana/grafana:3.1.1
+    image: grafana/grafana:4.1.1
     volumes:
       - /etc/localtime:/etc/localtime:ro
     env_file:

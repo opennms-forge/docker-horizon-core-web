@@ -19,7 +19,7 @@ services:
     volumes:
       - /opennms-data
   opennms:
-    image: opennms/horizon-core-web:latest
+    image: opennms/horizon-core-web:19.0.1-1
     env_file:
       - .opennms.env
       - .postgres.env
