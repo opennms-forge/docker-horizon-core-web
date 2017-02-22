@@ -9,6 +9,7 @@
 * `19.0.0-1`, stable Horizon 19
 * `18.0.4-1`, stable Horizon 18
 * `18.0.3-1`, stable Horizon 18
+* `foundation-2017` release candidate 18.0.4 as base for Meridian
 * `foundation-2016` release candidate 17.0.1 as base for Meridian
 
 ### latest
@@ -40,6 +41,12 @@
 * CentOS 7 with OpenJDK 8u121-jdk
 * Official PostgreSQL 9.5
 * Horizon 18.0.3-1
+
+### foundation-2017
+
+* CentOS 7 with OpenJDK 8u121-jdk
+* Official PostgreSQL 9.6.1
+* Horizon 18.0.4
 
 ### foundation-2016
 
