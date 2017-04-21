@@ -1,4 +1,4 @@
-FROM opennms/openjdk:8u121-jdk
+FROM opennms/openjdk:8u131-jdk
 
 MAINTAINER Ronny Trommer <ronny@opennms.org>
 
