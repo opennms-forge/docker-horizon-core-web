@@ -41,11 +41,11 @@ services:
       - "5817:5817"
       - "162:162/udp"
   pris:
-    image: opennms/pris:1.1.5
+    image: opennms/pris:1.1.6
     ports:
       - "8000:8000"
   grafana:
-    image: grafana/grafana:4.1.1
+    image: grafana/grafana:4.3.2
     volumes:
       - /etc/localtime:/etc/localtime:ro
     env_file:
