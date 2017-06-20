@@ -1,36 +1,47 @@
 version: '2'
+
+volumes:
+  psql.data:
+    driver: local
+  opennms.data:
+    driver: local
+  grafana.data:
+    driver: local
+
+networks:
+  opennms.net:
+    driver: bridge
+
 services:
-  db_data:
-    image: tianon/true
-    volumes:
-        - /var/lib/postgresql/data
   database:
+    container_name: opennms.psql
     image: postgres:9.6.1
+    environment:
+      - TZ=Europe/Berlin
     env_file:
       - .postgres.env
+    networks:
+      - opennms.net
+    volumes:
+      - psql.data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    depends_on:
-      - db_data
-    volumes_from:
-      - db_data:rw
-  opennms_data:
-    image: tianon/true
-    volumes:
-        - /var/log/opennms
-        - /var/opennms/rrd
-        - /var/opennms/reports
-        - /opt/opennms/etc
+
   opennms:
+    container_name: opennms.hzn.core.web
     image: opennms/horizon-core-web:latest
+    environment:
+      - TZ=Europe/Berlin
     env_file:
       - .opennms.env
       - .postgres.env
+    networks:
+      - opennms.net
     depends_on:
       - database
-      - opennms_data
-    volumes_from:
-      - opennms_data:rw
+    volumes:
+      - opennms.data:/opt/opennms/etc
+      - opennms.data:/opennms-data
     command: ["-s"]
     ports:
       - "8980:8980"
@@ -40,11 +51,19 @@ services:
       - "61616:61616"
       - "5817:5817"
       - "162:162/udp"
+
   grafana:
+    container_name: opennms.grafana
     image: grafana/grafana:4.3.2
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - TZ=Europe/Berlin
     env_file:
       - .grafana.env
+    networks:
+      - opennms.net
+    volumes:
+      - grafana.data:/var/lib/grafana
+      - grafana.data:/var/log/grafana
+      - grafana.data:/etc/grafana
     ports:
       - "3000:3000"

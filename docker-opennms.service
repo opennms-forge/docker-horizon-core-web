@@ -1,5 +1,5 @@
 [Unit]
-Description=Dockerized OpenNMS Service
+Description=OpenNMS Horizon Core Web
 After=docker.service
 BindsTo=docker.service
 Conflicts=shutdown.target reboot.target halt.target

@@ -1,6 +1,6 @@
 FROM opennms/openjdk:8u131-jdk
 
-MAINTAINER Ronny Trommer <ronny@opennms.org>
+LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
 ARG OPENNMS_VERSION=develop
 
