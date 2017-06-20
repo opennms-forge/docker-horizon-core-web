@@ -1,35 +1,41 @@
 version: '2'
+
+volumes:
+  psql.data:
+    driver: local
+  opennms.data:
+    driver: local
+
+networks:
+  opennms.net:
+    driver: bridge
+
 services:
-  db_data:
-    image: tianon/true
-    volumes:
-      - /var/lib/postgresql/data
   database:
+    container_name: opennms.psql
     image: postgres:9.6.1
     env_file:
       - .postgres.env
+    networks:
+      - opennms.net
+    volumes:
+      - psql.data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    depends_on:
-      - db_data
-    volumes_from:
-      - db_data:rw
-  opennms_data:
-    image: tianon/true
-    volumes:
-      - /opennms-data
+
   opennms:
+    container_name: opennms.hzn.core.web
     image: opennms/horizon-core-web:latest
     env_file:
       - .opennms.env
       - .postgres.env
+    networks:
+      - opennms.net
     depends_on:
       - database
-      - opennms_data
-    volumes_from:
-      - opennms_data:rw
     volumes:
-      - /myhost/opennms/etc:/opt/opennms/etc
+      - opennms.data:/opt/opennms/etc
+      - opennms.data:/opennms-data
     command: ["-s"]
     ports:
       - "8980:8980"
