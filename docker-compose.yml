@@ -25,7 +25,7 @@ services:
 
   opennms:
     container_name: opennms.hzn.core.web
-    image: opennms/horizon-core-web:20.0.1-1
+    image: opennms/horizon-core-web:20.0.2-1
     env_file:
       - .opennms.env
       - .postgres.env
