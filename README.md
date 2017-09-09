@@ -18,6 +18,10 @@
 
 ### latest
 
+* CentOS 7 with OpenJDK 8u141-jdk
+* Official PostgreSQL 9.6.3
+* Horizon daily develop snapshot
+
 ### 20.0.2-1
 
 * CentOS 7 with OpenJDK 8u141-jdk
