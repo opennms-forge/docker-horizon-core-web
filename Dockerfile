@@ -13,6 +13,7 @@ RUN yum -y --setopt=tsflags=nodocs update && \
                    opennms-core \
                    opennms-webapp-jetty && \
     yum clean all && \
+    rm -rf /var/cache/yum && \
     rm -rf /opt/opennms/logs \
            /var/opennms/rrd \
            /var/opennms/reports && \
