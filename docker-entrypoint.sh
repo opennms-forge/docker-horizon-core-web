@@ -10,8 +10,14 @@
 START_DELAY=5
 OPENNMS_DATA_DIR=/opennms-data
 OPENNMS_HOME=/opt/opennms
+
 OPENNMS_DATASOURCES_TPL=/tmp/opennms-datasources.xml.tpl
 OPENNMS_DATASOURCES_CFG=${OPENNMS_HOME}/etc/opennms-datasources.xml
+
+OPENNMS_KARAF_TPL=/tmp/org.apache.karaf.shell.cfg.tpl
+OPENNMS_KARAF_CFG=${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
+OPENNMS_KARAF_SSH_HOST="0.0.0.0"
+OPENNMS_KARAF_SSH_HOST="8101"
 
 # Error codes
 E_ILLEGAL_ARGS=126
@@ -21,26 +27,29 @@ usage() {
   echo ""
   echo "Docker entry script for OpenNMS service container"
   echo ""
-  echo "-f: Start OpenNMS in foreground with existing configuration."
+  echo "-f: Start OpenNMS in foreground with an existing configuration."
   echo "-h: Show this help."
-  echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files, do not start OpenNMS."
+  echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files and do *NOT* start OpenNMS."
+  echo "    The database and config file initialization is skipped when a configured file exist."
   echo "-s: Initialize environment like -i and start OpenNMS in foreground."
   echo ""
 }
 
+# Initialize database and configure Karaf
 initdb() {
   if [ ! -d ${OPENNMS_HOME} ]; then
     echo "OpenNMS home directory doesn't exist in ${OPENNMS_HOME}."
     exit ${E_ILLEGAL_ARGS}
   fi
 
+  # Check if the configured guard file exist
   if [ ! -f ${OPENNMS_HOME}/etc/configured ]; then
     envsubst < ${OPENNMS_DATASOURCES_TPL} > ${OPENNMS_DATASOURCES_CFG}
-
-    # Allow connection to Karaf console into Docker container
-    sed -i "s,sshHost = 127.0.0.1,sshHost = 0.0.0.0," ${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
+    envsubst < ${OPENNMS_KARAF_TPL} > ${OPENNMS_KARAF_CFG}
     cd ${OPENNMS_HOME}/bin
     ./runjava -s
+
+    # Wait until the Postgres container is ready
     sleep ${START_DELAY}
     ./install -dis
   else
@@ -48,6 +57,7 @@ initdb() {
   fi
 }
 
+# In case there is no configuration, initialize with a plain config from etc-pristine
 initConfig() {
   if [ ! "$(ls --ignore .git --ignore .gitignore --ignore ${OPENNMS_DATASOURCES_CFG} -A ${OPENNMS_HOME}/etc)"  ]; then
     cp -r ${OPENNMS_HOME}/share/etc-pristine/* ${OPENNMS_HOME}/etc/
@@ -56,6 +66,7 @@ initConfig() {
   fi
 }
 
+# to make data management easier, move all operational data to one data directory
 initData() {
   # Create OpenNMS data directories
   mkdir -p ${OPENNMS_DATA_DIR}/logs \
@@ -74,6 +85,7 @@ initData() {
   ln -s ${OPENNMS_DATA_DIR}/reports ${OPENNMS_HOME}/share/reports
 }
 
+# Start opennms in foreground
 start() {
   cd ${OPENNMS_HOME}/bin
   sleep ${START_DELAY}
