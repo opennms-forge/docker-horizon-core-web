@@ -9,6 +9,24 @@ jobs:
       - checkout
       - setup_remote_docker
       - run:
-          name: Build OpenNMS Horizon Docker image
+          name: DockerHub Login
           command: |
-            docker build -t horizon-core-web-${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM} .
+            docker login -u ${dockerhub_login} -p ${dockerhub_pass}
+      - run:
+          name: Build and push OpenNMS Horizon Docker Image
+          command: |
+            DOCKERHUB_TAG=${CIRCLE_BRANCH#release/}
+            DOCKERHUB_TAG=${DOCKERHUB_TAG/\//-}
+
+            case "${CIRCLE_BRANCH}" in
+              master)
+                docker build -t opennms/horizon-core-web:stable .
+                docker tag opennms/horizon-core-web:stable opennms/horizon-core-web:latest
+                docker push opennms/horizon-core-web:stable
+                docker push opennms/horizon-core-web:latest
+                ;;
+              *)
+                docker build -t opennms/horizon-core-web:${DOCKERHUB_TAG} .
+                docker push opennms/horizon-core-web:${DOCKERHUB_TAG}
+                ;;
+            esac

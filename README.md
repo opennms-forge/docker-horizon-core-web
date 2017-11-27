@@ -2,138 +2,71 @@
 [![](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com")
 
+[![Build Status](http://circleci-badges-max.herokuapp.com/img/opennms-forge/docker-horizon-core-web?token=fe586a10918f2e7319ff26f6d8ba67d43f8823dc)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web) ![CI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.png?circle-token=fe586a10918f2e7319ff26f6d8ba67d43f8823dc)
+
 ## Supported tags
 
-* `latest`, daily bleeding edge develop release Horizon 22
-* `21.0.1-1`, `stable`, latest stable Horizon 21
-* `21.0.0-1`, stable Horizon 21
-* `20.1.0-1`, stable Horizon 20
-* `20.0.2-1`, stable Horizon 20
-* `20.0.1-1`, stable Horizon 20
-* `20.0.0-1`, stable Horizon 20
-* `19.1.0-1`, stable Horizon 19
-* `19.0.1-1`, stable Horizon 19
-* `19.0.0-1`, stable Horizon 19
-* `18.0.4-1`, stable Horizon 18
-* `18.0.3-1`, stable Horizon 18
-* `foundation-2017` release candidate 18.0.4 as base for Meridian
-* `foundation-2016` release candidate 17.0.1 as base for Meridian
-
-### latest
-
-* CentOS 7 with OpenJDK 8u151-jdk
-* Official PostgreSQL 9.6.3
-* Horizon daily develop snapshot
-
-### 21.0.1-1
-
-* CentOS 7 with OpenJDK 8u151-jdk
-* Official PostgreSQL 9.6.3
-* Horizon 21.0.1-1
-
-### 21.0.0-1
-
-* CentOS 7 with OpenJDK 8u151-jdk
-* Official PostgreSQL 9.6.3
-* Horizon 21.0.0-1
-
-### 20.1.0-1
-
-* CentOS 7 with OpenJDK 8u144-jdk
-* Official PostgreSQL 9.6.3
-* Horizon 20.1.0-1
-
-### 20.0.2-1
-
-* CentOS 7 with OpenJDK 8u144-jdk
-* Official PostgreSQL 9.6.1
-* Horizon 20.0.2-1
-
-### 20.0.1-1
-
-* CentOS 7 with OpenJDK 8u131-jdk
-* Official PostgreSQL 9.6.1
-* Horizon 20.0.1-1
-
-### 20.0.0-1
-
-* CentOS 7 with OpenJDK 8u131-jdk
-* Official PostgreSQL 9.6.1
-* Horizon 20.0.0-1
-
-### 19.1.0-1
-
-* CentOS 7 with OpenJDK 8u131-jdk
-* Official PostgreSQL 9.6.1
-* Horizon 19.1.0-1
-
-### 19.0.1-1
-
-* CentOS 7 with OpenJDK 8u131-jdk
-* Official PostgreSQL 9.6.1
-* Horizon 19.0.1-1
-
-### 19.0.0-1
-
-* CentOS 7 with OpenJDK 8u131-jdk
-* Official PostgreSQL 9.6.1
-* Horizon 19.0.0-1
-
-### 18.0.4-1
-
-* CentOS 7 with OpenJDK 8u121-jdk
-* Official PostgreSQL 9.5
-* Horizon 18.0.4-1
-
-### 18.0.3-1
-
-* CentOS 7 with OpenJDK 8u121-jdk
-* Official PostgreSQL 9.5
-* Horizon 18.0.3-1
-
-### foundation-2017
-
-* CentOS 7 with OpenJDK 8u121-jdk
-* Official PostgreSQL 9.6.1
-* Horizon 18.0.4
-
-### foundation-2016
-
-* CentOS 7 with OpenJDK 8u121-jdk
-* Official PostgreSQL 9.5
-* Horizon 17.0.1
+* `develop`, daily bleeding edge version of Horizon, OpenJDK 8u151-jdk
+* `21.0.1-1`, `stable`, `latest` is the last stable release Horizon, OpenJDK 8u151-jdk
+* `21.0.0-1`, stable Horizon 21, OpenJDK 8u151-jdk
+* `20.1.0-1`, stable Horizon 20, OpenJDK 8u144-jdk
+* `20.0.2-1`, stable Horizon 20, OpenJDK 8u144-jdk
+* `20.0.1-1`, stable Horizon 20, OpenJDK 8u131-jdk
+* `20.0.0-1`, stable Horizon 20, OpenJDK 8u131-jdk
+* `19.1.0-1`, stable Horizon 19, OpenJDK 8u131-jdk
+* `19.0.1-1`, stable Horizon 19, OpenJDK 8u131-jdk
+* `19.0.0-1`, stable Horizon 19, OpenJDK 8u131-jdk
+* `18.0.4-1`, stable Horizon 18, OpenJDK 8u121-jdk
+* `18.0.3-1`, stable Horizon 18, OpenJDK 8u121-jdk
+* `foundation-2017` release candidate Meridian 2017, OpenJDK 8u121-jdk
+* `foundation-2016` release candidate Meridian 2016, OpenJDK 8u121-jdk
 
 ## Horizon Docker files
 
 This repository provides snapshots for Horizon as docker images.
 The image provides the Horizon core monitoring services and the web application.
 
-It is recommended to use `docker-compose` to build a service stack using the official PostgreSQL images.
-In case you have already a PostgreSQL database running, you can provide the database configuration in the `.opennms.env` and `.postgres.env` environment files.
+It is recommended to use `docker-compose` to build a service stack using the official PostgreSQL image.
+In case you have already a PostgreSQL database running, you can provide the database configuration in the `.opennms.env` and `.postgres.env` environment files, otherwise users and database will be created.
 
-The compose file uses two data container.
-They are not running and just for persisting data purposes:
+Data is by default persisted on your Docker host using a local volume driver for the following data:
 
-* opennms_data: RRD/JRobin files, logs and configuration files
-* db_data: PostgreSQL database files
+```
+# PostgreSQL database
+psql.data:
+  driver: local
 
-IMPORTANT:
-As long as you don't delete the `db_data` and `opennms_data` container you keep your data.
+# OpenNMS Horizon RRD files, logs and generated PDF reports
+opennms.data:
+  driver: local
 
-For the reason it is required to manually edit OpenNMS configuration files, it is recommended to mount the `/opt/opennms/etc` into a local directory on your host system. In case the directory is empty it will be initialized with a plain configuration from `etc-pristine`.
+# OpenNMS Horizon configuration files
+opennms.etc:
+  driver: local
+```
 
-Just add the volumes directive in `docker-compose.yml` in the opennms service section:
+It is required to manually edit OpenNMS configuration files, you can add your own configuration files by providing a `etc-overlay` directory.
+On startup the files overwrite the default configuration.
+
+```
+- ./etc-overlay:/opt/opennms-etc-overlay
+```
+
+If you prefer to have you OpenNMS Horizon configuration on your Docker host in a specific directory, you can mount a directory with your config like this:
+
 ```
 volumes:
-    - /myhost/opennms/etc:/opt/opennms/etc
+    - ./myHorizonConfig:/opt/opennms/etc
 ```
+In case the directory is empty, it will be initialized with a default pristine configuration from `/opt/opennms/share/etc-pristine`.
+
+IMPORTANT: Take care about configurations which can be changed through the Web UI which are persisted on the file system, e.g. users.xml, groups.xml, surveillance-categories.xml, snmp-config.xml, etc.
 
 ## Requirements
 
-* docker 1.11+
-* docker-compose 1.8.0+
+* docker 17.05.0-ce, build 89658be
+* docker-compose 1.17.0, build ac53b73
 * git
-* optional on MacOSX, Docker environment, e.g. Kitematic, boot2docker or similar
 
 ## Usage
 
@@ -143,26 +76,43 @@ cd docker-horizon-core-web
 docker-compose up -d
 ```
 
-The web application is exposed on TCP port 8980. You can login with default user *admin* with password *admin*.
+The web application is exposed on TCP port 8980.
+You can login with default user *admin* with password *admin*.
 Please change immediately the default password to a secure password.
 
 ## Update and Maintenance
 
-The entrypoint script is used to control starting behavior.
-You can provide the following arguments in you `docker run` command or in your `docker-compose.yml`.
+The entry point script is used to control starting behavior.
 
 ```
--f: Just start Horizon binary and do nothing else.
--i: Initialize database, pristine configuration files and data directory, do not start Horizon
--s: Initialize database, pristine configuration files and data directory and start Horizon
+-f: Apply overlay configuration if exist and just start OpenNMS Horizon
+-i: If necessary initialize database, create pristine configuration, do an upgrade and apply the overlay config but do *not* start Horizon
+-s: Same as `-i` but start OpenNMS Horizon, this should be the default
 ```
 
-In case you want to update existing configuration the configuration initialization is guarded by the `configured` file in `/opt/opennms/etc`.
-You can update the database by deleting the `configured` file and run with `-s`.
+If you want to enforce an update, create a `/opt/opennms/etc/do-upgrade` file.
+Starting with `-i` or `-s` will run the `install -dis` command once to update the configuration and database schema.
 
 ## Support and Issues
 
 Please open issues in the [GitHub issue](https://github.com/opennms-forge/docker-horizon-core-web) section.
+
+## Environment Variables
+
+* `POSTGRES_HOST`: PostgreSQL database host, default: `database`
+* `POSTGRES_PORT`: Port to access PostgreSQL database, default: `5432`
+* `POSTGRES_USER`: PostgreSQL admin user, default: `postgres`
+* `POSTGRES_PASSWORD`: PostgreSQL admin password, default: `postgres`
+* `OPENNMS_DBNAME`: Database name for OpenNMS Horizon, default: `opennms`
+* `OPENNMS_DBUSER`: User to access the OpenNMS Horizon database, default: `opennms`
+* `OPENNMS_DBPASS`: Password for OpenNMS Horizon database user, default: `opennms`
+* `OPENNMS_KARAF_SSH_HOST`: Listening address for Karaf SSH port, default: `0.0.0.0`
+* `OPENNMS_KARAF_SSH_PORT`: SSH port for Karaf, default: `8101`
+
+## Build Argument
+
+* `MIRROR_HOST`: Server with RPM packages, default: `yum.opennms.org`
+* `OPENNMS_VERSION`: Version of OpenNMS Horizon RPM files, default: `stable`
 
 ## Author
 

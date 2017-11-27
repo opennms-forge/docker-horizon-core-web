@@ -1,9 +1,11 @@
-version: '2'
+version: '2.3'
 
 volumes:
   psql.data:
     driver: local
   opennms.data:
+    driver: local
+  opennms.etc:
     driver: local
   pris.data:
     driver: local
@@ -15,34 +17,42 @@ networks:
 services:
   database:
     container_name: opennms.psql
-    image: postgres:9.6.3
-    environment:
-      - TZ=Europe/Berlin
+    image: postgres:9.6
     env_file:
       - .postgres.env
     networks:
       - opennms.net
     volumes:
       - psql.data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 30s
+      retries: 3
     ports:
       - "5432:5432"
 
   opennms:
     container_name: opennms.hzn.core.web
-    image: opennms/horizon-core-web:20.1.0-1
-    environment:
-      - TZ=Europe/Berlin
+    image: opennms/horizon-core-web:latest
     env_file:
       - .opennms.env
       - .postgres.env
     networks:
       - opennms.net
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     volumes:
-      - opennms.data:/opt/opennms/etc
+      - opennms.etc:/opt/opennms/etc
       - opennms.data:/opennms-data
+      - ./etc-overlay:/opt/opennms-etc-overlay
     command: ["-s"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp"]
+      interval: 30s
+      timeout: 5s
+      retries: 1
     ports:
       - "8980:8980"
       - "18980:18980"
@@ -54,7 +64,7 @@ services:
 
   pris:
     container_name: opennms.pris
-    image: opennms/pris:1.1.6
+    image: opennms/pris:latest
     environment:
       - TZ=Europe/Berlin
     networks:
@@ -62,5 +72,10 @@ services:
     volumes:
       - pris.data:/opt/opennms-pris/requisitions
       - pris.data:/opt/opennms-pris/scriptsteps
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-I", "http://localhost:8000/documentation/index.html"]
+      interval: 30s
+      timeout: 5s
+      retries: 1
     ports:
       - "8000:8000"

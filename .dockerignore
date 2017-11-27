@@ -1,0 +1,7 @@
+.circleci/
+.git/
+.gitignore
+*.md
+*.env
+*.service
+LICENSE

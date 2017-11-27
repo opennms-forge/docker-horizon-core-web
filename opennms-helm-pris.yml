@@ -7,6 +7,10 @@ volumes:
     driver: local
   opennms.etc:
     driver: local
+  pris.data:
+    driver: local
+  helm.data:
+    driver: local
 
 networks:
   opennms.net:
@@ -24,7 +28,7 @@ services:
       - psql.data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
-      interval: 30s
+      interval: 10s
       timeout: 30s
       retries: 3
     ports:
@@ -59,3 +63,42 @@ services:
       - "61616:61616"
       - "5817:5817"
       - "162:162/udp"
+
+  pris:
+    container_name: opennms.pris
+    image: opennms/pris:latest
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - opennms.net
+    volumes:
+      - pris.data:/opt/opennms-pris/requisitions
+      - pris.data:/opt/opennms-pris/scriptsteps
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-I", "http://localhost:8000/documentation/index.html"]
+      interval: 30s
+      timeout: 3s
+      retries: 1
+    ports:
+      - "8000:8000"
+
+  helm:
+    container_name: opennms.helm
+    image: opennms/helm:latest
+    environment:
+      - TZ=Europe/Berlin
+    env_file:
+      - .helm.env
+    networks:
+      - opennms.net
+    volumes:
+      - helm.data:/var/lib/grafana
+      - helm.data:/var/log/grafana
+      - helm.data:/etc/grafana
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-I", "http://localhost:3000/login"]
+      interval: 30s
+      timeout: 3s
+      retries: 1
+    ports:
+      - "3000:3000"
