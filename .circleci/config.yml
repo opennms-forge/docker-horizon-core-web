@@ -1,13 +1,14 @@
 version: 2
- jobs:
-   build:
-     working_directory: ~/horizon-core-web
-     docker:
-       - image: docker:17.05.0-ce-git
-     steps:
-       - checkout
-       - setup_remote_docker
-       - run:
+jobs:
+  build:
+    docker:
+      - image: docker:17.05.0-ce-git
+    working_directory: ~/horizon-core-web
+
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
           name: Build OpenNMS Horizon Docker image
           command: |
-            docker build -t horizon-core-web-${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM}
+            docker build -t horizon-core-web-${CIRCLE_BRANCH}_${CIRCLE_BUILD_NUM} .
