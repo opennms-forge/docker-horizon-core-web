@@ -39,6 +39,11 @@ services:
       - opennms.etc:/opt/opennms/etc
       - opennms.data:/opennms-data
     command: ["-s"]
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp"]
+      interval: 1m
+      timeout: 5s
+      retries: 3
     ports:
       - "8980:8980"
       - "18980:18980"
