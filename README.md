@@ -121,8 +121,7 @@ To ensure the JVM calculates the _Maximum Heap Size_ correct you have two option
 2) If no -Xmx option is set, you can automatically calculate the _Maximum Heap Size_ with enabling the experimental cgroup aware feature with
 
 ```
-ADDITIONAL_MANAGER_OPTIONS="-XX:+UnlockExperimentalVMOptions \
--XX:+UseCGroupMemoryLimitForHeap"
+JAVA_OPTS=-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
 ```
 
 As of Java SE 8u131 the JVM is Docker-aware with Docker CPU limits transparently.
