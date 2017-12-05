@@ -3,10 +3,14 @@ FROM opennms/openjdk:8u151-jdk
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
 ARG OPENNMS_VERSION=stable
+ARG MIRROR_HOST=yum.opennms.org
+
+ENV OPENNMS_KARAF_SSH_HOST 0.0.0.0
+ENV OPENNMS_KARAF_SSH_PORT 8101
 
 RUN yum -y --setopt=tsflags=nodocs update && \
-    rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
-    rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \
+    rpm -Uvh https://${MIRROR_HOST}/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
+    rpm --import https://${MIRROR_HOST}/OPENNMS-GPG-KEY && \
     yum -y install iplike \
                    rrdtool \
                    jrrd2 \
@@ -24,12 +28,12 @@ RUN yum -y --setopt=tsflags=nodocs update && \
     ln -s /opennms-data/rrd /var/opennms/rrd && \
     ln -s /opennms-data/reports /var/opennms/reports
 
-COPY ./assets/opennms-datasources.xml.tpl /tmp
-COPY ./assets/org.apache.karaf.shell.cfg.tpl /tmp
+COPY ./assets/opennms-datasources.xml.tpl /root
+COPY ./assets/org.apache.karaf.shell.cfg.tpl /root
 COPY ./docker-entrypoint.sh /
 
 ## Volumes for storing data outside of the container
-VOLUME ["/opt/opennms/etc", "/opennms-data"]
+VOLUME [ "/opt/opennms/etc", "/opt/opennms-etc-overlay", "/opennms-data" ]
 
 LABEL license="AGPLv3" \
       org.opennms.horizon.version="${OPENNMS_VERSION}" \
