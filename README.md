@@ -80,6 +80,37 @@ The web application is exposed on TCP port 8980.
 You can login with default user *admin* with password *admin*.
 Please change immediately the default password to a secure password.
 
+## Set Java Options
+
+It is easily possible to add Java options to control the behavior of the JVM for performance tuning or debugging.
+Provide a `opennms.conf` file in your `etc-overlay` directory or create it directly in `/opt/opennms/etc` with a content like:
+
+```
+ADDITIONAL_MANAGER_OPTIONS="-XX:+UseParallelGC \
+-XX:+PrintGCDetails \
+-XX:+PrintFlagsFinal"
+```
+
+## Java and Container Heap Memory
+
+To control and isolate resource usage of processes the Kernel feature _cgroups (Control Groups)_ is used.
+With the combination of Java there are some additional things to take care of regarding the _Maximum Heap Size_ and limiting memory usage of the container.
+
+By default [JVM ergonomics](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gc-ergonomics.html) calculates the _Maximum Heaps Size_ based on the Docker host memory and not by the memory set with with _cgroups_.
+
+To ensure the JVM calculates the _Maximum Heap Size_ correct you have two options:
+
+1) Set the correct _Maximum Heap Size_ manually with `-Xmx` see section above _Set Java Options_
+2) If no -Xmx option is set, you can automatically calculate the _Maximum Heap Size_ with enabling the experimental cgroup aware feature with
+
+```
+ADDITIONAL_MANAGER_OPTIONS="-XX:+UnlockExperimentalVMOptions \
+-XX:+UseCGroupMemoryLimitForHeap"
+```
+
+As of Java SE 8u131 the JVM is Docker-aware with Docker CPU limits transparently.
+As long if `-XX:ParallelGCThreads` or `-XX:CICompilerCount` are not specified, the JVM will apply the Docker CPU limit as the number CPUs and calculates the number of GC and JIT compiler threads just like running on bare metal.
+
 ## Update and Maintenance
 
 The entry point script is used to control starting behavior.
