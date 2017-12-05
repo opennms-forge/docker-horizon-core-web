@@ -4,20 +4,21 @@
 
 [![Build Status](http://circleci-badges-max.herokuapp.com/img/opennms-forge/docker-horizon-core-web?token=fe586a10918f2e7319ff26f6d8ba67d43f8823dc)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web) ![CI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.png?circle-token=fe586a10918f2e7319ff26f6d8ba67d43f8823dc)
 
-## Supported tags
+## Horizon Version Tags
 
-* `develop`, daily bleeding edge version of Horizon, OpenJDK 8u151-jdk
-* `21.0.1-1`, `stable`, `latest` is the last stable release Horizon, OpenJDK 8u151-jdk
-* `21.0.0-1`, stable Horizon 21, OpenJDK 8u151-jdk
-* `20.1.0-1`, stable Horizon 20, OpenJDK 8u144-jdk
-* `20.0.2-1`, stable Horizon 20, OpenJDK 8u144-jdk
-* `20.0.1-1`, stable Horizon 20, OpenJDK 8u131-jdk
-* `20.0.0-1`, stable Horizon 20, OpenJDK 8u131-jdk
-* `19.1.0-1`, stable Horizon 19, OpenJDK 8u131-jdk
-* `19.0.1-1`, stable Horizon 19, OpenJDK 8u131-jdk
-* `19.0.0-1`, stable Horizon 19, OpenJDK 8u131-jdk
-* `18.0.4-1`, stable Horizon 18, OpenJDK 8u121-jdk
-* `18.0.3-1`, stable Horizon 18, OpenJDK 8u121-jdk
+* `drift`, bleeding edge feature release of Horizon 22 with features develop in the [Drift project](https://wiki.opennms.org/wiki/DevProjects/Drift)
+* `develop`, daily bleeding edge version of Horizon 22 using OpenJDK 8u151-jdk
+* `21.0.1-1`, `stable`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u151-jdk
+* `21.0.0-1`, using OpenJDK 8u151-jdk
+* `20.1.0-1`, using OpenJDK 8u144-jdk
+* `20.0.2-1`, using OpenJDK 8u144-jdk
+* `20.0.1-1`, using OpenJDK 8u131-jdk
+* `20.0.0-1`, using OpenJDK 8u131-jdk
+* `19.1.0-1`, using OpenJDK 8u131-jdk
+* `19.0.1-1`, using OpenJDK 8u131-jdk
+* `19.0.0-1`, using OpenJDK 8u131-jdk
+* `18.0.4-1`, using OpenJDK 8u121-jdk
+* `18.0.3-1`, using OpenJDK 8u121-jdk
 * `foundation-2017` release candidate Meridian 2017, OpenJDK 8u121-jdk
 * `foundation-2016` release candidate Meridian 2016, OpenJDK 8u121-jdk
 
