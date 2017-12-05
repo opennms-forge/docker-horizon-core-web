@@ -85,8 +85,6 @@ services:
   helm:
     container_name: opennms.helm
     image: opennms/helm:latest
-    environment:
-      - TZ=Europe/Berlin
     env_file:
       - .helm.env
     networks:
