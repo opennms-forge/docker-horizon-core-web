@@ -84,12 +84,28 @@ Please change immediately the default password to a secure password.
 ## Set Java Options
 
 It is easily possible to add Java options to control the behavior of the JVM for performance tuning or debugging.
-Provide a `opennms.conf` file in your `etc-overlay` directory or create it directly in `/opt/opennms/etc` with a content like:
+The environment variable `JAVA_OPTS` is passed on the Java command and can be used to extend or overwrite JVM options.
+
+IMPORTANT: To give more control the Java binary command natively in the docker-entrypoint.sh and Java options in `opennms.conf` are *not* evaluated.
+           The java process has PID 1 and 
+
+Used in an environment file:
+```
+env_file:
+  - .java.env
+
+cat .java.env
+JAVA_OPTS=-XX:+UseParallelGC -XX:+PrintGCDetails -XX:+PrintFlagsFinal
+```
+
+Used in docker-compose service environment definition:
 
 ```
-ADDITIONAL_MANAGER_OPTIONS="-XX:+UseParallelGC \
--XX:+PrintGCDetails \
--XX:+PrintFlagsFinal"
+opennms:
+  container_name: opennms.core.web
+  image: opennms/horizon-core-web:latest
+  environment:
+    - JAVA_OPTS=-XX:+UseParallelGC -XX:+PrintGCDetails -XX:+PrintFlagsFinal
 ```
 
 ## Java and Container Heap Memory

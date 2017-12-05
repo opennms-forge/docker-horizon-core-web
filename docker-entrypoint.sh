@@ -83,8 +83,15 @@ applyOverlayConfig() {
 
 # Start opennms in foreground
 start() {
-  cd ${OPENNMS_HOME}/bin
-  exec ./opennms -f start
+  local OPENNMS_JAVA_OPTS="-Djava.endorsed.dirs=/opt/opennms/lib/endorsed \
+  -Dopennms.home=/opt/opennms \
+  -Dcom.sun.management.jmxremote.authenticate=true \
+  -Dcom.sun.management.jmxremote.login.config=opennms \
+  -Dcom.sun.management.jmxremote.access.file=/opt/opennms/etc/jmxremote.access \
+  -DisThreadContextMapInheritable=true \
+  -Dgroovy.use.classvalue=true \
+  -Djava.io.tmpdir=/opt/opennms/data/tmp"
+  exec java ${OPENNMS_JAVA_OPTS} ${JAVA_OPTS} -jar /opt/opennms/lib/opennms_bootstrap.jar start
 }
 
 # Evaluate arguments for build script.

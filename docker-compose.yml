@@ -33,6 +33,7 @@ services:
   opennms:
     container_name: opennms.hzn.core.web
     image: opennms/horizon-core-web:latest
+    init: true
     env_file:
       - .opennms.env
       - .postgres.env
