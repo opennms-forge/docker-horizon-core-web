@@ -90,7 +90,8 @@ start() {
   -Dcom.sun.management.jmxremote.access.file=/opt/opennms/etc/jmxremote.access \
   -DisThreadContextMapInheritable=true \
   -Dgroovy.use.classvalue=true \
-  -Djava.io.tmpdir=/opt/opennms/data/tmp"
+  -Djava.io.tmpdir=/opt/opennms/data/tmp \
+  -XX:+HeapDumpOnOutOfMemoryError"
   exec java ${OPENNMS_JAVA_OPTS} ${JAVA_OPTS} -jar /opt/opennms/lib/opennms_bootstrap.jar start
 }
 
