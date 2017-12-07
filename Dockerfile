@@ -40,6 +40,8 @@ LABEL license="AGPLv3" \
       vendor="OpenNMS Community" \
       name="Horizon"
 
+WORKDIR /opt/opennms
+
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
 CMD [ "-h" ]
