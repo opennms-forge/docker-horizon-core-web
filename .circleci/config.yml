@@ -1,32 +1,103 @@
-version: 2
-jobs:
-  build:
+version: 2.0
+
+defaults: &defaults
+
+  working_directory: /home/circleci/horizon-core-web
+
+  workspace_root: &workspace_root
+    /tmp/workspace
+
+  attach_workspace: &attach_workspace
+    attach_workspace:
+      at: *workspace_root
+
+references:
+  container_config: &container_config
     docker:
-      - image: docker:17.05.0-ce-git
-    working_directory: ~/horizon-core-web
+      - image: docker:17.11.0-ce-git
+
+  dockerhub_login: &dockerhub_login
+    run:
+      name: DockerHub Login
+      command: |
+        docker login -u ${dockerhub_login} -p ${dockerhub_pass}
+
+jobs:
+  build_docker_image:
+    <<: *defaults
+    <<: *container_config
 
     steps:
-      - checkout
       - setup_remote_docker
+      - *attach_workspace
+      - checkout
       - run:
-          name: DockerHub Login
-          command: |
-            docker login -u ${dockerhub_login} -p ${dockerhub_pass}
-      - run:
-          name: Build and push OpenNMS Horizon Docker Image
+          name: Generate version number for Docker tag
           command: |
             DOCKERHUB_TAG=${CIRCLE_BRANCH#release/}
             DOCKERHUB_TAG=${DOCKERHUB_TAG/\//-}
+            echo ${DOCKERHUB_TAG} > /tmp/workspace/dockertag
+      - run:
+          name: Build Horizon Docker Image
+          command: |
+            docker build -t opennms/horizon-core-web:$(cat /tmp/workspace/dockertag) .
+      - run:
+          name: Save Docker Container Image as artifact in workspace
+          command: |
+            docker image save opennms/horizon-core-web:$(cat /tmp/workspace/dockertag) -o /tmp/workspace/horizon-docker-image
+      - store_artifacts:
+          path: /tmp/workspace/horizon-docker-image
+      - persist_to_workspace:
+          root: *workspace_root
+          paths:
+            - horizon-docker-image
+            - dockertag
 
+  publish_dockerhub:
+    <<: *defaults
+    <<: *container_config
+
+    steps:
+      - setup_remote_docker
+      - *attach_workspace
+      - *dockerhub_login
+      - run:
+          name: Load Docker Container Image file
+          command: |
+            docker image load -i /tmp/workspace/horizon-docker-image
+      - run:
+          name: Tag Docker Container Images
+          command: |
             case "${CIRCLE_BRANCH}" in
               master)
-                docker build -t opennms/horizon-core-web:stable .
-                docker tag opennms/horizon-core-web:stable opennms/horizon-core-web:latest
-                docker push opennms/horizon-core-web:stable
+                docker tag opennms/horizon-core-web:$(cat /tmp/workspace/dockertag) opennms/horizon-core-web:bleeding
+                docker push opennms/horizon-core-web:bleeding
+                ;;
+              drift)
+                docker tag opennms/horizon-core-web:$(cat /tmp/workspace/dockertag) opennms/horizon-core-web:drift
+                docker push opennms/horizon-core-web:drift
+                ;;
+              release*)
+                docker tag opennms/horizon-core-web:$(cat /tmp/workspace/dockertag) opennms/horizon-core-web:latest
                 docker push opennms/horizon-core-web:latest
+                docker push opennms/horizon-core-web:$(cat /tmp/workspace/dockertag)
                 ;;
               *)
-                docker build -t opennms/horizon-core-web:${DOCKERHUB_TAG} .
-                docker push opennms/horizon-core-web:${DOCKERHUB_TAG}
+                echo "This is not a branch build which needs to be published"
                 ;;
             esac
+
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build_docker_image
+      - publish_dockerhub:
+          filters:
+            branches:
+              only:
+                - /release\/.*/
+                - master
+                - drift
+          requires:
+            - build_docker_image
