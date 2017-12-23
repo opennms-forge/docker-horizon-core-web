@@ -7,8 +7,8 @@
 ## Horizon Version Tags
 
 * `drift`, bleeding edge feature release of Horizon 22 with features develop in the [Drift project](https://wiki.opennms.org/wiki/DevProjects/Drift)
-* `develop`, daily bleeding edge version of Horizon 22 using OpenJDK 8u151-jdk
-* `21.0.2-1`, `stable`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u151-jdk
+* `bleeding`, daily bleeding edge version of Horizon 22 using OpenJDK 8u151-jdk
+* `21.0.2-1`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u151-jdk
 * `21.0.1-1`, using OpenJDK 8u151-jdk
 * `21.0.0-1`, using OpenJDK 8u151-jdk
 * `20.1.0-1`, using OpenJDK 8u144-jdk
