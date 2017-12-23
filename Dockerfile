@@ -2,7 +2,7 @@ FROM opennms/openjdk:8u151-jdk
 
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
-ARG OPENNMS_VERSION=develop
+ARG OPENNMS_VERSION=stable
 ARG MIRROR_HOST=yum.opennms.org
 
 ENV OPENNMS_KARAF_SSH_HOST 0.0.0.0
