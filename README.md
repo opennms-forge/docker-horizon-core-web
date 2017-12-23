@@ -1,9 +1,3 @@
-[![](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com")
-[![](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com")
-
-[![Build Status](http://circleci-badges-max.herokuapp.com/img/opennms-forge/docker-horizon-core-web?token=fe586a10918f2e7319ff26f6d8ba67d43f8823dc)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web) ![CI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.png?circle-token=fe586a10918f2e7319ff26f6d8ba67d43f8823dc)
-
 ## Horizon Version Tags
 
 * `drift`, bleeding edge feature release of Horizon 22 with features develop in the [Drift project](https://wiki.opennms.org/wiki/DevProjects/Drift)
@@ -22,6 +16,17 @@
 * `18.0.3-1`, using OpenJDK 8u121-jdk
 * `foundation-2017` release candidate Meridian 2017, OpenJDK 8u121-jdk
 * `foundation-2016` release candidate Meridian 2016, OpenJDK 8u121-jdk
+
+## General Project Information
+
+* CI/CD Status: [![CircleCI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.svg?style=svg)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web)
+* Container Image Info: [![](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com")
+* CI/CD System: [CircleCI]
+* Docker Container Image Repository: [DockerHub]
+* Issue- and Bug-Tracking: [GitHub issue]
+* Source code: [GitHub]
+* Chat: [IRC] or [Web Chat]
+* Maintainer: ronny@opennms.org
 
 ## Horizon Docker files
 
@@ -143,7 +148,7 @@ Starting with `-i` or `-s` will run the `install -dis` command once to update th
 
 ## Support and Issues
 
-Please open issues in the [GitHub issue](https://github.com/opennms-forge/docker-horizon-core-web) section.
+Please open issues in the [GitHub issue] section.
 
 ## Environment Variables
 
@@ -162,6 +167,9 @@ Please open issues in the [GitHub issue](https://github.com/opennms-forge/docker
 * `MIRROR_HOST`: Server with RPM packages, default: `yum.opennms.org`
 * `OPENNMS_VERSION`: Version of OpenNMS Horizon RPM files, default: `stable`
 
-## Author
-
-ronny@opennms.org
+[GitHub]: https://github.com/opennms-forge/docker-horizon-core-web.git
+[DockerHub]: https://hub.docker.com/r/opennms/horizon-core-web
+[GitHub issue]: https://github.com/opennms-forge/docker-horizon-core-web
+[CircleCI]: https://circleci.com/gh/opennms-forge/docker-horizon-core-web
+[Web Chat]: https://chats.opennms.org/opennms-discuss
+[IRC]: irc://freenode.org/#opennms
