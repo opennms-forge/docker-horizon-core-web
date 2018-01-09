@@ -90,7 +90,7 @@ jobs:
             DOCKERHUB_TAG=${DOCKERHUB_TAG/\//-}
             echo "export DOCKERHUB_TAG=${DOCKERHUB_TAG}" >> ${BASH_ENV}
       - run:
-          name: Tag Docker Container Images
+          name: Tag Docker Container Images and push to DockerHub
           command: |
             source ${BASH_ENV}
             case "${CIRCLE_BRANCH}" in
@@ -125,5 +125,24 @@ workflows:
                 - /release\/.*/
                 - master
                 - drift
+          requires:
+            - build_docker_image
+  daily-build:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                 - master
+                 - drift
+    jobs:
+      - build_docker_image
+      - publish_dockerhub:
+          filters:
+            branches:
+              only:
+                 - master
+                 - drift
           requires:
             - build_docker_image
