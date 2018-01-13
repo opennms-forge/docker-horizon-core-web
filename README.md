@@ -20,6 +20,7 @@
 ## General Project Information
 
 * CI/CD Status: [![CircleCI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.svg?style=svg)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web)
+* Anchore Image Analysis: [![Anchore Image Overview](https://anchore.io/service/badges/image/fb2e2c2ed4360ca5f8dd114c88ca96b20fbde309ffbaf83294a6c02ff5697cad)](https://anchore.io/image/dockerhub/fb2e2c2ed4360ca5f8dd114c88ca96b20fbde309ffbaf83294a6c02ff5697cad?repo=opennms%2Fhorizon-core-web&tag=bleeding)
 * Container Image Info: [![](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com")
 * CI/CD System: [CircleCI]
 * Docker Container Image Repository: [DockerHub]
