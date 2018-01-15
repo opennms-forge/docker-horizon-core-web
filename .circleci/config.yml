@@ -127,3 +127,26 @@ workflows:
                 - drift
           requires:
             - build_docker_image
+
+
+  daily-build:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only:
+                - /release\/.*/
+                - master
+                - drift
+    jobs:
+      - build_docker_image
+      - publish_dockerhub:
+          filters:
+            branches:
+              only:
+                - /release\/.*/
+                - master
+                - drift
+          requires:
+            - build_docker_image
