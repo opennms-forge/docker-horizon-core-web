@@ -1,4 +1,4 @@
-FROM opennms/openjdk:8u151-jdk
+FROM opennms/openjdk:8u161-jdk
 
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
