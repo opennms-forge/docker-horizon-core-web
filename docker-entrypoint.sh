@@ -37,6 +37,7 @@ usage() {
   echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files and do *NOT* start OpenNMS."
   echo "    The database and config file initialization is skipped when a configured file exist."
   echo "-s: Initialize environment like -i and start OpenNMS in foreground."
+  echo "-t options: Run the config-tester, default is -h to show usage."
   echo ""
 }
 
@@ -95,6 +96,15 @@ start() {
   exec java ${OPENNMS_JAVA_OPTS} ${JAVA_OPTS} -jar /opt/opennms/lib/opennms_bootstrap.jar start
 }
 
+testConfig() {
+  shift
+  if [ "${#}" == "0" ]; then
+    ${OPENNMS_HOME}/bin/config-tester -h
+  else
+    ${OPENNMS_HOME}/bin/config-tester ${@}
+  fi
+}
+
 # Evaluate arguments for build script.
 if [[ "${#}" == 0 ]]; then
   usage
@@ -102,7 +112,7 @@ if [[ "${#}" == 0 ]]; then
 fi
 
 # Evaluate arguments for build script.
-while getopts fhis flag; do
+while getopts "fhist" flag; do
   case ${flag} in
     f)
       applyOverlayConfig
@@ -124,6 +134,10 @@ while getopts fhis flag; do
       applyOverlayConfig
       doInitOrUpgrade
       start
+      exit
+      ;;
+    t)
+      testConfig ${@}
       exit
       ;;
     *)

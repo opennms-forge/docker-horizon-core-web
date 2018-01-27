@@ -88,6 +88,12 @@ The web application is exposed on TCP port 8980.
 You can login with default user *admin* with password *admin*.
 Please change immediately the default password to a secure password.
 
+To get a help for all available container options just run:
+
+```
+docker run --rm opennms/horizon-core-web
+```
+
 ## Set Java Options
 
 It is easily possible to add Java options to control the behavior of the JVM for performance tuning or debugging.
