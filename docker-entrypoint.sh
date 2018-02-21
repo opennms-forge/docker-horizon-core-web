@@ -19,6 +19,9 @@ OPENNMS_CONFIGURED_GUARD=${OPENNMS_HOME}/etc/configured
 OPENNMS_KARAF_TPL=/root/org.apache.karaf.shell.cfg.tpl
 OPENNMS_KARAF_CFG=${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
 
+OPENNMS_NEWTS_TPL=/root/opennms-newts-config.properties.tpl
+OPENNMS_NEWTS_PROPERTIES=${OPENNMS_HOME}/etc/opennms.properties.d/opennms-newts-config.properties
+
 # Error codes
 E_ILLEGAL_ARGS=126
 
