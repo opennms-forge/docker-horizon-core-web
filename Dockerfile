@@ -1,18 +1,23 @@
-FROM opennms/openjdk:8u131-jdk
+FROM opennms/openjdk:8u161-jdk
 
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
-ARG OPENNMS_VERSION=stable
+ARG OPENNMS_VERSION=develop
+ARG MIRROR_HOST=yum.opennms.org
+
+ENV OPENNMS_KARAF_SSH_HOST 0.0.0.0
+ENV OPENNMS_KARAF_SSH_PORT 8101
 
 RUN yum -y --setopt=tsflags=nodocs update && \
-    rpm -Uvh http://yum.opennms.org/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
-    rpm --import http://yum.opennms.org/OPENNMS-GPG-KEY && \
+    rpm -Uvh https://${MIRROR_HOST}/repofiles/opennms-repo-${OPENNMS_VERSION}-rhel7.noarch.rpm && \
+    rpm --import https://${MIRROR_HOST}/OPENNMS-GPG-KEY && \
     yum -y install iplike \
                    rrdtool \
                    jrrd2 \
                    opennms-core \
                    opennms-webapp-jetty && \
     yum clean all && \
+    rm -rf /var/cache/yum && \
     rm -rf /opt/opennms/logs \
            /var/opennms/rrd \
            /var/opennms/reports && \
@@ -23,18 +28,19 @@ RUN yum -y --setopt=tsflags=nodocs update && \
     ln -s /opennms-data/rrd /var/opennms/rrd && \
     ln -s /opennms-data/reports /var/opennms/reports
 
-COPY ./assets/opennms-datasources.xml.tpl /tmp
+COPY ./assets/opennms-datasources.xml.tpl /root
+COPY ./assets/org.apache.karaf.shell.cfg.tpl /root
 COPY ./docker-entrypoint.sh /
 
 ## Volumes for storing data outside of the container
-VOLUME ["/opt/opennms/etc", "/opennms-data"]
-
-HEALTHCHECK --interval=10s --timeout=3s CMD curl --fail -s -I http://localhost:8980/opennms/login.jsp | grep "HTTP/1.1 200 OK" || exit 1
+VOLUME [ "/opt/opennms/etc", "/opt/opennms-etc-overlay", "/opennms-data" ]
 
 LABEL license="AGPLv3" \
       org.opennms.horizon.version="${OPENNMS_VERSION}" \
       vendor="OpenNMS Community" \
       name="Horizon"
+
+WORKDIR /opt/opennms
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 

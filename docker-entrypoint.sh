@@ -2,16 +2,22 @@
 # =====================================================================
 # Build script running OpenNMS in Docker environment
 #
-# Source: https://github.com/indigo423/docker-opennms
+# Source: https://github.com/opennms-forge/docker-horizon-core-web
 # Web: https://www.opennms.org
 #
 # =====================================================================
 
-START_DELAY=5
-OPENNMS_DATA_DIR=/opennms-data
 OPENNMS_HOME=/opt/opennms
-OPENNMS_DATASOURCES_TPL=/tmp/opennms-datasources.xml.tpl
+
+OPENNMS_DATASOURCES_TPL=/root/opennms-datasources.xml.tpl
 OPENNMS_DATASOURCES_CFG=${OPENNMS_HOME}/etc/opennms-datasources.xml
+OPENNMS_OVERLAY_CFG=/opt/opennms-etc-overlay
+
+OPENNMS_UPGRADE_GUARD=${OPENNMS_HOME}/etc/do-upgrade
+OPENNMS_CONFIGURED_GUARD=${OPENNMS_HOME}/etc/configured
+
+OPENNMS_KARAF_TPL=/root/org.apache.karaf.shell.cfg.tpl
+OPENNMS_KARAF_CFG=${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
 
 # Error codes
 E_ILLEGAL_ARGS=126
@@ -21,63 +27,82 @@ usage() {
   echo ""
   echo "Docker entry script for OpenNMS service container"
   echo ""
-  echo "-f: Start OpenNMS in foreground with existing configuration."
+  echo "Overlay Config file:"
+  echo "If you want to overwrite the default configuration with your custom config, you can use an overlay config"
+  echo "folder in which needs to be mounted to ${OPENNMS_OVERLAY_CFG}."
+  echo "Every file in this folder is overwriting the default configuration file in ${OPENNMS_HOME}/etc."
+  echo ""
+  echo "-f: Start OpenNMS in foreground with an existing configuration."
   echo "-h: Show this help."
-  echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files, do not start OpenNMS."
+  echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files and do *NOT* start OpenNMS."
+  echo "    The database and config file initialization is skipped when a configured file exist."
   echo "-s: Initialize environment like -i and start OpenNMS in foreground."
+  echo "-t options: Run the config-tester, default is -h to show usage."
   echo ""
 }
 
-initdb() {
+doInitOrUpgrade() {
+  if [ -f ${OPENNMS_UPGRADE_GUARD} ]; then
+    echo "Enforce config and database update."
+    rm -rf ${OPENNMS_CONFIGURED_GUARD}
+    ${OPENNMS_HOME}/bin/runjava -s
+    ${OPENNMS_HOME}/bin/install -dis
+    rm -rf ${OPENNMS_UPGRADE_GUARD}
+    rm -rf ${OPENNMS_OVERLAY_CFG}/do-upgrade
+  fi
+}
+
+# Initialize database and configure Karaf
+initConfig() {
   if [ ! -d ${OPENNMS_HOME} ]; then
     echo "OpenNMS home directory doesn't exist in ${OPENNMS_HOME}."
     exit ${E_ILLEGAL_ARGS}
   fi
 
-  if [ ! -f ${OPENNMS_HOME}/etc/configured ]; then
-    envsubst < ${OPENNMS_DATASOURCES_TPL} > ${OPENNMS_DATASOURCES_CFG}
-
-    # Allow connection to Karaf console into Docker container
-    sed -i "s,sshHost=127.0.0.1,sshHost=0.0.0.0," ${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
-    cd ${OPENNMS_HOME}/bin
-    ./runjava -s
-    sleep ${START_DELAY}
-    ./install -dis
-  else
-    echo "OpenNMS is already configured skip initdb."
-  fi
-}
-
-initConfig() {
-  if [ ! "$(ls --ignore .git --ignore .gitignore --ignore ${OPENNMS_DATASOURCES_CFG} -A ${OPENNMS_HOME}/etc)"  ]; then
+  if [ ! "$(ls --ignore .git --ignore .gitignore --ignore ${OPENNMS_DATASOURCES_CFG} --ignore ${OPENNMS_KARAF_CFG} -A ${OPENNMS_HOME}/etc)"  ]; then
+    echo "No existing configuration in ${OPENNMS_HOME}/etc found. Initialize from etc-pristine."
     cp -r ${OPENNMS_HOME}/share/etc-pristine/* ${OPENNMS_HOME}/etc/
-  else
-    echo "OpenNMS configuration already initialized."
+  fi
+
+  if [ ! -f ${OPENNMS_CONFIGURED_GUARD} ]; then
+    echo "Initialize database and Karaf configuration and do install or upgrade the database schema."
+    envsubst < ${OPENNMS_DATASOURCES_TPL} > ${OPENNMS_DATASOURCES_CFG}
+    envsubst < ${OPENNMS_KARAF_TPL} > ${OPENNMS_KARAF_CFG}
+    ${OPENNMS_HOME}/bin/runjava -s
+    ${OPENNMS_HOME}/bin/install -dis
   fi
 }
 
-initData() {
-  # Create OpenNMS data directories
-  mkdir -p ${OPENNMS_DATA_DIR}/logs \
-           ${OPENNMS_DATA_DIR}/rrd/response \
-           ${OPENNMS_DATA_DIR}/rrd/snmp \
-           ${OPENNMS_DATA_DIR}/reports
-
-  # Remove symlinks and pristine empty data directories
-  rm -rf $OPENNMS_HOME/logs
-  rm -rf ${OPENNMS_HOME}/share/rrd
-  rm -rf ${OPENNMS_HOME}/share/reports
-
-  # Create links to directories which can be mounted into a data container
-  ln -s ${OPENNMS_DATA_DIR}/logs ${OPENNMS_HOME}/logs
-  ln -s ${OPENNMS_DATA_DIR}/rrd ${OPENNMS_HOME}/share/rrd
-  ln -s ${OPENNMS_DATA_DIR}/reports ${OPENNMS_HOME}/share/reports
+applyOverlayConfig() {
+  if [ "$(ls -A ${OPENNMS_OVERLAY_CFG})" ]; then
+    echo "Apply custom configuration from ${OPENNMS_OVERLAY_CFG}."
+    cp -r ${OPENNMS_OVERLAY_CFG}/* ${OPENNMS_HOME}/etc
+  else
+    echo "No custom config found in ${OPENNMS_OVERLAY_CFG}. Use default configuration."
+  fi
 }
 
+# Start opennms in foreground
 start() {
-  cd ${OPENNMS_HOME}/bin
-  sleep ${START_DELAY}
-  exec ./opennms -f start
+  local OPENNMS_JAVA_OPTS="-Djava.endorsed.dirs=/opt/opennms/lib/endorsed \
+  -Dopennms.home=/opt/opennms \
+  -Dcom.sun.management.jmxremote.authenticate=true \
+  -Dcom.sun.management.jmxremote.login.config=opennms \
+  -Dcom.sun.management.jmxremote.access.file=/opt/opennms/etc/jmxremote.access \
+  -DisThreadContextMapInheritable=true \
+  -Dgroovy.use.classvalue=true \
+  -Djava.io.tmpdir=/opt/opennms/data/tmp \
+  -XX:+HeapDumpOnOutOfMemoryError"
+  exec java ${OPENNMS_JAVA_OPTS} ${JAVA_OPTS} -jar /opt/opennms/lib/opennms_bootstrap.jar start
+}
+
+testConfig() {
+  shift
+  if [ "${#}" == "0" ]; then
+    ${OPENNMS_HOME}/bin/config-tester -h
+  else
+    ${OPENNMS_HOME}/bin/config-tester ${@}
+  fi
 }
 
 # Evaluate arguments for build script.
@@ -87,9 +112,10 @@ if [[ "${#}" == 0 ]]; then
 fi
 
 # Evaluate arguments for build script.
-while getopts fhis flag; do
+while getopts "fhist" flag; do
   case ${flag} in
     f)
+      applyOverlayConfig
       start
       exit
       ;;
@@ -99,15 +125,19 @@ while getopts fhis flag; do
       ;;
     i)
       initConfig
-      initdb
-      initData
+      applyOverlayConfig
+      doInitOrUpgrade
       exit
       ;;
     s)
       initConfig
-      initdb
-      initData
+      applyOverlayConfig
+      doInitOrUpgrade
       start
+      exit
+      ;;
+    t)
+      testConfig ${@}
       exit
       ;;
     *)
