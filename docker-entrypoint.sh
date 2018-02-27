@@ -40,6 +40,9 @@ usage() {
   echo "-i: Initialize Java environment, database and pristine OpenNMS configuration files and do *NOT* start OpenNMS."
   echo "    The database and config file initialization is skipped when a configured file exist."
   echo "-s: Initialize environment like -i and start OpenNMS in foreground."
+  echo "-n: Initialize newts (cassandra) as well the initialisations steps in -i above."
+  echo "    Initialization is skipped when a configured file exist."
+  echo "-c: Initialize environment like -c and start OpenNMS in foreground using newts (cassandra)."
   echo "-t options: Run the config-tester, default is -h to show usage."
   echo ""
 }
@@ -73,6 +76,16 @@ initConfig() {
     envsubst < ${OPENNMS_KARAF_TPL} > ${OPENNMS_KARAF_CFG}
     ${OPENNMS_HOME}/bin/runjava -s
     ${OPENNMS_HOME}/bin/install -dis
+  fi
+}
+
+# run after initConfig to add cassandra/newts configuration
+initNewtsConfig() {
+  if [ ! -f ${OPENNMS_CONFIGURED_GUARD} ]; then
+    echo "Initialize newts configuration and install newts keyspace in cassandra if not already initialised."
+    envsubst < ${OPENNMS_NEWTS_TPL} > ${OPENNMS_NEWTS_PROPERTIES}
+    ${OPENNMS_HOME}/bin/runjava -s
+    ${OPENNMS_HOME}/bin/newts init
   fi
 }
 
@@ -134,6 +147,23 @@ while getopts "fhist" flag; do
       ;;
     s)
       initConfig
+      applyOverlayConfig
+      doInitOrUpgrade
+      start
+      exit
+      ;;
+    n)
+      echo "configuring opennms to use newts cassandra"
+      initConfig
+      initNewtsConfig
+      applyOverlayConfig
+      doInitOrUpgrade
+      exit
+      ;;
+    c)
+      echo "starting opennms with newts cassandra"
+      initConfig
+      initNewtsConfig
       applyOverlayConfig
       doInitOrUpgrade
       start
