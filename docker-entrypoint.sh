@@ -42,7 +42,7 @@ usage() {
   echo "-s: Initialize environment like -i and start OpenNMS in foreground."
   echo "-n: Initialize newts (cassandra) as well the initialisations steps in -i above."
   echo "    Initialization is skipped when a configured file exist."
-  echo "-c: Initialize environment like -c and start OpenNMS in foreground using newts (cassandra)."
+  echo "-c: Initialize environment like -n and start OpenNMS in foreground using newts (cassandra)."
   echo "-t options: Run the config-tester, default is -h to show usage."
   echo ""
 }
@@ -128,7 +128,7 @@ if [[ "${#}" == 0 ]]; then
 fi
 
 # Evaluate arguments for build script.
-while getopts "fhist" flag; do
+while getopts "fhisnct" flag; do
   case ${flag} in
     f)
       applyOverlayConfig
