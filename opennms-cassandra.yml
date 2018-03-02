@@ -43,8 +43,8 @@ services:
     networks:
       - opennms.net
     depends_on:
-      - database
       - cassandra1
+      - database
 
     volumes:
       - opennms.etc:/opt/opennms/etc
@@ -64,16 +64,41 @@ services:
       - "61616:61616"
       - "162:162/udp"
       
-  # using bitnami cassandra
+ # data stax cassandra
+ # see  healthcheck and dependency for docker compose 
+ # https://gist.github.com/xmlking/01c38854cf4b3a8441c9ce62035b37aa
   cassandra1:
-      image: bitnami/cassandra:3.10-r7
-      volumes:
-        -  cassandra1-data:/bitnami/cassandra
-      env_file:
-         - .cassandra.env
-      ports:
+     container_name: cassandra1
+     image: cassandra:3.10
+     command: /bin/bash -c "sleep 1 && echo ' -- Pausing to let system catch up ... -->' && /docker-entrypoint.sh cassandra -f"
+     volumes:
+        -  cassandra1-data:/var/lib/cassandra
+        - ./cassandra-conf/jvm.options:/etc/cassandra/jvm.options
+     networks:
+      - opennms.net
+     ports:
         - "7000:7000"
         - "7001:7001"
         - "9042:9042"
         - "9160:9160"
         - "7199:7199"
+     healthcheck:
+        test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+        interval: 30s
+        timeout: 10s
+        retries: 5
+      
+# using bitnami cassandra
+#  cassandra1:
+#     container_name: cassandra1
+#     image: bitnami/cassandra:3.10-r7
+#     volumes:
+#       -  cassandra1-data:/bitnami/cassandra
+#     env_file:
+#       - .cassandra.env
+#     ports:
+#      - "7000:7000"
+#      - "7001:7001"
+#      - "9042:9042"
+#      - "9160:9160"
+#      - "7199:7199"

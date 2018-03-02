@@ -81,12 +81,11 @@ initConfig() {
 
 # run after initConfig to add cassandra/newts configuration
 initNewtsConfig() {
-  if [ ! -f ${OPENNMS_CONFIGURED_GUARD} ]; then
-    echo "Initialize newts configuration and install newts keyspace in cassandra if not already initialised."
-    envsubst < ${OPENNMS_NEWTS_TPL} > ${OPENNMS_NEWTS_PROPERTIES}
-    ${OPENNMS_HOME}/bin/runjava -s
-    ${OPENNMS_HOME}/bin/newts init
-  fi
+  #re-initialising existing tables has no effect in newts so don't worry about guard
+  echo "Initialize newts configuration and install newts keyspace in cassandra if not already initialised."
+  envsubst < ${OPENNMS_NEWTS_TPL} > ${OPENNMS_NEWTS_PROPERTIES}
+  ${OPENNMS_HOME}/bin/runjava -s
+  ${OPENNMS_HOME}/bin/newts init
 }
 
 applyOverlayConfig() {
