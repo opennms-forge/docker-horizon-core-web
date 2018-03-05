@@ -23,7 +23,7 @@ services:
     volumes:
       - psql.data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
       timeout: 30s
       retries: 3
@@ -32,7 +32,7 @@ services:
 
   opennms:
     container_name: opennms.hzn.core.web
-    image: opennms/horizon-core-web:bleeding
+    image: opennms/horizon-core-web:bleedingopennms
     init: true
     env_file:
       - .opennms.env

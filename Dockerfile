@@ -30,7 +30,7 @@ RUN yum -y --setopt=tsflags=nodocs update && \
 
 COPY ./assets/opennms-datasources.xml.tpl /root
 COPY ./assets/org.apache.karaf.shell.cfg.tpl /root
-COPY ./assets/opennms-newts-config.properties.tpl /root
+COPY ./assets/newts.properties.tpl /root
 
 COPY ./docker-entrypoint.sh /
 
