@@ -35,8 +35,8 @@
 This repository provides snapshots for Horizon as docker images.
 The image provides the Horizon core monitoring services and the web application.
 
-It is recommended to use `docker-compose` to build a service stack using the official PostgreSQL image.
-In case you have already a PostgreSQL database running, you can provide the database configuration in the `.opennms.env` and `.postgres.env` environment files, otherwise users and database will be created.
+It is recommended to use `docker-compose` to build a service stack using the official _PostgreSQL_ image.
+In case you have already a _PostgreSQL_ database running, you can provide the database configuration in the `.opennms.env` and `.postgres.env` environment files, otherwise users and database will be created.
 
 Data is by default persisted on your Docker host using a local volume driver for the following data:
 
@@ -54,14 +54,14 @@ opennms.etc:
   driver: local
 ```
 
-It is required to manually edit OpenNMS configuration files, you can add your own configuration files by providing a `etc-overlay` directory.
+It is required to manually edit _OpenNMS Horizon_ configuration files, you can add your own configuration files by providing a `etc-overlay` directory.
 On startup the files overwrite the default configuration.
 
 ```
 - ./etc-overlay:/opt/opennms-etc-overlay
 ```
 
-If you prefer to have you OpenNMS Horizon configuration on your Docker host in a specific directory, you can mount a directory with your config like this:
+If you prefer to have you _OpenNMS Horizon_ configuration on your Docker host in a specific directory, you can mount a directory with your config like this:
 
 ```
 volumes:
@@ -69,11 +69,11 @@ volumes:
 ```
 In case the directory is empty, it will be initialized with a default pristine configuration from `/opt/opennms/share/etc-pristine`.
 
-IMPORTANT: Take care about configurations which can be changed through the Web UI which are persisted on the file system, e.g. users.xml, groups.xml, surveillance-categories.xml, snmp-config.xml, etc.
+IMPORTANT: Take care about configurations which can be changed through the Web UI which are persisted on the file system, e.g. `users.xml`, `groups.xml`, `surveillance-categories.xml`, `snmp-config.xml`, etc.
 
 ## Requirements
 
-* docker 17.05.0-ce, build 89658be
+* docker 18.02.0-ce, build 89658be
 * docker-compose 1.17.0, build ac53b73
 * git
 
@@ -94,6 +94,14 @@ To get a help for all available container options just run:
 ```
 docker run --rm opennms/horizon-core-web
 ```
+
+## Running on Cassandra with Newts
+
+By default the _OpenNMS Horizon_ image will run using _RRDTool_ for performance data storage.
+However _OpenNMS Horizon_ can also be configured to run on _Cassandra_ using the _Newts_ time series schema.
+
+The configuration options can be found in the _Environment Variables_ section.
+The `opennms-cassandra-helm.yml` is provided which illustrates how to run _OpenNMS Horizon_ with a small single _Cassandra_ node on the same machine.
 
 ## Set Java Options
 
@@ -143,16 +151,22 @@ As long if `-XX:ParallelGCThreads` or `-XX:CICompilerCount` are not specified, t
 
 ## Update and Maintenance
 
-The entry point script is used to control starting behavior.
+The entry point script is used to control starting behavior:
 
 ```
 -f: Apply overlay configuration if exist and just start OpenNMS Horizon
--i: If necessary initialize database, create pristine configuration, do an upgrade and apply the overlay config but do *not* start Horizon
--s: Same as `-i` but start OpenNMS Horizon, this should be the default
+-h: Show help
+-i: If necessary initialize database, create pristine configuration, do an upgrade and apply the overlay config but do *not* start OpenNMS Horizon
+-s: Same as -i but start OpenNMS Horizon, this should be your default
+-n: Initialize Newts on Cassandra and the PostgreSQL database, do *not* start OpenNMS Horizon
+-c: Same as -n but start OpenNMS Horizon, this should be your default when you want to use Newts on Cassandra
+-t: Just test you configuration
 ```
 
 If you want to enforce an update, create a `/opt/opennms/etc/do-upgrade` file.
 Starting with `-i` or `-s` will run the `install -dis` command once to update the configuration and database schema.
+
+All options which do upgrades or start OpenNMS Horizon verify if the configuration is valid and pass the configuration test.
 
 ## Support and Issues
 
@@ -169,6 +183,14 @@ Please open issues in the [GitHub issue] section.
 * `OPENNMS_DBPASS`: Password for OpenNMS Horizon database user, default: `opennms`
 * `OPENNMS_KARAF_SSH_HOST`: Listening address for Karaf SSH port, default: `0.0.0.0`
 * `OPENNMS_KARAF_SSH_PORT`: SSH port for Karaf, default: `8101`
+
+Using a Cassandra Cluster:
+
+* `${OPENNMS_CASSANDRA_HOSTNAMES}`: Host name or IP address of the cassandra cluster, a comma separated list is also accepts
+* `${OPENNMS_CASSANDRA_KEYSPACE}`: Name space to persist performance data in, default: `newts`
+* `${OPENNMS_CASSANDRA_PORT}`: Cassandra port, default: `9042`
+* `${OPENNMS_CASSANDRA_USERNAME}`: User name accessing Cassandra
+* `${OPENNMS_CASSANDRA_PASSWORD}`: Password accessing Cassandra
 
 ## Build Argument
 
