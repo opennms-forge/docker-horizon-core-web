@@ -32,7 +32,7 @@ services:
 
   opennms:
     container_name: opennms.hzn.core.web
-    image: opennms/horizon-core-web:bleedingopennms
+    image: opennms/horizon-core-web:bleeding
     init: true
     env_file:
       - .opennms.env
