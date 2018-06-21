@@ -15,7 +15,7 @@ networks:
 services:
   database:
     container_name: opennms.psql
-    image: postgres:9.6
+    image: postgres:10
     env_file:
       - .postgres.env
     networks:

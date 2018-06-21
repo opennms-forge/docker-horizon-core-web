@@ -14,7 +14,7 @@ defaults: &defaults
 references:
   container_config: &container_config
     docker:
-      - image: docker:17.11.0-ce-git
+      - image: docker:18.03.1-ce-git
 
   dockerhub_login: &dockerhub_login
     run:
@@ -98,10 +98,6 @@ jobs:
                 docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:bleeding
                 docker push ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:bleeding
                 ;;
-              drift)
-                docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:drift
-                docker push ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:drift
-                ;;
               release*)
                 docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:latest
                 docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:${DOCKERHUB_TAG}
@@ -124,7 +120,6 @@ workflows:
               only:
                 - /release\/.*/
                 - master
-                - drift
           requires:
             - build_docker_image
 
@@ -137,7 +132,6 @@ workflows:
             branches:
               only:
                 - master
-                - drift
     jobs:
       - build_docker_image
       - publish_dockerhub:
@@ -145,6 +139,5 @@ workflows:
             branches:
               only:
                 - master
-                - drift
           requires:
             - build_docker_image
