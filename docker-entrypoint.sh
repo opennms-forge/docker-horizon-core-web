@@ -12,6 +12,7 @@ OPENNMS_HOME=/opt/opennms
 OPENNMS_DATASOURCES_TPL=/root/opennms-datasources.xml.tpl
 OPENNMS_DATASOURCES_CFG=${OPENNMS_HOME}/etc/opennms-datasources.xml
 OPENNMS_OVERLAY_CFG=/opt/opennms-etc-overlay
+OPENNMS_OVERLAY_JETTY_WEBINF=/opt/opennms-jetty-webinf-overlay
 
 OPENNMS_UPGRADE_GUARD=${OPENNMS_HOME}/etc/do-upgrade
 OPENNMS_CONFIGURED_GUARD=${OPENNMS_HOME}/etc/configured
@@ -94,6 +95,13 @@ applyOverlayConfig() {
     cp -r ${OPENNMS_OVERLAY_CFG}/* ${OPENNMS_HOME}/etc || exit ${E_INIT_CONFIG}
   else
     echo "No custom config found in ${OPENNMS_OVERLAY_CFG}. Use default configuration."
+  fi
+
+  if [ "$(ls -A ${OPENNMS_OVERLAY_JETTY_WEBINF})" ]; then
+    echo "Apply custom Jetty WEB-INF configuration from ${OPENNMS_OVERLAY_JETTY_WEBINF}."
+    cp -r ${OPENNMS_OVERLAY_JETTY_WEBINF}/* ${OPENNMS_HOME}/jetty-webapps/opennms/WEB-INF || exit ${E_INIT_CONFIG}
+  else
+    echo "No custom Jetty WEB-INF config found in ${OPENNMS_OVERLAY_JETTY_WEBINF}. Use default configuration."
   fi
 }
 
