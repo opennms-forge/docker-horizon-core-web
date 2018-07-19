@@ -34,7 +34,7 @@ services:
 
   opennms:
     container_name: opennms.hzn.core.web
-    image: opennms/horizon-core-web:latest
+    image: opennms/horizon-core-web:bleeding
     env_file:
       - .opennms.env
       - .postgres.env
