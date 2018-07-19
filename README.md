@@ -25,7 +25,11 @@
 ## General Project Information
 
 * CI/CD Status: [![CircleCI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.svg?style=svg)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web)
+<<<<<<< HEAD
 * Container Image Info: [![](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com") [![Anchore Image Overview](https://anchore.io/service/badges/image/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756)](https://anchore.io/image/dockerhub/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756?repo=opennms%2Fhorizon-core-web&tag=21.0.4-1)
+=======
+* Container Image Info: [![](https://images.microbadger.com/badges/version/opennms/horizon-core-web:bleeding.svg)](https://microbadger.com/images/opennms/horizon-core-web:bleeding "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/opennms/horizon-core-web:bleeding.svg)](https://microbadger.com/images/opennms/horizon-core-web:bleeding "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/license/opennms/horizon-core-web:bleeding.svg)](https://microbadger.com/images/opennms/horizon-core-web:bleeding "Get your own license badge on microbadger.com") [![Anchore Image Overview](https://anchore.io/service/badges/image/efe8ba583bc83fa02c79f09a6e080280158468e7386a82e698a104656b45ebc4)](https://anchore.io/image/dockerhub/efe8ba583bc83fa02c79f09a6e080280158468e7386a82e698a104656b45ebc4?repo=opennms%2Fhorizon-core-web&tag=bleeding)
+>>>>>>> master
 * CI/CD System: [CircleCI]
 * Docker Container Image Repository: [DockerHub]
 * Issue- and Bug-Tracking: [GitHub issue]
@@ -76,8 +80,13 @@ IMPORTANT: Take care about configurations which can be changed through the Web U
 
 ## Requirements
 
+<<<<<<< HEAD
 * docker 18.02.0-ce, build 89658be
 * docker-compose 1.17.0, build ac53b73
+=======
+* docker 18.05.0-ce, build 89658be
+* docker-compose 1.21.1, build 5a3f1a3
+>>>>>>> master
 * git
 
 ## Usage
@@ -171,6 +180,31 @@ Starting with `-i` or `-s` will run the `install -dis` command once to update th
 
 All options which do upgrades or start OpenNMS Horizon verify if the configuration is valid and pass the configuration test.
 
+<<<<<<< HEAD
+=======
+## Using etc-overlay for custom configuration
+
+If you just want to maintain custom configuration files outside of OpenNMS, you can use an etc-overlay directory.
+All files in this directory are just copied into /opt/opennms/etc in the running container.
+You can just mount a local directory like this:
+
+```
+volumes:
+  - ./etc-overlay:/opt/opennms-etc-overlay
+```
+
+## Using jetty-overlay to customize Jetty WEBINF
+
+If you just want to maintain custom configuration files for the Jetty application container, you can use an jetty-overlay directory.
+All files in this directory are just copied into /opt/opennms/jetty-webapps/opennms/WEB-INF in the running container.
+You can just mount a local directory like this:
+
+```
+volumes:
+  - ./jetty-overlay:/opt/opennms-jetty-webinf-overlay
+```
+
+>>>>>>> master
 ## Support and Issues
 
 Please open issues in the [GitHub issue] section.
@@ -205,4 +239,3 @@ Using a Cassandra Cluster:
 [GitHub issue]: https://github.com/opennms-forge/docker-horizon-core-web
 [CircleCI]: https://circleci.com/gh/opennms-forge/docker-horizon-core-web
 [Web Chat]: https://chats.opennms.org/opennms-discuss
-[IRC]: irc://freenode.org/#opennms
