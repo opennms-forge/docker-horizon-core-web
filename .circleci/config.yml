@@ -33,6 +33,7 @@ jobs:
       - checkout
       - run:
           name: Build Horizon Docker Image
+          no_output_timeout: 20m
           command: |
             docker build -t horizon-core-web .
       - run:
