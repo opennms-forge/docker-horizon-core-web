@@ -1,4 +1,6 @@
-## Horizon Version Tags
+# Docker Image for OpenNMS Horizon
+
+## Version Tags
 
 * `bleeding`, daily bleeding edge version of Horizon 22 using OpenJDK latest
 * `22.0.1-1`, `latest` is a reference to last stable release of Horizon using OpenJDK latest
@@ -25,7 +27,7 @@
 ## General Project Information
 
 * CI/CD Status: [![CircleCI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.svg?style=svg)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web)
-* Container Image Info: [![](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com") [![Anchore Image Overview](https://anchore.io/service/badges/image/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756)](https://anchore.io/image/dockerhub/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756?repo=opennms%2Fhorizon-core-web&tag=22.0.1-1)
+* Container Image Info: [![Container Image Info](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com") [![Container Image Info](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com") [![Container Image License](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com") [![Anchore Image Overview](https://anchore.io/service/badges/image/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756)](https://anchore.io/image/dockerhub/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756?repo=opennms%2Fhorizon-core-web&tag=22.0.1-1)
 * CI/CD System: [CircleCI]
 * Docker Container Image Repository: [DockerHub]
 * Issue- and Bug-Tracking: [GitHub issue]
@@ -43,7 +45,7 @@ In case you have already a _PostgreSQL_ database running, you can provide the da
 
 Data is by default persisted on your Docker host using a local volume driver for the following data:
 
-```
+```yml
 # PostgreSQL database
 psql.data:
   driver: local
@@ -60,34 +62,30 @@ opennms.etc:
 It is required to manually edit _OpenNMS Horizon_ configuration files, you can add your own configuration files by providing a `etc-overlay` directory.
 On startup the files overwrite the default configuration.
 
-```
+```yml
 - ./etc-overlay:/opt/opennms-etc-overlay
 ```
 
 If you prefer to have you _OpenNMS Horizon_ configuration on your Docker host in a specific directory, you can mount a directory with your config like this:
 
-```
+```yml
 volumes:
     - ./myHorizonConfig:/opt/opennms/etc
 ```
+
 In case the directory is empty, it will be initialized with a default pristine configuration from `/opt/opennms/share/etc-pristine`.
 
 IMPORTANT: Take care about configurations which can be changed through the Web UI which are persisted on the file system, e.g. `users.xml`, `groups.xml`, `surveillance-categories.xml`, `snmp-config.xml`, etc.
 
 ## Requirements
 
-<<<<<<< HEAD
-* docker 18.02.0-ce, build 89658be
-* docker-compose 1.17.0, build ac53b73
-=======
 * docker 18.05.0-ce, build 89658be
 * docker-compose 1.21.1, build 5a3f1a3
->>>>>>> master
 * git
 
 ## Usage
 
-```
+```sh
 git clone https://github.com/opennms-forge/docker-horizon-core-web.git
 cd docker-horizon-core-web
 docker-compose up -d
@@ -99,7 +97,7 @@ Please change immediately the default password to a secure password.
 
 To get a help for all available container options just run:
 
-```
+```sh
 docker run --rm opennms/horizon-core-web
 ```
 
@@ -120,7 +118,8 @@ IMPORTANT: To give more control the Java binary command natively in the docker-e
            The java process has PID 1 and
 
 Used in an environment file:
-```
+
+```yml
 env_file:
   - .java.env
 
@@ -130,7 +129,7 @@ JAVA_OPTS=-XX:+UseParallelGC -XX:+PrintGCDetails -XX:+PrintFlagsFinal
 
 Used in docker-compose service environment definition:
 
-```
+```yml
 opennms:
   container_name: opennms.core.web
   image: opennms/horizon-core-web:latest
@@ -150,7 +149,7 @@ To ensure the JVM calculates the _Maximum Heap Size_ correct you have two option
 1) Set the correct _Maximum Heap Size_ manually with `-Xmx` see section above _Set Java Options_
 2) If no -Xmx option is set, you can automatically calculate the _Maximum Heap Size_ with enabling the experimental cgroup aware feature with
 
-```
+```sh
 JAVA_OPTS=-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap
 ```
 
@@ -161,7 +160,7 @@ As long if `-XX:ParallelGCThreads` or `-XX:CICompilerCount` are not specified, t
 
 The entry point script is used to control starting behavior:
 
-```
+```sh
 -f: Apply overlay configuration if exist and just start OpenNMS Horizon
 -h: Show help
 -i: If necessary initialize database, create pristine configuration, do an upgrade and apply the overlay config but do *not* start OpenNMS Horizon
@@ -176,15 +175,13 @@ Starting with `-i` or `-s` will run the `install -dis` command once to update th
 
 All options which do upgrades or start OpenNMS Horizon verify if the configuration is valid and pass the configuration test.
 
-<<<<<<< HEAD
-=======
 ## Using etc-overlay for custom configuration
 
 If you just want to maintain custom configuration files outside of OpenNMS, you can use an etc-overlay directory.
 All files in this directory are just copied into /opt/opennms/etc in the running container.
 You can just mount a local directory like this:
 
-```
+```yml
 volumes:
   - ./etc-overlay:/opt/opennms-etc-overlay
 ```
@@ -195,12 +192,11 @@ If you just want to maintain custom configuration files for the Jetty applicatio
 All files in this directory are just copied into /opt/opennms/jetty-webapps/opennms/WEB-INF in the running container.
 You can just mount a local directory like this:
 
-```
+```yml
 volumes:
   - ./jetty-overlay:/opt/opennms-jetty-webinf-overlay
 ```
 
->>>>>>> master
 ## Support and Issues
 
 Please open issues in the [GitHub issue] section.
