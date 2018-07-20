@@ -3,7 +3,8 @@
 ## Version Tags
 
 * `bleeding`, daily bleeding edge version of Horizon 22 using OpenJDK latest
-* `22.0.1-1`, `latest` is a reference to last stable release of Horizon using OpenJDK latest
+* `22.0.2-1`, `latest` is a reference to last stable release of Horizon using OpenJDK latest
+* `22.0.1-1`, using OpenJDK 8u171-jdk
 * `22.0.0-1`, using OpenJDK 8u171-jdk
 * `21.1.0-1`, using OpenJDK 8u161-jdk
 * `21.0.5-1`, using OpenJDK 8u161-jdk
@@ -27,7 +28,7 @@
 ## General Project Information
 
 * CI/CD Status: [![CircleCI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.svg?style=svg)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web)
-* Container Image Info: [![Container Image Info](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com") [![Container Image Info](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com") [![Container Image License](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com") [![Anchore Image Overview](https://anchore.io/service/badges/image/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756)](https://anchore.io/image/dockerhub/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756?repo=opennms%2Fhorizon-core-web&tag=22.0.1-1)
+* Container Image Info: [![Container Image Info](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com") [![Container Image Info](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com") [![Container Image License](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com") [![Anchore Image Overview](https://anchore.io/service/badges/image/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756)](https://anchore.io/image/dockerhub/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756?repo=opennms%2Fhorizon-core-web&tag=22.0.2-1)
 * CI/CD System: [CircleCI]
 * Docker Container Image Repository: [DockerHub]
 * Issue- and Bug-Tracking: [GitHub issue]
