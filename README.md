@@ -3,7 +3,8 @@
 ## Version Tags
 
 * `bleeding`, daily bleeding edge version of Horizon 22 using OpenJDK 8u181-jdk
-* `22.0.2-1`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u181-jdk
+* `22.0.3-1`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u181-jdk
+* `22.0.2-1`, using OpenJDK 8u181-jdk
 * `22.0.1-1`, using OpenJDK 8u171-jdk
 * `22.0.0-1`, using OpenJDK 8u171-jdk
 * `21.1.0-1`, using OpenJDK 8u161-jdk
