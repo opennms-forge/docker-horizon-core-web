@@ -29,7 +29,7 @@
     maxSize="50" />
 
   <jdbc-data-source name="opennms"
-                    database-name="opennms"
+                    database-name="${OPENNMS_DBNAME}"
                     class-name="org.postgresql.Driver"
                     url="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${OPENNMS_DBNAME}"
                     user-name="${OPENNMS_DBUSER}"
