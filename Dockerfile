@@ -21,7 +21,8 @@ RUN yum -y --setopt=tsflags=nodocs update && \
                    jrrd2 \
                    opennms-core \
                    opennms-webapp-jetty \
-                   opennms-plugin-protocol-cifs && \
+                   opennms-plugin-protocol-cifs \
+                   opennms-webapp-hawtio && \
     yum clean all && \
     rm -rf /var/cache/yum && \
     rm -rf /opt/opennms/logs \
