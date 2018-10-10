@@ -178,6 +178,17 @@ volumes:
   - ./jetty-overlay:/opt/opennms-jetty-webinf-overlay
 ```
 
+## Using overlay for custom arbitrary configuration
+
+To overlay arbitrary configuration files/directory structures, you can use an opennms-overlay directory.
+The contents of this directory are copied into /opt/opennms/ in the running container.
+You can just mount a local directory like this:
+
+```yml
+volumes:
+  - ./opennms-overlay:/opt/opennms-overlay
+```
+
 ## Support and Issues
 
 Please open issues in the [GitHub issue] section.

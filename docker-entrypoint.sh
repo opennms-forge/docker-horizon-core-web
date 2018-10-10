@@ -11,7 +11,8 @@ OPENNMS_HOME=/opt/opennms
 
 OPENNMS_DATASOURCES_TPL=/root/opennms-datasources.xml.tpl
 OPENNMS_DATASOURCES_CFG=${OPENNMS_HOME}/etc/opennms-datasources.xml
-OPENNMS_OVERLAY_CFG=/opt/opennms-etc-overlay
+OPENNMS_OVERLAY_CFG=/opt/opennms-overlay
+OPENNMS_OVERLAY_ETC=/opt/opennms-etc-overlay
 OPENNMS_OVERLAY_JETTY_WEBINF=/opt/opennms-jetty-webinf-overlay
 
 OPENNMS_UPGRADE_GUARD=${OPENNMS_HOME}/etc/do-upgrade
@@ -22,8 +23,6 @@ OPENNMS_KARAF_CFG=${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
 
 OPENNMS_NEWTS_TPL=/root/newts.properties.tpl
 OPENNMS_NEWTS_PROPERTIES=${OPENNMS_HOME}/etc/opennms.properties.d/newts.properties
-
-KARAF_FEATURES_CFG="$OPENNMS_HOME"/etc/org.apache.karaf.features.cfg
 
 # Error codes
 E_ILLEGAL_ARGS=126
@@ -36,7 +35,7 @@ usage() {
   echo ""
   echo "Overlay Config file:"
   echo "If you want to overwrite the default configuration with your custom config, you can use an overlay config"
-  echo "folder in which needs to be mounted to ${OPENNMS_OVERLAY_CFG}."
+  echo "folder in which needs to be mounted to ${OPENNMS_OVERLAY_ETC}."
   echo "Every file in this folder is overwriting the default configuration file in ${OPENNMS_HOME}/etc."
   echo ""
   echo "-f: Start OpenNMS in foreground with an existing configuration."
@@ -58,7 +57,7 @@ doInitOrUpgrade() {
     ${OPENNMS_HOME}/bin/runjava -s
     ${OPENNMS_HOME}/bin/install -dis
     rm -rf ${OPENNMS_UPGRADE_GUARD}
-    rm -rf ${OPENNMS_OVERLAY_CFG}/do-upgrade
+    rm -rf ${OPENNMS_OVERLAY_ETC}/do-upgrade
   fi
 }
 
@@ -92,42 +91,28 @@ initNewtsConfig() {
 }
 
 applyOverlayConfig() {
+  # Overlay relative to the root of the install dir
   if [ -d "$OPENNMS_OVERLAY_CFG" -a -n "$(ls -A ${OPENNMS_OVERLAY_CFG})" ]; then
     echo "Apply custom configuration from ${OPENNMS_OVERLAY_CFG}."
-    cp -r ${OPENNMS_OVERLAY_CFG}/* ${OPENNMS_HOME}/etc || exit ${E_INIT_CONFIG}
+    cp -r ${OPENNMS_OVERLAY_CFG}/* ${OPENNMS_HOME}/ || exit ${E_INIT_CONFIG}
   else
     echo "No custom config found in ${OPENNMS_OVERLAY_CFG}. Use default configuration."
   fi
 
+  # Overlay etc specific config
+  if [ -d "$OPENNMS_OVERLAY_ETC" -a -n "$(ls -A ${OPENNMS_OVERLAY_ETC})" ]; then
+    echo "Apply custom etc configuration from ${OPENNMS_OVERLAY_ETC}."
+    cp -r ${OPENNMS_OVERLAY_ETC}/* ${OPENNMS_HOME}/etc || exit ${E_INIT_CONFIG}
+  else
+    echo "No custom config found in ${OPENNMS_OVERLAY_ETC}. Use default configuration."
+  fi
+
+  # Overlay jetty specific config
   if [ -d "$OPENNMS_OVERLAY_JETTY_WEBINF" -a -n "$(ls -A ${OPENNMS_OVERLAY_JETTY_WEBINF})" ]; then
     echo "Apply custom Jetty WEB-INF configuration from ${OPENNMS_OVERLAY_JETTY_WEBINF}."
     cp -r ${OPENNMS_OVERLAY_JETTY_WEBINF}/* ${OPENNMS_HOME}/jetty-webapps/opennms/WEB-INF || exit ${E_INIT_CONFIG}
   else
     echo "No custom Jetty WEB-INF config found in ${OPENNMS_OVERLAY_JETTY_WEBINF}. Use default configuration."
-  fi
-}
-
-updateKarafFeaturesConfig() {
-  # Add any additional provided repositories to Karaf config
-  if [ -n "$KARAF_REPOS" ]; then
-    echo "Updating Karaf repositories"
-    local repoReplaceText="# Add product repositories here"
-    local repoPlaceholderLine=$(awk '/'"$repoReplaceText"'/{print NR}' "$KARAF_FEATURES_CFG")
-    # Append a line continuation and comma to the line before the placeholder text
-    sed -i $((repoPlaceholderLine - 1))'s/$/, \\/' "$KARAF_FEATURES_CFG"
-    # Append the features to the featuresBoot by replacing the placeholder text
-    sed -i 's/'"$repoReplaceText"'/'$(sed -e 's/[\/&]/\\&/g' <<< "${KARAF_REPOS// /}")'/' "$KARAF_FEATURES_CFG"
-  fi
-  
-  # Add any additional provided boot features to Karaf config
-  if [ -n "$KARAF_FEATURES" ]; then
-    echo "Updating Karaf features"
-    local featureReplaceText="# Add product features here"
-    local featurePlaceholderLine=$(awk '/'"$featureReplaceText"'/{print NR}' "$KARAF_FEATURES_CFG")
-    # Append a line continuation and comma to the line before the placeholder text
-    sed -i $((featurePlaceholderLine - 1))'s/$/, \\/' "$KARAF_FEATURES_CFG"
-    # Append the features to the featuresBoot by replacing the placeholder text
-    sed -i 's/'"$featureReplaceText"'/'$(sed -e 's/[\/&]/\\&/g' <<< "${KARAF_FEATURES// /}")'/' "$KARAF_FEATURES_CFG"
   fi
 }
 
@@ -140,11 +125,6 @@ applyKarafDebugLogging() {
       echo "log4j2.logger.${logUnderscored}.name = $log" >> "$SENTINEL_HOME"/etc/org.ops4j.pax.logging.cfg
     done
   fi
-}
-
-configureKaraf() {
-  updateKarafFeaturesConfig
-  applyKarafDebugLogging
 }
 
 # Start opennms in foreground
@@ -181,7 +161,7 @@ while getopts "fhisnct" flag; do
   case ${flag} in
     f)
       applyOverlayConfig
-      configureKaraf
+      applyKarafDebugLogging
       testConfig -t -a
       start
       exit
@@ -193,7 +173,7 @@ while getopts "fhisnct" flag; do
     i)
       initConfig
       applyOverlayConfig
-      configureKaraf
+      applyKarafDebugLogging
       testConfig -t -a
       doInitOrUpgrade
       exit
@@ -201,7 +181,7 @@ while getopts "fhisnct" flag; do
     s)
       initConfig
       applyOverlayConfig
-      configureKaraf
+      applyKarafDebugLogging
       testConfig -t -a
       doInitOrUpgrade
       start
@@ -212,7 +192,7 @@ while getopts "fhisnct" flag; do
       initConfig
       initNewtsConfig
       applyOverlayConfig
-      configureKaraf
+      applyKarafDebugLogging
       testConfig -t -a
       doInitOrUpgrade
       exit
@@ -222,7 +202,7 @@ while getopts "fhisnct" flag; do
       initConfig
       initNewtsConfig
       applyOverlayConfig
-      configureKaraf
+      applyKarafDebugLogging
       testConfig -t -a
       doInitOrUpgrade
       start
