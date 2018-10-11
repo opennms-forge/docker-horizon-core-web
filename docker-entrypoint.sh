@@ -11,7 +11,8 @@ OPENNMS_HOME=/opt/opennms
 
 OPENNMS_DATASOURCES_TPL=/root/opennms-datasources.xml.tpl
 OPENNMS_DATASOURCES_CFG=${OPENNMS_HOME}/etc/opennms-datasources.xml
-OPENNMS_OVERLAY_CFG=/opt/opennms-etc-overlay
+OPENNMS_OVERLAY=/opt/opennms-overlay
+OPENNMS_OVERLAY_ETC=/opt/opennms-etc-overlay
 OPENNMS_OVERLAY_JETTY_WEBINF=/opt/opennms-jetty-webinf-overlay
 
 OPENNMS_UPGRADE_GUARD=${OPENNMS_HOME}/etc/do-upgrade
@@ -34,7 +35,7 @@ usage() {
   echo ""
   echo "Overlay Config file:"
   echo "If you want to overwrite the default configuration with your custom config, you can use an overlay config"
-  echo "folder in which needs to be mounted to ${OPENNMS_OVERLAY_CFG}."
+  echo "folder in which needs to be mounted to ${OPENNMS_OVERLAY_ETC}."
   echo "Every file in this folder is overwriting the default configuration file in ${OPENNMS_HOME}/etc."
   echo ""
   echo "-f: Start OpenNMS in foreground with an existing configuration."
@@ -56,7 +57,8 @@ doInitOrUpgrade() {
     ${OPENNMS_HOME}/bin/runjava -s
     ${OPENNMS_HOME}/bin/install -dis
     rm -rf ${OPENNMS_UPGRADE_GUARD}
-    rm -rf ${OPENNMS_OVERLAY_CFG}/do-upgrade
+    rm -rf ${OPENNMS_OVERLAY_ETC}/do-upgrade
+    rm -rf ${OPENNMS_OVERLAY}/etc/do-upgrade
   fi
 }
 
@@ -90,18 +92,39 @@ initNewtsConfig() {
 }
 
 applyOverlayConfig() {
-  if [ "$(ls -A ${OPENNMS_OVERLAY_CFG})" ]; then
-    echo "Apply custom configuration from ${OPENNMS_OVERLAY_CFG}."
-    cp -r ${OPENNMS_OVERLAY_CFG}/* ${OPENNMS_HOME}/etc || exit ${E_INIT_CONFIG}
+  # Overlay relative to the root of the install dir
+  if [ -d "$OPENNMS_OVERLAY" -a -n "$(ls -A ${OPENNMS_OVERLAY})" ]; then
+    echo "Apply custom configuration from ${OPENNMS_OVERLAY}."
+    cp -r ${OPENNMS_OVERLAY}/* ${OPENNMS_HOME}/ || exit ${E_INIT_CONFIG}
   else
-    echo "No custom config found in ${OPENNMS_OVERLAY_CFG}. Use default configuration."
+    echo "No custom config found in ${OPENNMS_OVERLAY}. Use default configuration."
   fi
 
-  if [ "$(ls -A ${OPENNMS_OVERLAY_JETTY_WEBINF})" ]; then
+  # Overlay etc specific config
+  if [ -d "$OPENNMS_OVERLAY_ETC" -a -n "$(ls -A ${OPENNMS_OVERLAY_ETC})" ]; then
+    echo "Apply custom etc configuration from ${OPENNMS_OVERLAY_ETC}."
+    cp -r ${OPENNMS_OVERLAY_ETC}/* ${OPENNMS_HOME}/etc || exit ${E_INIT_CONFIG}
+  else
+    echo "No custom config found in ${OPENNMS_OVERLAY_ETC}. Use default configuration."
+  fi
+
+  # Overlay jetty specific config
+  if [ -d "$OPENNMS_OVERLAY_JETTY_WEBINF" -a -n "$(ls -A ${OPENNMS_OVERLAY_JETTY_WEBINF})" ]; then
     echo "Apply custom Jetty WEB-INF configuration from ${OPENNMS_OVERLAY_JETTY_WEBINF}."
     cp -r ${OPENNMS_OVERLAY_JETTY_WEBINF}/* ${OPENNMS_HOME}/jetty-webapps/opennms/WEB-INF || exit ${E_INIT_CONFIG}
   else
     echo "No custom Jetty WEB-INF config found in ${OPENNMS_OVERLAY_JETTY_WEBINF}. Use default configuration."
+  fi
+}
+
+applyKarafDebugLogging() {
+  if [ -n "$KARAF_DEBUG_LOGGING" ]; then
+    echo "Updating Karaf debug logging"
+    for log in $(sed "s/,/ /g" <<< "$KARAF_DEBUG_LOGGING"); do
+      logUnderscored=${log//./_}
+      echo "log4j2.logger.${logUnderscored}.level = DEBUG" >> "$SENTINEL_HOME"/etc/org.ops4j.pax.logging.cfg
+      echo "log4j2.logger.${logUnderscored}.name = $log" >> "$SENTINEL_HOME"/etc/org.ops4j.pax.logging.cfg
+    done
   fi
 }
 
@@ -139,6 +162,7 @@ while getopts "fhisnct" flag; do
   case ${flag} in
     f)
       applyOverlayConfig
+      applyKarafDebugLogging
       testConfig -t -a
       start
       exit
@@ -150,6 +174,7 @@ while getopts "fhisnct" flag; do
     i)
       initConfig
       applyOverlayConfig
+      applyKarafDebugLogging
       testConfig -t -a
       doInitOrUpgrade
       exit
@@ -157,6 +182,7 @@ while getopts "fhisnct" flag; do
     s)
       initConfig
       applyOverlayConfig
+      applyKarafDebugLogging
       testConfig -t -a
       doInitOrUpgrade
       start
@@ -167,6 +193,7 @@ while getopts "fhisnct" flag; do
       initConfig
       initNewtsConfig
       applyOverlayConfig
+      applyKarafDebugLogging
       testConfig -t -a
       doInitOrUpgrade
       exit
@@ -176,6 +203,7 @@ while getopts "fhisnct" flag; do
       initConfig
       initNewtsConfig
       applyOverlayConfig
+      applyKarafDebugLogging
       testConfig -t -a
       doInitOrUpgrade
       start
