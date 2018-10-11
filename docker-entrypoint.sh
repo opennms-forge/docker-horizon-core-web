@@ -11,7 +11,7 @@ OPENNMS_HOME=/opt/opennms
 
 OPENNMS_DATASOURCES_TPL=/root/opennms-datasources.xml.tpl
 OPENNMS_DATASOURCES_CFG=${OPENNMS_HOME}/etc/opennms-datasources.xml
-OPENNMS_OVERLAY_CFG=/opt/opennms-overlay
+OPENNMS_OVERLAY=/opt/opennms-overlay
 OPENNMS_OVERLAY_ETC=/opt/opennms-etc-overlay
 OPENNMS_OVERLAY_JETTY_WEBINF=/opt/opennms-jetty-webinf-overlay
 
@@ -58,6 +58,7 @@ doInitOrUpgrade() {
     ${OPENNMS_HOME}/bin/install -dis
     rm -rf ${OPENNMS_UPGRADE_GUARD}
     rm -rf ${OPENNMS_OVERLAY_ETC}/do-upgrade
+    rm -rf ${OPENNMS_OVERLAY}/etc/do-upgrade
   fi
 }
 
@@ -92,11 +93,11 @@ initNewtsConfig() {
 
 applyOverlayConfig() {
   # Overlay relative to the root of the install dir
-  if [ -d "$OPENNMS_OVERLAY_CFG" -a -n "$(ls -A ${OPENNMS_OVERLAY_CFG})" ]; then
-    echo "Apply custom configuration from ${OPENNMS_OVERLAY_CFG}."
-    cp -r ${OPENNMS_OVERLAY_CFG}/* ${OPENNMS_HOME}/ || exit ${E_INIT_CONFIG}
+  if [ -d "$OPENNMS_OVERLAY" -a -n "$(ls -A ${OPENNMS_OVERLAY})" ]; then
+    echo "Apply custom configuration from ${OPENNMS_OVERLAY}."
+    cp -r ${OPENNMS_OVERLAY}/* ${OPENNMS_HOME}/ || exit ${E_INIT_CONFIG}
   else
-    echo "No custom config found in ${OPENNMS_OVERLAY_CFG}. Use default configuration."
+    echo "No custom config found in ${OPENNMS_OVERLAY}. Use default configuration."
   fi
 
   # Overlay etc specific config
