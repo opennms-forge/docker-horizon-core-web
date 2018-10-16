@@ -93,7 +93,7 @@ initNewtsConfig() {
 
 applyOverlayConfig() {
   # Overlay relative to the root of the install dir
-  if [ -d "$OPENNMS_OVERLAY" -a -n "$(ls -A ${OPENNMS_OVERLAY})" ]; then
+  if [ -d "${OPENNMS_OVERLAY}" -a -n "$(ls -A ${OPENNMS_OVERLAY})" ]; then
     echo "Apply custom configuration from ${OPENNMS_OVERLAY}."
     cp -r ${OPENNMS_OVERLAY}/* ${OPENNMS_HOME}/ || exit ${E_INIT_CONFIG}
   else
@@ -101,7 +101,7 @@ applyOverlayConfig() {
   fi
 
   # Overlay etc specific config
-  if [ -d "$OPENNMS_OVERLAY_ETC" -a -n "$(ls -A ${OPENNMS_OVERLAY_ETC})" ]; then
+  if [ -d "${OPENNMS_OVERLAY_ETC}" -a -n "$(ls -A ${OPENNMS_OVERLAY_ETC})" ]; then
     echo "Apply custom etc configuration from ${OPENNMS_OVERLAY_ETC}."
     cp -r ${OPENNMS_OVERLAY_ETC}/* ${OPENNMS_HOME}/etc || exit ${E_INIT_CONFIG}
   else
@@ -109,7 +109,7 @@ applyOverlayConfig() {
   fi
 
   # Overlay jetty specific config
-  if [ -d "$OPENNMS_OVERLAY_JETTY_WEBINF" -a -n "$(ls -A ${OPENNMS_OVERLAY_JETTY_WEBINF})" ]; then
+  if [ -d "${OPENNMS_OVERLAY_JETTY_WEBINF}" -a -n "$(ls -A ${OPENNMS_OVERLAY_JETTY_WEBINF})" ]; then
     echo "Apply custom Jetty WEB-INF configuration from ${OPENNMS_OVERLAY_JETTY_WEBINF}."
     cp -r ${OPENNMS_OVERLAY_JETTY_WEBINF}/* ${OPENNMS_HOME}/jetty-webapps/opennms/WEB-INF || exit ${E_INIT_CONFIG}
   else
@@ -118,12 +118,12 @@ applyOverlayConfig() {
 }
 
 applyKarafDebugLogging() {
-  if [ -n "$KARAF_DEBUG_LOGGING" ]; then
+  if [ -n "${KARAF_DEBUG_LOGGING}" ]; then
     echo "Updating Karaf debug logging"
-    for log in $(sed "s/,/ /g" <<< "$KARAF_DEBUG_LOGGING"); do
+    for log in $(sed "s/,/ /g" <<< "${KARAF_DEBUG_LOGGING{"); do
       logUnderscored=${log//./_}
-      echo "log4j2.logger.${logUnderscored}.level = DEBUG" >> "$SENTINEL_HOME"/etc/org.ops4j.pax.logging.cfg
-      echo "log4j2.logger.${logUnderscored}.name = $log" >> "$SENTINEL_HOME"/etc/org.ops4j.pax.logging.cfg
+      echo "log4j2.logger.${logUnderscored}.level = DEBUG" >> "${OPENNMS_HOME}"/etc/org.ops4j.pax.logging.cfg
+      echo "log4j2.logger.${logUnderscored}.name = $log" >> "${OPENNMS_HOME}"/etc/org.ops4j.pax.logging.cfg
     done
   fi
 }
