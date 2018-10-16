@@ -120,7 +120,7 @@ applyOverlayConfig() {
 applyKarafDebugLogging() {
   if [ -n "${KARAF_DEBUG_LOGGING}" ]; then
     echo "Updating Karaf debug logging"
-    for log in $(sed "s/,/ /g" <<< "${KARAF_DEBUG_LOGGING{"); do
+    for log in $(sed "s/,/ /g" <<< "${KARAF_DEBUG_LOGGING}"); do
       logUnderscored=${log//./_}
       echo "log4j2.logger.${logUnderscored}.level = DEBUG" >> "${OPENNMS_HOME}"/etc/org.ops4j.pax.logging.cfg
       echo "log4j2.logger.${logUnderscored}.name = $log" >> "${OPENNMS_HOME}"/etc/org.ops4j.pax.logging.cfg
