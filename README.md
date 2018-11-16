@@ -3,7 +3,7 @@
 ## Version Tags
 
 * `bleeding`, daily bleeding edge version of Horizon 24 using OpenJDK 8u191-jdk
-* `23.0.0-1`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u191-jdk
+* `23.0.1-1`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u191-jdk
 
 ## General Project Information
 
