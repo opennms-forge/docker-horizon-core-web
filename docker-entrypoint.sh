@@ -7,6 +7,9 @@
 #
 # =====================================================================
 
+# Cause false/positives
+# shellcheck disable=SC2086
+
 OPENNMS_HOME=/opt/opennms
 
 OPENNMS_DATASOURCES_TPL=/root/opennms-datasources.xml.tpl
@@ -93,7 +96,7 @@ initNewtsConfig() {
 
 applyOverlayConfig() {
   # Overlay relative to the root of the install dir
-  if [ -d "${OPENNMS_OVERLAY}" -a -n "$(ls -A ${OPENNMS_OVERLAY})" ]; then
+  if [ -d "${OPENNMS_OVERLAY}" ] && [ -n "$(ls -A ${OPENNMS_OVERLAY})" ]; then
     echo "Apply custom configuration from ${OPENNMS_OVERLAY}."
     cp -r ${OPENNMS_OVERLAY}/* ${OPENNMS_HOME}/ || exit ${E_INIT_CONFIG}
   else
@@ -101,7 +104,7 @@ applyOverlayConfig() {
   fi
 
   # Overlay etc specific config
-  if [ -d "${OPENNMS_OVERLAY_ETC}" -a -n "$(ls -A ${OPENNMS_OVERLAY_ETC})" ]; then
+  if [ -d "${OPENNMS_OVERLAY_ETC}" ] && [ -n "$(ls -A ${OPENNMS_OVERLAY_ETC})" ]; then
     echo "Apply custom etc configuration from ${OPENNMS_OVERLAY_ETC}."
     cp -r ${OPENNMS_OVERLAY_ETC}/* ${OPENNMS_HOME}/etc || exit ${E_INIT_CONFIG}
   else
@@ -109,7 +112,7 @@ applyOverlayConfig() {
   fi
 
   # Overlay jetty specific config
-  if [ -d "${OPENNMS_OVERLAY_JETTY_WEBINF}" -a -n "$(ls -A ${OPENNMS_OVERLAY_JETTY_WEBINF})" ]; then
+  if [ -d "${OPENNMS_OVERLAY_JETTY_WEBINF}" ] && [ -n "$(ls -A ${OPENNMS_OVERLAY_JETTY_WEBINF})" ]; then
     echo "Apply custom Jetty WEB-INF configuration from ${OPENNMS_OVERLAY_JETTY_WEBINF}."
     cp -r ${OPENNMS_OVERLAY_JETTY_WEBINF}/* ${OPENNMS_HOME}/jetty-webapps/opennms/WEB-INF || exit ${E_INIT_CONFIG}
   else
@@ -147,7 +150,7 @@ testConfig() {
   if [ "${#}" == "0" ]; then
     ${OPENNMS_HOME}/bin/config-tester -h
   else
-    ${OPENNMS_HOME}/bin/config-tester ${@} || exit ${E_INIT_CONFIG}
+    ${OPENNMS_HOME}/bin/config-tester "${@}" || exit ${E_INIT_CONFIG}
   fi
 }
 
@@ -210,7 +213,7 @@ while getopts "fhisnct" flag; do
       exit
       ;;
     t)
-      testConfig ${@}
+      testConfig "${@}"
       exit
       ;;
     *)
@@ -224,7 +227,7 @@ done
 shift $((OPTIND - 1));
 
 # Check if there are remaining arguments
-if [[ "${#}" > 0 ]]; then
+if [[ "${#}" -gt 0 ]]; then
   echo "Error: To many arguments: ${*}."
   usage
   exit ${E_ILLEGAL_ARGS}
