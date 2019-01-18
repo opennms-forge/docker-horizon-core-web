@@ -1,0 +1,25 @@
+[template]
+src = "opennms-activemq.xml.tpl"
+dest = "/opt/opennms/etc/opennms-activemq.xml"
+keys = [
+    "/opennms/activemq/authorizationentry/queue/read",
+    "/opennms/activemq/authorizationentry/queue/write",
+    "/opennms/activemq/authorizationentry/queue/admin",
+    "/opennms/activemq/authorizationentry/topic/read",
+    "/opennms/activemq/authorizationentry/topic/write",
+    "/opennms/activemq/authorizationentry/topic/admin",
+    "/opennms/activemq/authorizationentry/queue/opennms/read",
+    "/opennms/activemq/authorizationentry/queue/opennms/write",
+    "/opennms/activemq/authorizationentry/queue/opennms/admin",
+    "/opennms/activemq/authorizationentry/topic/activemq/advisory/read",
+    "/opennms/activemq/authorizationentry/topic/activemq/advisory/write",
+    "/opennms/activemq/authorizationentry/topic/activemq/advisory/admin",
+    "/opennms/activemq/systemusage/memoryusage",
+    "/opennms/activemq/systemusage/storageusage",
+    "/opennms/activemq/systemusage/tempusage",
+    "/opennms/activemq/transportconnectors/openwire/uri"
+]
+
+
+
+

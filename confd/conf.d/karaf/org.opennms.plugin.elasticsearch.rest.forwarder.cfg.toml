@@ -1,0 +1,37 @@
+[template]
+src = "karaf/org.opennms.plugin.elasticsearch.rest.forwarder.cfg.tpl"
+dest = "/opt/opennms/etc/org.opennms.plugin.elasticsearch.rest.forwarder.cfg"
+keys = [
+    "/plugin/elasticsearch/rest/forwarder/elasticurl",
+    "/plugin/elasticsearch/rest/forwarder/globalelasticuser",
+    "/plugin/elasticsearch/rest/forwarder/globalelasticpassword",
+    "/plugin/elasticsearch/rest/forwarder/elasticindexstrategy",
+    "/plugin/elasticsearch/rest/forwarder/defaultmaxtotalconnectionperroute",
+    "/plugin/elasticsearch/rest/forwarder/maxtotalconnection",
+    "/plugin/elasticsearch/rest/forwarder/nodediscovery",
+    "/plugin/elasticsearch/rest/forwarder/nodediscoveryfrequency",
+    "/plugin/elasticsearch/rest/forwarder/proxy",
+    "/plugin/elasticsearch/rest/forwarder/retrycooldown",
+    "/plugin/elasticsearch/rest/forwarder/conntimeout",
+    "/plugin/elasticsearch/rest/forwarder/readtimeout",
+    "/plugin/elasticsearch/rest/forwarder/retries",
+    "/plugin/elasticsearch/rest/forwarder/batchsize",
+    "/plugin/elasticsearch/rest/forwarder/batchinterval",
+    "/plugin/elasticsearch/rest/forwarder/threads",
+    "/plugin/elasticsearch/rest/forwarder/cachemaxttl",
+    "/plugin/elasticsearch/rest/forwarder/cachemaxsize",
+    "/plugin/elasticsearch/rest/forwarder/logeventdescription",
+    "/plugin/elasticsearch/rest/forwarder/logallevents",
+    "/plugin/elasticsearch/rest/forwarder/archiverawevents",
+    "/plugin/elasticsearch/rest/forwarder/archivealarms",
+    "/plugin/elasticsearch/rest/forwarder/archivealarmchangeevents",
+    "/plugin/elasticsearch/rest/forwarder/archiveoldalarmvalues",
+    "/plugin/elasticsearch/rest/forwarder/archivenewalarmvalues",
+    "/plugin/elasticsearch/rest/forwarder/archiveassetdata",
+    "/plugin/elasticsearch/rest/forwarder/groupoidparameters",
+    "/plugin/elasticsearch/rest/forwarder/bulkretrycount",
+    "/plugin/elasticsearch/rest/forwarder/settings/index/numberofshards",
+    "/plugin/elasticsearch/rest/forwarder/settings/index/numberofreplicas",
+    "/plugin/elasticsearch/rest/forwarder/settings/index/refreshinterval",
+    "/plugin/elasticsearch/rest/forwarder/settings/index/routingpartitionsize"
+]

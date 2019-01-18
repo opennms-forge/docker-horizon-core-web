@@ -4,8 +4,8 @@
   xsi:schemaLocation="http://xmlns.opennms.org/xsd/config/opennms-datasources
   http://www.opennms.org/xsd/config/opennms-datasources.xsd ">
 
-  <!-- THIS CONIGURATION FILE IS CREATED FROM A TEMPLATE DURING DOCKER BUILD -->
-
+  <!-- DO NOT CHANGE THIS FILE! GENERATED FROM confd -->
+  
   <!--
     Available implementations:
 
@@ -21,24 +21,24 @@
       org.opennms.core.db.HikariCPConnectionFactory
         - Uses HikariCP (http://brettwooldridge.github.io/HikariCP/), a lightweight and extremely fast connection pool
    -->
-  <connection-pool factory="org.opennms.core.db.C3P0ConnectionFactory"
-    idleTimeout="600"
-    loginTimeout="3"
-    minPool="50"
-    maxPool="50"
-    maxSize="50" />
+  <connection-pool factory="{{getv "/opennms/database/connection-pool/factory" "org.opennms.core.db.C3P0ConnectionFactory"}}"
+    idleTimeout="{{getv "/opennms/database/connection-pool/idletimeout" "600"}}"
+    loginTimeout="{{getv "/opennms/database/connection-pool/logintimeout" "3"}}"
+    minPool="{{getv "/opennms/database/connection-pool/minpool" "50"}}"
+    maxPool="{{getv "/opennms/database/connection-pool/maxpool" "50"}}"
+    maxSize="{{getv "/opennms/database/connection-pool/maxsize" "50"}}" />
 
   <jdbc-data-source name="opennms"
-                    database-name="${OPENNMS_DBNAME}"
+                    database-name="{{getv "/opennms/database/name"}}"
                     class-name="org.postgresql.Driver"
-                    url="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${OPENNMS_DBNAME}"
-                    user-name="${OPENNMS_DBUSER}"
-                    password="${OPENNMS_DBPASS}" />
+                    url="jdbc:postgresql://{{getv "/postgres/host"}}:{{getv "/postgres/port" "5432"}}/{{getv "/opennms/database/name"}}"
+                    user-name="{{getv "/opennms/database/user"}}"
+                    password="{{getv "/opennms/database/password"}}" />
 
   <jdbc-data-source name="opennms-admin"
                     database-name="template1"
                     class-name="org.postgresql.Driver"
-                    url="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/template1"
-                    user-name="${POSTGRES_USER}"
-                    password="${POSTGRES_PASSWORD}" />
+                    url="jdbc:postgresql://{{getv "/postgres/host"}}:{{getv "/postgres/port" "5432"}}/template1"
+                    user-name="{{getv "/postgres/user"}}"
+                    password="{{getv "/postgres/password"}}" />
 </datasource-configuration>

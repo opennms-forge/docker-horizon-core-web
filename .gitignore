@@ -2,3 +2,7 @@
 etc-overlay/
 *.iml
 /.project
+*.oci
+*.rpm
+/rpms/*
+/images/*

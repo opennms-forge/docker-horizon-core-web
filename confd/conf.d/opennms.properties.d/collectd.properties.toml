@@ -1,0 +1,10 @@
+[template]
+src = "opennms.properties.d/collectd.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/collectd.properties"
+keys = [
+    "/threshd/value/decimalformat",
+    "/datacollectionconfig/reloadcheckinterval",
+    "/collectd/instrumentationclass",
+    "/collectd/snmpcollector/forcerescan",
+    "/collectd/snmpcollector/limitcollectiontoinstances"
+]

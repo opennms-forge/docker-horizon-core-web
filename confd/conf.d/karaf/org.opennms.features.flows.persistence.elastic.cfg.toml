@@ -1,0 +1,28 @@
+[template]
+src = "karaf/org.opennms.features.flows.persistence.elastic.cfg.tpl"
+dest = "/opt/opennms/etc/org.opennms.features.flows.persistence.elastic.cfg"
+keys = [
+    "/flows/persistence/elastic/elasticurl",
+    "/flows/persistence/elastic/globalelasticuser",
+    "/flows/persistence/elastic/globalelasticpassword",
+    "/flows/persistence/elastic/elasticindexstrategy",
+    "/flows/persistence/elastic/maxflowdurationms",
+    "/flows/persistence/elastic/defaultmaxtotalconnectionperroute",
+    "/flows/persistence/elastic/maxtotalconnection",
+    "/flows/persistence/elastic/nodediscovery",
+    "/flows/persistence/elastic/nodediscoveryfrequency",
+    "/flows/persistence/elastic/proxy",
+    "/flows/persistence/elastic/retrycooldown",
+    "/flows/persistence/elastic/conntimeout",
+    "/flows/persistence/elastic/readtimeout",
+    "/flows/persistence/elastic/retries",
+    "/flows/persistence/elastic/nodecache/enabled",
+    "/flows/persistence/elastic/nodecache/maximumsize",
+    "/flows/persistence/elastic/nodecache/expireafterwrite",
+    "/flows/persistence/elastic/nodecache/recordstats",
+    "/flows/persistence/elastic/bulkretrycount",
+    "/flows/persistence/elastic/settings/index/numberofshards",
+    "/flows/persistence/elastic/settings/index/numberofreplicas",
+    "/flows/persistence/elastic/settings/index/refreshinterval",
+    "/flows/persistence/elastic/settings/index/routingpartitionsize"
+]

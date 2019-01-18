@@ -1,0 +1,18 @@
+[template]
+src = "opennms.properties.d/provisioning.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/provisioning.properties"
+keys = [
+    "/provisiond/enablediscovery",
+    "/provisiond/schedulerescanforexistingnodes",
+    "/provisiond/schedulerescanforupdatednodes",
+    "/provisiond/repositoryimplementation",
+    "/provisiond/resolvemissingcoordinatesfromaddressstring",
+    "/requisition/dir",
+    "/importer/foreign-source/dir",
+    "/minion/provisioning",
+    "/minion/provisioning/foreignsourcepattern",
+    "/provision/maxconcurrentconnections",
+    "/importer/adapter/dns/server",
+    "/importer/adapter/dns/level",
+    "/importer/adapter/dns/reverse/level"
+]

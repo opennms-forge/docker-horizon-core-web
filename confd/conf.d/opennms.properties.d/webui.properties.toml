@@ -1,0 +1,7 @@
+[template]
+src = "opennms.properties.d/webui.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/webui.properties"
+keys = [
+    "/ui/datetimeformat"
+    
+]

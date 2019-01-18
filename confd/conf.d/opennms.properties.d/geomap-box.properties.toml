@@ -1,0 +1,7 @@
+[template]
+src = "opennms.properties.d/geomap-box.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/geomap-box.properties"
+keys = [
+    "/geomap/defaultstrategy",
+    "/geomap/defaultseverity"
+]

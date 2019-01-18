@@ -1,0 +1,13 @@
+[template]
+src = "trapd-configuration.xml.tpl"
+dest = "/opt/opennms/etc/trapd-configuration.xml"
+keys = [
+    "/opennms/trapd/snmp-trap-address",
+    "/opennms/trapd/snmp-trap-port",
+    "/opennms/trapd/new-suspect-on-trap",
+    "/opennms/trapd/include-raw-message",
+    "/opennms/trapd/threads",
+    "/opennms/trapd/queue-size",
+    "/opennms/trapd/batch-size",
+    "/opennms/trapd/batch-interval"
+]

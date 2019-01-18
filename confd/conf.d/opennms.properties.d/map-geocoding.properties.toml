@@ -1,0 +1,15 @@
+[template]
+src = "opennms.properties.d/map-geocoding.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/map-geocoding.properties"
+keys = [
+    "/gwt/maptype",
+    "/gwt/apikey",
+    "/gwt/geocoder/class",
+    "/gwt/geocoder/rate",
+    "/gwt/geocoder/referer",
+    "/gwt/geocoder/minimumquality",
+    "/gwt/geocoder/email",
+    "/gwt/openlayers/url",
+    "/gwt/openlayers/options/attribution",
+    "/gwt/maxclusterradius"
+]

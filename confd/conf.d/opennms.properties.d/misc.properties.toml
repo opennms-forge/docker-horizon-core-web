@@ -1,0 +1,14 @@
+[template]
+src = "opennms.properties.d/misc.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/misc.properties"
+keys = [
+    "/distributed/layoutapplicationsvertically",
+    "/opennms/bin/dir",
+    "/java/awt/headless",
+    "/opennms/dao/ipinterface/findbyservicetype",
+    "/collectd/defaultcollectionagent/loadsnmpdataoninit",
+    "/interface-node-cache/refresh-timer",
+    "/osgi/bridge/restaliases",
+    "/excludeservicemonitorsfromremotepoller",
+    "/eventd/eventtemplatecachesize"
+]

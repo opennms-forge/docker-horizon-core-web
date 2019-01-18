@@ -1,0 +1,11 @@
+[template]
+src = "opennms.properties.d/heatmap.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/heatmap.properties"
+keys = [
+    "/heatmap/defaultmode",
+    "/heatmap/defaultheatmap",
+    "/heatmap/categoryfilter",
+    "/heatmap/foreignsourcefilter",
+    "/heatmap/servicefilter",
+    "/heatmap/onlyunacknowledged"
+]

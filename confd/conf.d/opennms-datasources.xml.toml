@@ -1,0 +1,19 @@
+[template]
+src = "opennms-datasources.xml.tpl"
+dest = "/opt/opennms/etc/opennms-datasources.xml"
+keys = [
+    "/opennms/database/connection-pool/factory",
+    "/opennms/database/connection-pool/idletimeout",
+    "/opennms/database/connection-pool/logintimeout",
+    "/opennms/database/connection-pool/minpool",
+    "/opennms/database/connection-pool/maxpool",
+    "/opennms/database/connection-pool/maxsize",
+    "/opennms/database/name",
+    "/opennms/database/user",
+    "/opennms/database/password",
+    "/postgres/host",
+    "/postgres/port",
+    "/postgres/user",
+    "/postgres/password",
+    
+]

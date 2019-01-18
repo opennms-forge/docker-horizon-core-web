@@ -1,0 +1,7 @@
+[template]
+src = "opennms.properties.d/alarmd.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/alarmd.properties"
+keys = [
+    "/alarmd/newifclearedalarmexists",
+    "/alarmd/legacyalarmstate"
+]

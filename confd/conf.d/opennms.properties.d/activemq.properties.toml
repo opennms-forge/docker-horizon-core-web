@@ -1,0 +1,12 @@
+[template]
+src = "opennms.properties.d/activemq.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/activemq.properties"
+keys = [
+    "/jms/timeout",
+    "/activemq/broker/disable",
+    "/activemq/broker/url",
+    "/activemq/broker/username",
+    "/activemq/broker/password",
+    "/activemq/client/max-connections",
+    "/activemq/client/concurrent-consumers"
+]

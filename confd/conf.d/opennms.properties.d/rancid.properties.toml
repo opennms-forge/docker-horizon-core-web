@@ -1,0 +1,7 @@
+[template]
+src = "opennms.properties.d/rancid.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/rancid.properties"
+keys = [
+    "/rancidintegrationenabled",
+    "/rancidintegrationuseonlyrancidadapter"
+]

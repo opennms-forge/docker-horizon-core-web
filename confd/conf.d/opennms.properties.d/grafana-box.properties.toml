@@ -1,0 +1,14 @@
+[template]
+src = "opennms.properties.d/grafana-box.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/grafana-box.properties"
+keys = [
+    "/grafanabox/show",
+    "/grafanabox/hostname",
+    "/grafanabox/port",
+    "/grafanabox/basepath",
+    "/grafanabox/apikey",
+    "/grafanabox/tag",
+    "/grafanabox/protocol",
+    "/grafanabox/connectiontimeout",
+    "/grafanabox/dashboardlimit"
+]

@@ -1,0 +1,13 @@
+[template]
+src = "opennms.properties.d/snmp.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/snmp.properties"
+keys = [
+    "/snmp/strategyclass",
+    "/snmp/workarounds/allow64bitipaddress",
+    "/snmp/workarounds/allowzerolengthipaddress",
+    "/snmp4j/smisyntaxes",
+    "/snmp4j/forwardruntimeexceptions",
+    "/snmp4j/log/log4jlogfactory",
+    "/snmp4j/nogetbulk",
+    "/snmp4j/allowsnmpv2inv1"
+]

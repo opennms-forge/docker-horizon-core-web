@@ -1,0 +1,31 @@
+[template]
+src = "opennms.properties.d/timeseries.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/timeseries.properties"
+keys = [
+    "/rrd/storebyforeignsource",
+    "/rrd/storebygroup",
+    "/timeseries/strategy",
+    "/rrd/binary",
+    "/rrd/base/dir",
+    "/evaluate/dumpstatsfrequency",
+    "/evaluate/dumpcachefrequency",
+    "/newts/nanoncounterwrap",
+    "/newts/config/hostname",
+    "/newts/config/keyspace",
+    "/newts/config/port",
+    "/newts/config/username",
+    "/newts/config/password",
+    "/newts/config/readconsistency",
+    "/newts/config/writeconsistency",
+    "/newts/config/maxbatchsize",
+    "/newts/config/ringbuffersize",
+    "/newts/config/ttl",
+    "/newts/config/resourceshard",
+    "/newts/config/cache/strategy",
+    "/newts/config/cache/maxentries",
+    "/newts/query/minimumstep",
+    "/newts/config/cache/redishostname",
+    "/newts/config/cache/redisport",
+    "/newts/config/cache/priming/disable",
+    "/newts/config/cache/priming/blockms"
+]

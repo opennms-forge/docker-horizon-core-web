@@ -2,8 +2,8 @@
 
 ## Version Tags
 
-* `bleeding`, daily bleeding edge version of Horizon 24 using OpenJDK 8u191-jdk
-* `23.0.2-1`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u191-jdk
+* `bleeding`, daily bleeding edge version of Horizon 24 using OpenJDK 11
+* `23.0.0`, `latest` is a reference to last stable release of Horizon using OpenJDK 8
 
 ## General Project Information
 
@@ -12,10 +12,7 @@
 * CI/CD System: [CircleCI]
 * Docker Container Image Repository: [DockerHub]
 * Issue- and Bug-Tracking: [GitHub issue]
-* Support from Community: [Discourse]
 * Source code: [GitHub]
-* Mattermost Chat: [Chat]
-* Maintainer: ronny@opennms.org
 
 ## Horizon Docker files
 
@@ -82,6 +79,14 @@ To get a help for all available container options just run:
 ```sh
 docker run --rm opennms/horizon-core-web
 ```
+
+## Running on Cassandra with Newts
+
+By default the _OpenNMS Horizon_ image will run using _RRDTool_ for performance data storage.
+However _OpenNMS Horizon_ can also be configured to run on _Cassandra_ using the _Newts_ time series schema.
+
+The configuration options can be found in the _Environment Variables_ section.
+The `opennms-cassandra-helm.yml` is provided which illustrates how to run _OpenNMS Horizon_ with a small single _Cassandra_ node on the same machine.
 
 ## Set Java Options
 
@@ -182,36 +187,9 @@ volumes:
   - ./opennms-overlay:/opt/opennms-overlay
 ```
 
-## Test configuration files
+## Support and Issues
 
-This image allows to test configuration files if they are valid XML and if they can be loaded on startup.
-It is automatically executed on startup but can also it can just be executed as a single shot command.
-
-Get the usage output of the config tester with:
-
-```bash
-docker run --rm opennms/horizon-core-web:latest -t
-```
-
-Some examples how to use the config tester with this image:
-
-Test all configuration files:
-
-```
-docker run --rm opennms/horizon-core-web:latest -t -a
-```
-
-Test just a specific configuration file with verbose output `-v`:
-
-```
-docker run --rm opennms/horizon-core-web:latest -t -v snmp-config.xml
-```
-
-Test configuration files with a etc-overlay directory:
-
-```
-docker run --rm -v $(pwd)/etc-overlay:/opt/opennms-etc-overlay opennms/horizon-core-web:latest -t -v snmp-config.xml
-```
+Please open issues in the [GitHub issue] section.
 
 ## Environment Variables
 
@@ -233,14 +211,6 @@ Using a Cassandra Cluster:
 * `${OPENNMS_CASSANDRA_USERNAME}`: User name accessing Cassandra
 * `${OPENNMS_CASSANDRA_PASSWORD}`: Password accessing Cassandra
 
-## Running on Cassandra with Newts
-
-By default the _OpenNMS Horizon_ image will run using _RRDTool_ for performance data storage.
-However _OpenNMS Horizon_ can also be configured to run on _Cassandra_ using the _Newts_ time series schema.
-
-The configuration options can be found in the _Environment Variables_ section.
-The `opennms-cassandra-helm.yml` is provided which illustrates how to run _OpenNMS Horizon_ with a small single _Cassandra_ node on the same machine.
-
 ## Build Argument
 
 * `MIRROR_HOST`: Server with RPM packages, default: `yum.opennms.org`
@@ -250,5 +220,4 @@ The `opennms-cassandra-helm.yml` is provided which illustrates how to run _OpenN
 [DockerHub]: https://hub.docker.com/r/opennms/horizon-core-web
 [GitHub issue]: https://github.com/opennms-forge/docker-horizon-core-web
 [CircleCI]: https://circleci.com/gh/opennms-forge/docker-horizon-core-web
-[Chat]: https://chats.opennms.org/opennms-discuss
-[Discourse]: https://opennms.discourse.group/categories
+[Web Chat]: https://chats.opennms.org/opennms-discuss

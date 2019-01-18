@@ -1,0 +1,11 @@
+[template]
+src = "opennms.properties.d/ticketer.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/ticketer.properties"
+keys = [
+    "/ticketer/servicelayer",
+    "/ticketer/plugin",
+    "/alarmtroubleticketlinktemplate",
+    "/alarmtroubleticketenabled",
+    "/ticketer/skipcreatewhencleared",
+    "/ticketer/skipclosewhenmotcleared"
+]

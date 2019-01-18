@@ -1,0 +1,38 @@
+[template]
+src = "opennms.properties.d/core.ipc.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/core.ipc.properties"
+keys = [
+    "/core/ipc/rpc/strategy",
+    "/core/ipc/rpc/kafka/bootstrap/servers",
+    "/core/ipc/rpc/kafka/ttl",
+    "/core/ipc/rpc/kafka/max/buffer/size",
+    "/core/ipc/aws/sqs/rpc/delayseconds",
+    "/core/ipc/aws/sqs/rpc/maximummessagesize",
+    "/core/ipc/aws/sqs/rpc/messageretentionperiod",
+    "/core/ipc/aws/sqs/rpc/receivemessagewaittimeseconds",
+    "/core/ipc/aws/sqs/rpc/visibilitytimeout",
+    "/core/ipc/aws/sqs/rpc/policy",
+    "/core/ipc/aws/sqs/rpc/redrivepolicy",
+    "/core/ipc/aws/sqs/rpc/kmsmasterkeyid",
+    "/core/ipc/aws/sqs/rpc/kmsdatakeyreuseperiodseconds",
+    "/core/ipc/aws/sqs/rpc/fifoqueue",
+    "/core/ipc/aws/sqs/rpc/contentbaseddeduplication",
+    "/core/ipc/aws/sqs/aws/region",
+    "/core/ipc/aws/sqs/aws/access/key/id",
+    "/core/ipc/aws/sqs/aws/secret/access/key",
+    "/core/ipc/sink/strategy",
+    "/core/ipc/sink/initialsleeptime",
+    "/core/ipc/sink/kafka/bootstrap/servers",
+    "/core/ipc/sink/kafka/group/id",
+    "/core/ipc/aws/sqs/sink/delayseconds",
+    "/core/ipc/aws/sqs/sink/maximummessagesize",
+    "/core/ipc/aws/sqs/sink/messageretentionperiod",
+    "/core/ipc/aws/sqs/sink/receivemessagewaittimeseconds",
+    "/core/ipc/aws/sqs/sink/visibilitytimeout",
+    "/core/ipc/aws/sqs/sink/policy",
+    "/core/ipc/aws/sqs/sink/redrivepolicy",
+    "/core/ipc/aws/sqs/sink/kmsmasterkeyid",
+    "/core/ipc/aws/sqs/sink/kmsdatakeyreuseperiodseconds",
+    "/core/ipc/aws/sqs/sink/fifoqueue",
+    "/core/ipc/aws/sqs/sink/contentbaseddeduplication"
+]

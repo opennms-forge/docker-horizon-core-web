@@ -1,0 +1,7 @@
+[template]
+src = "opennms.properties.d/utils.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/utils.properties"
+keys = [
+    "/utils/propertiescache/enablecheckfilemodified",
+    "/utils/propertiescache/cachetimeout"
+]
