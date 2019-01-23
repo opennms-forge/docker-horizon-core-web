@@ -213,6 +213,7 @@ while getopts "fhisnct" flag; do
       exit
       ;;
     t)
+      applyOverlayConfig
       testConfig "${@}"
       exit
       ;;
