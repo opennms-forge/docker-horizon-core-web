@@ -112,6 +112,10 @@ jobs:
                 docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:bleeding
                 docker push ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:bleeding
                 ;;
+              release/24.0.0-rc)
+                docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:${DOCKERHUB_TAG}
+                docker push ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:${DOCKERHUB_TAG}
+                ;;
               release*)
                 docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:latest
                 docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:${DOCKERHUB_TAG}
@@ -148,6 +152,7 @@ workflows:
             branches:
               only:
                 - master
+                - release/24.0.0-rc
     jobs:
       - shellcheck
       - build_docker_image:
@@ -158,5 +163,6 @@ workflows:
             branches:
               only:
                 - master
+                - release/24.0.0-rc
           requires:
             - build_docker_image
