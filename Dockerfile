@@ -2,7 +2,7 @@ FROM opennms/openjdk:latest
 
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
-ARG OPENNMS_VERSION=stable
+ARG OPENNMS_VERSION="branches/release-24.0.0"
 ARG MIRROR_HOST=yum.opennms.org
 
 ENV OPENNMS_KARAF_SSH_HOST 0.0.0.0
