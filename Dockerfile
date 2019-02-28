@@ -2,7 +2,7 @@ FROM opennms/openjdk:latest
 
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
-ARG OPENNMS_VERSION=develop
+ARG OPENNMS_VERSION=branches/release-24.0.0
 ARG MIRROR_HOST=yum.opennms.org
 
 ENV OPENNMS_KARAF_SSH_HOST 0.0.0.0
@@ -30,19 +30,32 @@ RUN yum -y --setopt=tsflags=nodocs update && \
            /var/opennms/reports && \
     mkdir -p /opennms-data/logs \
              /opennms-data/rrd \
-             /opennms-data/reports && \
+             /opennms-data/mibs \
+             /opennms-data/reports \
+             /opt/opennms-etc-overlay \
+             /opt/opennms/assets && \
+    mv /var/opennms/mibs/compiled /opennms-data/mibs/ && \
+    rm -rf /var/opennms/mibs && \
     ln -s /opennms-data/logs /opt/opennms/logs && \
     ln -s /opennms-data/rrd /var/opennms/rrd && \
-    ln -s /opennms-data/reports /var/opennms/reports
+    ln -s /opennms-data/mibs /var/opennms/mibs && \
+    ln -s /opennms-data/reports /var/opennms/reports && \
+    mkdir -p /var/opennms/data-pristine && \
+    cp -r /opennms-data/* /var/opennms/data-pristine/ && \
+    sed -r -i '/RUNAS/s/root/opennms/' /opt/opennms/bin/opennms && \
+    sed -r -i '/RUNAS/s/root/opennms/' /opt/opennms/bin/install && \
+    sed -r -i '/RUNAS/s/root/opennms/' /opt/opennms/bin/upgrade && \
+    sed -r -i 's/"162"/"1162"/' /opt/opennms/etc/trapd-configuration.xml && \
+    groupadd -r opennms && useradd -r -g opennms -d /opt/opennms opennms && \
+    chown opennms:opennms -R /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
+    chgrp -R 0 /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
+    chmod -R g=u /opt/opennms /opennms-data /opt/opennms-etc-overlay
 
-COPY ./assets/opennms-datasources.xml.tpl /root
-COPY ./assets/org.apache.karaf.shell.cfg.tpl /root
-COPY ./assets/newts.properties.tpl /root
+COPY ./assets/opennms-datasources.xml.tpl /opt/opennms/assets
+COPY ./assets/org.apache.karaf.shell.cfg.tpl /opt/opennms/assets
+COPY ./assets/newts.properties.tpl /opt/opennms/assets
 
 COPY ./docker-entrypoint.sh /
-
-## Volumes for storing data outside of the container
-VOLUME [ "/opt/opennms/etc", "/opt/opennms-etc-overlay", "/opennms-data" ]
 
 LABEL license="AGPLv3" \
       org.opennms.horizon.version="${OPENNMS_VERSION}" \
@@ -50,10 +63,11 @@ LABEL license="AGPLv3" \
       name="Horizon"
 
 WORKDIR /opt/opennms
+USER 999
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
-CMD [ "-h" ]
+CMD [ "-f" ]
 
 ##------------------------------------------------------------------------------
 ## EXPOSED PORTS
@@ -64,6 +78,6 @@ CMD [ "-h" ]
 ## -- OpenNMS KARAF SSH   8101/TCP
 ## -- OpenNMS MQ         61616/TCP
 ## -- OpenNMS Eventd      5817/TCP
-## -- SNMP Trapd           162/UDP
-## -- Syslog Receiver      514/UDP
-EXPOSE 8980 18980 1099 8101 61616 5817 162/udp 514/udp
+## -- SNMP Trapd          1162/UDP
+## -- Syslog Receiver    10514/UDP
+EXPOSE 8980 1162
