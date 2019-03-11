@@ -2,7 +2,7 @@ FROM opennms/openjdk:latest
 
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
-ARG OPENNMS_VERSION=branches/release-24.0.0
+ARG OPENNMS_VERSION=develop
 ARG MIRROR_HOST=yum.opennms.org
 ARG UID=10001
 
