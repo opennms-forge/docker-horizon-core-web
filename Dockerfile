@@ -4,6 +4,7 @@ LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
 ARG OPENNMS_VERSION=branches/release-24.0.0
 ARG MIRROR_HOST=yum.opennms.org
+ARG UID=10001
 
 ENV OPENNMS_KARAF_SSH_HOST 0.0.0.0
 ENV OPENNMS_KARAF_SSH_PORT 8101
@@ -46,7 +47,7 @@ RUN yum -y --setopt=tsflags=nodocs update && \
     sed -r -i '/RUNAS/s/root/opennms/' /opt/opennms/bin/install && \
     sed -r -i '/RUNAS/s/root/opennms/' /opt/opennms/bin/upgrade && \
     sed -r -i 's/"162"/"1162"/' /opt/opennms/etc/trapd-configuration.xml && \
-    groupadd -r opennms && useradd -r -g opennms -d /opt/opennms opennms && \
+    groupadd -g ${UID} opennms && useradd -u ${UID} -g ${UID} -r -d /opt/opennms -s /usr/bin/bash opennms && \
     chown opennms:opennms -R /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
     chgrp -R 0 /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
     chmod -R g=u /opt/opennms /opennms-data /opt/opennms-etc-overlay
@@ -63,7 +64,7 @@ LABEL license="AGPLv3" \
       name="Horizon"
 
 WORKDIR /opt/opennms
-USER 999
+USER ${UID}
 
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
@@ -80,4 +81,4 @@ CMD [ "-f" ]
 ## -- OpenNMS Eventd      5817/TCP
 ## -- SNMP Trapd          1162/UDP
 ## -- Syslog Receiver    10514/UDP
-EXPOSE 8980 1162
+EXPOSE 8980 8101 1162

@@ -34,9 +34,9 @@ E_INIT_CONFIG=127
 
 # To avoid issues with OpenShift
 umask 002
-sed -i -r "/^myuser/s/=.*/=\$RUNAS/" $OPENNMS_HOME/bin/install
-sed -i -r "/^myuser/s/=.*/=\$RUNAS/" $OPENNMS_HOME/bin/upgrade
-sed -i -r "/^myuser/s/=.*/=\$RUNAS/" $OPENNMS_HOME/bin/opennms
+sed -i -r "/^myuser/s/=.*/=\$RUNAS/" ${OPENNMS_HOME}/bin/install
+sed -i -r "/^myuser/s/=.*/=\$RUNAS/" ${OPENNMS_HOME}/bin/upgrade
+sed -i -r "/^myuser/s/=.*/=\$RUNAS/" ${OPENNMS_HOME}/bin/opennms
 
 # Help function used in error messages and -h option
 usage() {
