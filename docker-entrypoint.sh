@@ -11,8 +11,9 @@
 # shellcheck disable=SC2086
 
 OPENNMS_HOME=/opt/opennms
+OPENNMS_DATA=/opennms-data
 
-OPENNMS_DATASOURCES_TPL=/root/opennms-datasources.xml.tpl
+OPENNMS_DATASOURCES_TPL=/opt/opennms/assets/opennms-datasources.xml.tpl
 OPENNMS_DATASOURCES_CFG=${OPENNMS_HOME}/etc/opennms-datasources.xml
 OPENNMS_OVERLAY=/opt/opennms-overlay
 OPENNMS_OVERLAY_ETC=/opt/opennms-etc-overlay
@@ -21,15 +22,18 @@ OPENNMS_OVERLAY_JETTY_WEBINF=/opt/opennms-jetty-webinf-overlay
 OPENNMS_UPGRADE_GUARD=${OPENNMS_HOME}/etc/do-upgrade
 OPENNMS_CONFIGURED_GUARD=${OPENNMS_HOME}/etc/configured
 
-OPENNMS_KARAF_TPL=/root/org.apache.karaf.shell.cfg.tpl
+OPENNMS_KARAF_TPL=/opt/opennms/assets/org.apache.karaf.shell.cfg.tpl
 OPENNMS_KARAF_CFG=${OPENNMS_HOME}/etc/org.apache.karaf.shell.cfg
 
-OPENNMS_NEWTS_TPL=/root/newts.properties.tpl
+OPENNMS_NEWTS_TPL=/opt/opennms/assets/newts.properties.tpl
 OPENNMS_NEWTS_PROPERTIES=${OPENNMS_HOME}/etc/opennms.properties.d/newts.properties
 
 # Error codes
 E_ILLEGAL_ARGS=126
 E_INIT_CONFIG=127
+
+# To avoid issues with OpenShift
+umask 002
 
 # Help function used in error messages and -h option
 usage() {
@@ -75,6 +79,11 @@ initConfig() {
   if [ ! "$(ls --ignore .git --ignore .gitignore --ignore ${OPENNMS_DATASOURCES_CFG} --ignore ${OPENNMS_KARAF_CFG} -A ${OPENNMS_HOME}/etc)"  ]; then
     echo "No existing configuration in ${OPENNMS_HOME}/etc found. Initialize from etc-pristine."
     cp -r ${OPENNMS_HOME}/share/etc-pristine/* ${OPENNMS_HOME}/etc/ || exit ${E_INIT_CONFIG}
+  fi
+
+  if [ ! "$(ls -A ${OPENNMS_DATA})"  ]; then
+    echo "No existing data in ${OPENNMS_DATA} found. Initializing."
+    cp -r ${OPENNMS_HOME}/share/data-pristine/* ${OPENNMS_DATA}/ || exit ${E_INIT_CONFIG}
   fi
 
   if [ ! -f ${OPENNMS_CONFIGURED_GUARD} ]; then
