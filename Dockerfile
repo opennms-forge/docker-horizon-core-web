@@ -33,6 +33,7 @@ RUN yum -y --setopt=tsflags=nodocs update && \
              /opennms-data/rrd \
              /opennms-data/mibs \
              /opennms-data/reports \
+             /opt/opennms-overlay \
              /opt/opennms-etc-overlay \
              /opt/opennms/assets && \
     mv /var/opennms/mibs/compiled /opennms-data/mibs/ && \
@@ -51,9 +52,9 @@ RUN yum -y --setopt=tsflags=nodocs update && \
     sed -r -i '/^myuser/s/=.*/=$RUNAS/' /opt/opennms/bin/upgrade && \
     sed -r -i '/^myuser/s/=.*/=$RUNAS/' /opt/opennms/bin/opennms && \
     groupadd -g ${UID} opennms && useradd -u ${UID} -g ${UID} -r -d /opt/opennms -s /usr/bin/bash opennms && \
-    chown opennms:opennms -R /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
-    chgrp -R 0 /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
-    chmod -R g=u /opt/opennms /opennms-data /opt/opennms-etc-overlay
+    chown opennms:opennms -R /opt/opennms* /opennms-data && \
+    chgrp -R 0 /opt/opennms* /opennms-data && \
+    chmod -R g=u /opt/opennms* /opennms-data
 
 COPY ./assets/opennms-datasources.xml.tpl /opt/opennms/assets
 COPY ./assets/org.apache.karaf.shell.cfg.tpl /opt/opennms/assets
