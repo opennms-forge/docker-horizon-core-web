@@ -49,6 +49,4 @@ PACKAGES="${PACKAGES}
 ONMS_PACKAGES="opennms-core
                opennms-webapp-jetty
                opennms-webapp-hawtio
-               opennms-webapp-remoting
-               opennms-plugin-protocol-cifs
-               opennms-plugin-protocol-radius"
+               opennms-plugin-protocol-cifs"

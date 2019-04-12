@@ -56,7 +56,7 @@ WORKDIR /opt/opennms
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
-USER 10001
+USER root
 
 STOPSIGNAL SIGTERM
 
