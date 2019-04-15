@@ -40,9 +40,9 @@ RUN curl -L ${CONFD_URL} -o /usr/bin/confd && \
     groupadd -g 10001 opennms && \
     useradd -u 10001 -g 10001 -r -d /opt/opennms -s /usr/bin/bash opennms && \
     chmod 0775 /opt/opennms "${OPENNMS_OVERLAY}" /entrypoint.sh && \
-    chown opennms:opennms -R /opt/opennms "${OPENNMS_OVERLAY}" && \
-    chgrp -R 0 /opt/opennms "${OPENNMS_OVERLAY}" && \
-    chmod -R g=u /opt/opennms "${OPENNMS_OVERLAY}"
+    chown opennms:opennms -R /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
+    chgrp -R 0 /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
+    chmod -R g=u /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}"
 
 LABEL maintainer="The OpenNMS Group" \
       license="AGPLv3" \
