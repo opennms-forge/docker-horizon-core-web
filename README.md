@@ -68,7 +68,7 @@ The image is created with the tag `horizon-core-web:latest` and also persisted i
 
 ### Run OpenNMS Horizon with Docker Compose
 
-A OpenNMS Horizon requirese minimal a running PostgreSQL service.
+A OpenNMS Horizon minimally requires a running PostgreSQL service.
 Applications like Grafana, Elasticsearch or Kafka are optional and depend on your setup and use cases, e.g. processing network flows or having a scalable time series storage with Newts based on Cassandra.
 
 It is recommended to run a application stack with `docker-compose`.
@@ -165,7 +165,7 @@ export NEWTS_CONFIG_KEYSPACE=newts
 
 You can extend the existing configuration as you need it by bind-mounting additional template and resource files in `/etc/confd`.
 
-If you want to use a different _confd_ backend like you can set the `CONFD_BACKEND` variable which is when unset by default `env`.
+If you want to use a different _confd_ backend you can set the `CONFD_BACKEND` variable which is set by default to `env`.
 
 ### Injecting files with bind-mounts
 
