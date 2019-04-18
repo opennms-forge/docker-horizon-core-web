@@ -1,21 +1,21 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-{{if exists "/heatmap/defaultmode"}}
-org.opennms.heatmap.defaultMode={{getv "/heatmap/defaultmode"}}
+{{if exists "/heatmap/default/mode"}}
+org.opennms.heatmap.defaultMode={{getv "/heatmap/default/mode"}}
 {{end}}
-{{if exists "/heatmap/defaultheatmap"}}
-org.opennms.heatmap.defaultHeatmap={{getv "/heatmap/defaultheatmap"}}
+{{if exists "/heatmap/default/heatmap"}}
+org.opennms.heatmap.defaultHeatmap={{getv "/heatmap/default/heatmap"}}
 {{end}}
-{{if exists "/heatmap/categoryfilter"}}
-org.opennms.heatmap.categoryFilter={{getv "/heatmap/categoryfilter"}}
+{{if exists "/heatmap/category/filter"}}
+org.opennms.heatmap.categoryFilter={{getv "/heatmap/category/filter"}}
 {{end}}
-{{if exists "/heatmap/foreignsourcefilter"}}
-org.opennms.heatmap.foreignSourceFilter={{getv "/heatmap/foreignsourcefilter"}}
+{{if exists "/heatmap/foreignsource/filter"}}
+org.opennms.heatmap.foreignSourceFilter={{getv "/heatmap/foreignsource/filter"}}
 {{end}}
-{{if exists "/heatmap/servicefilter"}}
-org.opennms.heatmap.serviceFilter={{getv "/heatmap/servicefilter"}}
+{{if exists "/heatmap/service/filter"}}
+org.opennms.heatmap.serviceFilter={{getv "/heatmap/service/filter"}}
 {{end}}
-{{if exists "/heatmap/onlyunacknowledged"}}
-org.opennms.heatmap.onlyUnacknowledged={{getv ""}}
+{{if exists "/heatmap/only/unacknowledged"}}
+org.opennms.heatmap.onlyUnacknowledged={{getv "/heatmap/only/unacknowledged"}}
 {{end}}

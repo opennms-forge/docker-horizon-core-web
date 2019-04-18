@@ -1,5 +1,5 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-org.opennms.utils.propertiesCache.enableCheckFileModified={{getv "/utils/propertiescache/enablecheckfilemodified" "false"}}
-org.opennms.utils.propertiesCache.cacheTimeout={{getv "/utils/propertiescache/cachetimeout" "3600"}}
+org.opennms.utils.propertiesCache.enableCheckFileModified={{getv "/utils/propertiescache/enable/check/file/modified" "false"}}
+org.opennms.utils.propertiesCache.cacheTimeout={{getv "/utils/propertiescache/cache/timeout" "3600"}}

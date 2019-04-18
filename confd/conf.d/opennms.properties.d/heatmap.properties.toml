@@ -2,10 +2,10 @@
 src = "opennms.properties.d/heatmap.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/heatmap.properties"
 keys = [
-    "/heatmap/defaultmode",
-    "/heatmap/defaultheatmap",
-    "/heatmap/categoryfilter",
-    "/heatmap/foreignsourcefilter",
-    "/heatmap/servicefilter",
-    "/heatmap/onlyunacknowledged"
+    "/heatmap/default/mode",
+    "/heatmap/default/heatmap",
+    "/heatmap/category/filter",
+    "/heatmap/foreignsource/filter",
+    "/heatmap/service/filter",
+    "/heatmap/only/unacknowledged"
 ]

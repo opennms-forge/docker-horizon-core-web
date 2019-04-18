@@ -16,9 +16,9 @@ org.opennms.activemq.broker.username={{getv "/activemq/broker/username"}}
 {{if exists "/activemq/broker/password"}}
 org.opennms.activemq.broker.password={{getv "/activemq/broker/password"}}
 {{end}}
-{{if exists "/activemq/client/max-connections"}}
-org.opennms.activemq.client.max-connections={{getv "/activemq/client/max-connections"}}
+{{if exists "/activemq/client/max/connections"}}
+org.opennms.activemq.client.max-connections={{getv "/activemq/client/max/connections"}}
 {{end}}
-{{if exists "/activemq/client/concurrent-consumers"}}
-org.opennms.activemq.client.concurrent-consumers={{getv "/activemq/client/concurrent-consumers"}}
+{{if exists "/activemq/client/concurrent/consumers"}}
+org.opennms.activemq.client.concurrent-consumers={{getv "/activemq/client/concurrent/consumers"}}
 {{end}}

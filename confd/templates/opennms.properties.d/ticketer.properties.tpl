@@ -1,17 +1,17 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-opennms.ticketer.servicelayer={{getv "/ticketer/servicelayer" "org.opennms.netmgt.ticketd.DefaultTicketerServiceLayer"}}
+opennms.ticketer.servicelayer={{getv "/ticketer/service/layer" "org.opennms.netmgt.ticketd.DefaultTicketerServiceLayer"}}
 opennms.ticketer.plugin={{getv "/ticketer/plugin" "org.opennms.netmgt.ticketd.NullTicketerPlugin"}}
-{{if exists "/alarmtroubleticketlinktemplate"}}
-opennms.alarmTroubleTicketLinkTemplate={{getv "/alarmtroubleticketlinktemplate"}}
+{{if exists "/alarm/trouble/ticket/link/template"}}
+opennms.alarmTroubleTicketLinkTemplate={{getv "/alarm/trouble/ticket/link/template"}}
 {{end}}
-{{if exists "/alarmtroubleticketenabled"}}
-opennms.alarmTroubleTicketEnabled={{getv "/alarmtroubleticketenabled"}}
+{{if exists "/alarm/trouble/ticket/enabled"}}
+opennms.alarmTroubleTicketEnabled={{getv "/alarm/trouble/ticket/enabled"}}
 {{end}}
-{{if exists "/ticketer/skipcreatewhencleared"}}
-opennms.ticketer.skipCreateWhenCleared={{getv "/ticketer/skipcreatewhencleared"}}
+{{if exists "/ticketer/skip/create/when/cleared"}}
+opennms.ticketer.skipCreateWhenCleared={{getv "/ticketer/skip/create/when/cleared"}}
 {{end}}
-{{if exists "/ticketer/skipclosewhenmotcleared"}}
-opennms.ticketer.skipCloseWhenNotCleared={{getv "/ticketer/skipclosewhenmotcleared"}}
+{{if exists "/ticketer/skip/close/when/not/cleared"}}
+opennms.ticketer.skipCloseWhenNotCleared={{getv "/ticketer/skip/close/when/not/cleared"}}
 {{end}}

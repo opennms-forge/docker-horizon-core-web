@@ -22,12 +22,12 @@ org.opennms.grafanaBox.tag={{getv "/grafanabox/tag"}}
 {{if exists "/grafanabox/protocol"}}
 org.opennms.grafanaBox.protocol={{getv "/grafanabox/protocol"}}
 {{end}}
-{{if exists "/grafanabox/connectiontimeout"}}
-org.opennms.grafanaBox.connectionTimeout={{getv "/grafanabox/connectiontimeout"}}
+{{if exists "/grafanabox/connection/timeout"}}
+org.opennms.grafanaBox.connectionTimeout={{getv "/grafanabox/connection/timeout"}}
 {{end}}
-{{if exists "/grafanabox/sotimeout"}}
-org.opennms.grafanaBox.soTimeout={{getv "/grafanabox/sotimeout"}}
+{{if exists "/grafanabox/socket/timeout"}}
+org.opennms.grafanaBox.soTimeout={{getv "/grafanabox/socket/timeout"}}
 {{end}}
-{{if exists "/grafanabox/dashboardlimit"}}
-org.opennms.grafanaBox.dashboardLimit={{getv "/grafanabox/dashboardlimit"}}
+{{if exists "/grafanabox/dashboard/limit"}}
+org.opennms.grafanaBox.dashboardLimit={{getv "/grafanabox/dashboardl/imit"}}
 {{end}}

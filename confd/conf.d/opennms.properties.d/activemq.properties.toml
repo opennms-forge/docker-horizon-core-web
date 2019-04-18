@@ -7,6 +7,6 @@ keys = [
     "/activemq/broker/url",
     "/activemq/broker/username",
     "/activemq/broker/password",
-    "/activemq/client/max-connections",
-    "/activemq/client/concurrent-consumers"
+    "/activemq/client/max/connections",
+    "/activemq/client/concurrent/consumers"
 ]

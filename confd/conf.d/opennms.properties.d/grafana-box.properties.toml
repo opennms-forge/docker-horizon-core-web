@@ -9,6 +9,7 @@ keys = [
     "/grafanabox/apikey",
     "/grafanabox/tag",
     "/grafanabox/protocol",
-    "/grafanabox/connectiontimeout",
-    "/grafanabox/dashboardlimit"
+    "/grafanabox/connection/timeout",
+    "/grafanabox/socket/timeout",
+    "/grafanabox/dashboard/limit"
 ]

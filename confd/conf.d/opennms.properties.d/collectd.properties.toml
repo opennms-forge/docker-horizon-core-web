@@ -2,9 +2,9 @@
 src = "opennms.properties.d/collectd.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/collectd.properties"
 keys = [
-    "/threshd/value/decimalformat",
-    "/datacollectionconfig/reloadcheckinterval",
-    "/collectd/instrumentationclass",
-    "/collectd/snmpcollector/forcerescan",
-    "/collectd/snmpcollector/limitcollectiontoinstances"
+    "/threshd/value/decimal/format",
+    "/data/collection/config/reload/check/interval",
+    "/collectd/instrumentation/class",
+    "/collectd/snmpcollector/force/rescan",
+    "/collectd/snmpcollector/limit/collection/to/instances"
 ]

@@ -3,6 +3,7 @@
 #
 ARG BASE_IMAGE="opennms/openjdk"
 ARG BASE_IMAGE_VERSION="11.0.2.7"
+ARG UID=10001
 
 FROM ${BASE_IMAGE}:${BASE_IMAGE_VERSION}
 
@@ -37,8 +38,8 @@ RUN curl -L ${CONFD_URL} -o /usr/bin/confd && \
     rm -rf /var/cache/yum && \
     rm -rf /tmp/rpms && \
     mkdir -p "${OPENNMS_OVERLAY}" && \
-    groupadd -g 10001 opennms && \
-    useradd -u 10001 -g 10001 -r -d /opt/opennms -s /usr/bin/bash opennms && \
+    groupadd -g ${UID} opennms && \
+    useradd -u ${UID} -g ${UID} -r -d /opt/opennms -s /usr/bin/bash opennms && \
     chmod 0775 /opt/opennms "${OPENNMS_OVERLAY}" /entrypoint.sh && \
     chown opennms:opennms -R /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
     chgrp -R 0 /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
@@ -56,7 +57,7 @@ WORKDIR /opt/opennms
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
-USER root
+USER ${UID}
 
 STOPSIGNAL SIGTERM
 

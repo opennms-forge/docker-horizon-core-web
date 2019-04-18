@@ -5,5 +5,5 @@ keys = [
     "/report/template/dir",
     "/report/dir",
     "/report/logo",
-    "/ksc/default/graphsperline"
+    "/ksc/default/graphs/per/line"
 ]

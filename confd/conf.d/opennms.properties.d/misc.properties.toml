@@ -2,13 +2,13 @@
 src = "opennms.properties.d/misc.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/misc.properties"
 keys = [
-    "/distributed/layoutapplicationsvertically",
+    "/distributed/layout/applications/vertically",
     "/opennms/bin/dir",
     "/java/awt/headless",
-    "/opennms/dao/ipinterface/findbyservicetype",
-    "/collectd/defaultcollectionagent/loadsnmpdataoninit",
-    "/interface-node-cache/refresh-timer",
-    "/osgi/bridge/restaliases",
-    "/excludeservicemonitorsfromremotepoller",
-    "/eventd/eventtemplatecachesize"
+    "/dao/ipinterface/findby/servicetype",
+    "/collectd/default/collection/agent/load/snmp/data/oninit",
+    "/interface/node/cache/refresh/timer",
+    "/osgi/bridge/rest/aliases",
+    "/exclude/service/monitors/from/remote/poller",
+    "/eventd/event/template/cache/size"
 ]

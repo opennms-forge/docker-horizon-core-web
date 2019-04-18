@@ -7,9 +7,9 @@ keys = [
     "/gwt/geocoder/class",
     "/gwt/geocoder/rate",
     "/gwt/geocoder/referer",
-    "/gwt/geocoder/minimumquality",
+    "/gwt/geocoder/minimum/quality",
     "/gwt/geocoder/email",
     "/gwt/openlayers/url",
     "/gwt/openlayers/options/attribution",
-    "/gwt/maxclusterradius"
+    "/gwt/max/cluster/radius"
 ]

@@ -2,5 +2,5 @@
 src = "opennms.properties.d/vmware.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/vmware.properties"
 keys = [
-    "/protocols/vmware/housekeepinginterval"
+    "/protocols/vmware/housekeeping/interval"
 ]

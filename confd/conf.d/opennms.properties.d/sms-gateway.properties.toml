@@ -2,6 +2,6 @@
 src = "opennms.properties.d/sms-gateway.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/sms-gateway.properties"
 keys = [
-    "/gnu/io/serialports",
+    "/gnu/io/serial/ports",
     "/smslib/serial/polling",
 ]

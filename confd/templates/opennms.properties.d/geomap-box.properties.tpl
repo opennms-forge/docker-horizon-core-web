@@ -1,9 +1,9 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-{{if exists "/geomap/defaultstrategy"}}
-org.opennms.geomap.defaultStrategy={{getv "/geomap/defaultstrategy"}}
+{{if exists "/geomap/default/strategy"}}
+org.opennms.geomap.defaultStrategy={{getv "/geomap/default/strategy"}}
 {{end}}
-{{if exists "/geomap/defaultseverity"}}
-org.opennms.geomap.defaultSeverity={{getv "/geomap/defaultseverity"}}
+{{if exists "/geomap/default/severity"}}
+org.opennms.geomap.defaultSeverity={{getv "/geomap/default/severity"}}
 {{end}}

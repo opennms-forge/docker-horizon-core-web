@@ -2,35 +2,35 @@
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
 
-{{if exists "/provisiond/enablediscovery"}}
-org.opennms.provisiond.enableDiscovery={{getv "/provisiond/enablediscovery"}}
+{{if exists "/provisiond/enable/discovery"}}
+org.opennms.provisiond.enableDiscovery={{getv "/provisiond/enable/discovery"}}
 {{end}}
-{{if exists "/provisiond/schedulerescanforexistingnodes"}}
-org.opennms.provisiond.scheduleRescanForExistingNodes={{getv "/provisiond/schedulerescanforexistingnodes"}}
+{{if exists "/provisiond/schedule/rescan/for/existing/nodes"}}
+org.opennms.provisiond.scheduleRescanForExistingNodes={{getv "/provisiond/schedule/rescan/for/existing/nodes"}}
 {{end}}
-{{if exists "/provisiond/schedulerescanforupdatednodes"}}
-org.opennms.provisiond.scheduleRescanForUpdatedNodes={{getv "/provisiond/schedulerescanforupdatednodes"}}
+{{if exists "/provisiond/schedule/rescan/for/updated/nodes"}}
+org.opennms.provisiond.scheduleRescanForUpdatedNodes={{getv "/provisiond/schedule/rescan/for/updated/nodes"}}
 {{end}}
-{{if exists "/provisiond/repositoryimplementation"}}
-org.opennms.provisiond.repositoryImplementation={{getv "/provisiond/repositoryimplementation"}}
+{{if exists "/provisiond/repository/implementation"}}
+org.opennms.provisiond.repositoryImplementation={{getv "/provisiond/repository/implementation"}}
 {{end}}
-{{if exists "/provisiond/resolvemissingcoordinatesfromaddressstring"}}
-org.opennms.provisiond.resolveMissingCoordinatesFromAddressString={{getv "/provisiond/resolvemissingcoordinatesfromaddressstring"}}
+{{if exists "/provisiond/resolve/missing/coordinates/from/address/string"}}
+org.opennms.provisiond.resolveMissingCoordinatesFromAddressString={{getv "/provisiond/resolve/missing/coordinates/from/address/string"}}
 {{end}}
 {{if exists "/requisition/dir"}}
 importer.requisition.dir={{getv "/requisition/dir"}}
 {{end}}
-{{if exists "/importer/foreign-source/dir"}}
-importer.foreign-source.dir={{getv "/importer/foreign-source/dir"}}
+{{if exists "/importer/foreignsource/dir"}}
+importer.foreign-source.dir={{getv "/importer/foreignsource/dir"}}
 {{end}}
 {{if exists "/minion/provisioning"}}
 opennms.minion.provisioning={{getv "/minion/provisioning"}}
 {{end}}
-{{if exists "/minion/provisioning/foreignsourcepattern"}}
-opennms.minion.provisioning.foreignSourcePattern={{getv "/minion/provisioning/foreignsourcepattern"}}
+{{if exists "/minion/provisioning/foreignsource/pattern"}}
+opennms.minion.provisioning.foreignSourcePattern={{getv "/minion/provisioning/foreignsource/pattern"}}
 {{end}}
-{{if exists "/provision/maxconcurrentconnections"}}
-org.opennms.netmgt.provision.maxConcurrentConnections={{getv "/provision/maxconcurrentconnections"}}
+{{if exists "/provision/max/concurrent/connections"}}
+org.opennms.netmgt.provision.maxConcurrentConnections={{getv "/provision/max/concurrent/connections"}}
 {{end}}
 importer.adapter.dns.server={{getv "/importer/adapter/dns/server" "127.0.0.1"}}
 {{if exists "/importer/adapter/dns/level"}}

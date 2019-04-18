@@ -30,7 +30,7 @@
         <!-- By default, use the data/tmp/activemq directory for on-disk storage -->
         <property name="properties">
              <value>
-                 activemq.data=/opt/opennms/data/tmp/activemq
+                 activemq.data=/opt/data/tmp/activemq
              </value>
         </property>
     </bean>
@@ -47,14 +47,14 @@
               <authorizationMap>
                 <authorizationEntries>
                   <!-- Users in the admin role can read/write/create any queue/topic -->
-                  <authorizationEntry queue=">" read="{{getv "/opennms/activemq/authorizationentry/queue/read" "admin"}}" write="{{getv "/opennms/activemq/authorizationentry/queue/write" "admin"}}" admin="{{getv "/opennms/activemq/authorizationentry/queue/admin" "admin"}}" />
-                  <authorizationEntry topic=">" read="{{getv "/opennms/activemq/authorizationentry/topic/read" "admin"}}" write="{{getv "/opennms/activemq/authorizationentry/topic/write" "admin"}}" admin="{{getv "/opennms/activemq/authorizationentry/topic/admin" "admin"}}" />
+                  <authorizationEntry queue=">" read="{{getv "/activemq/authorizationentry/queue/read" "admin"}}" write="{{getv "/activemq/authorizationentry/queue/write" "admin"}}" admin="{{getv "/activemq/authorizationentry/queue/admin" "admin"}}" />
+                  <authorizationEntry topic=">" read="{{getv "/activemq/authorizationentry/topic/read" "admin"}}" write="{{getv "/activemq/authorizationentry/topic/write" "admin"}}" admin="{{getv "/activemq/authorizationentry/topic/admin" "admin"}}" />
                   <!-- Users in the minion role can write/create queues that are not keyed by location -->
-                  <authorizationEntry queue="OpenNMS.*.*" write="{{getv "/opennms/activemq/authorizationentry/queue/opennms/write" "minion"}}" admin="{{getv "/opennms/activemq/authorizationentry/queue/opennms/admin" "minion"}}" />
+                  <authorizationEntry queue="{{getv "/activemq/authorizationentry/queue/prefix" "OpenNMS"}}.*.*" write="{{getv "/activemq/authorizationentry/queue/write" "minion"}}" admin="{{getv "/activemq/authorizationentry/queue/admin" "minion"}}" />
                   <!-- Users in the minion role can read/create from queues that are keyed by location -->
-                  <authorizationEntry queue="OpenNMS.*.*.*" read="{{getv "/opennms/activemq/authorizationentry/queue/opennms/read" "minion"}}" admin="{{getv "/opennms/activemq/authorizationentry/queue/opennms/admin" "minion"}}" />
+                  <authorizationEntry queue="{{getv "/activemq/authorizationentry/queue/prefix" "OpenNMS"}}.*.*.*" read="{{getv "/activemq/authorizationentry/queue/read" "minion"}}" admin="{{getv "/activemq/authorizationentry/queue/admin" "minion"}}" />
                   <!-- Users in the minion role can read/write/create advisory topics -->
-                  <authorizationEntry topic="ActiveMQ.Advisory.>" read="{{getv "/opennms/activemq/authorizationentry/topic/activemq/advisory/read" "minion"}}" write="{{getv "/opennms/activemq/authorizationentry/topic/activemq/advisory/write" "minion"}}" admin="{{getv "/opennms/activemq/authorizationentry/topic/activemq/advisory/admin" "minion"}}" />
+                  <authorizationEntry topic="ActiveMQ.Advisory.>" read="{{getv "/activemq/authorizationentry/topic/activemq/advisory/read" "minion"}}" write="{{getv "/activemq/authorizationentry/topic/activemq/advisory/write" "minion"}}" admin="{{getv "/activemq/authorizationentry/topic/activemq/advisory/admin" "minion"}}" />
                 </authorizationEntries>
                 <!-- Allow all users to read/write/create temporary destinations (by omitting a <tempDestinationAuthorizationEntry>) -->
               </authorizationMap>
@@ -145,13 +145,13 @@
         <systemUsage>
             <systemUsage>
                 <memoryUsage>
-                    <memoryUsage limit="{{getv "/opennms/activemq/systemusage/memoryusage" "20 mb"}}"/>
+                    <memoryUsage limit="{{getv "/activemq/system/usage/memory" "20 mb"}}"/>
                 </memoryUsage>
                 <storeUsage>
-                    <storeUsage limit="{{getv "/opennms/activemq/systemusage/storageusage" "1 gb"}}"/>
+                    <storeUsage limit="{{getv "/activemq/system/usage/storage" "1 gb"}}"/>
                 </storeUsage>
                 <tempUsage>
-                    <tempUsage limit="{{getv "/opennms/activemq/systemusage/tempusage" "100 mb"}}"/>
+                    <tempUsage limit="{{getv "/activemq/system/usage/temp" "100 mb"}}"/>
                 </tempUsage>
             </systemUsage>
         </systemUsage>
@@ -169,13 +169,12 @@
               WARNING: Access to port 61616 should be firewalled to prevent unauthorized injection
               of data into OpenNMS when this port is open.
             -->
-            <!-- <transportConnector name="openwire" uri="tcp://0.0.0.0:61616?useJmx=false&amp;maximumConnections=1000&amp;wireformat.maxFrameSize=104857600"/> -->
+            {{if or (and (exists "/activemq/broker/disable") (ne (getv "/activemq/broker/disable" "") ("true")))}}
+            <transportConnector name="openwire" uri="tcp://0.0.0.0:61616?useJmx=false&amp;maximumConnections=1000&amp;wireformat.maxFrameSize=104857600"/>
+            {{end}}
 
             <!-- Uncomment this line to allow localhost TCP connections (for testing purposes) -->
             <!-- <transportConnector name="openwire" uri="tcp://127.0.0.1:61616?useJmx=false&amp;maximumConnections=1000&amp;wireformat.maxFrameSize=104857600"/> -->
-            {{if exists "/opennms/activemq/transportconnectors/openwire/uri"}}
-            <transportConnector name="openwire" uri="{{getv "/opennms/activemq/transportconnectors/openwire/uri"}}/>
-            {{end}}
         </transportConnectors>
 
         <!-- destroy the spring context on shutdown to stop jetty -->
