@@ -19,6 +19,8 @@ fi
 # Create the rpms directory if its not existing
 if [ ! -d rpms ]; then
   mkdir rpms
+else
+  rm -rf rpms/*
 fi
 
 # PARSE URL
@@ -31,7 +33,8 @@ BUILD_ID=$(echo "${BUILD}" | awk -F'-' '{ print $NF }')
 RPM_VERSION=$(curl -s "${BAMBOO_HOST}/artifact/${PLAN_KEY}/shared/build-${BUILD_ID}/RPMs/" | grep -i opennms-core | sed -E 's/(.*>)(opennms-core-)(.*)\.noarch.rpm<\/a>.*/\3/g')
 
 RPMS_HORIZON=("opennms-core-${RPM_VERSION}.noarch.rpm"
-              "opennms-webapp-jetty-${RPM_VERSION}.noarch.rpm")
+              "opennms-webapp-jetty-${RPM_VERSION}.noarch.rpm"
+              "opennms-webapp-hawtio-${RPM_VERSION}.noarch.rpm")
 
 # Start Downloading
 
