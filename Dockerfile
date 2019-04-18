@@ -66,7 +66,6 @@ CMD [ "-h" ]
 
 ENV JAVA_MEM_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=512m"
 ENV JAVA_OPTS ""
-ENV CONFD_BACKEND="env"
 
 # Volumes for data which need to be persistent
 VOLUME [ "/opt/opennms-overlay", "/opt/opennms/etc", "/opt/opennms/share/rrd", "/opt/opennms/share/reports", "/opt/opennms/share/mibs" ]

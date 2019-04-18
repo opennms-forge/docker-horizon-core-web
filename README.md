@@ -165,7 +165,7 @@ export NEWTS_CONFIG_KEYSPACE=newts
 
 You can extend the existing configuration as you need it by bind-mounting additional template and resource files in `/etc/confd`.
 
-If you want to use a different _confd_ backend you can set the `CONFD_BACKEND` variable which is set by default to `env`.
+Similarly, you can use a different _confd_ backend by bind-mounting your settings to `/etc/confd/confd.toml`.
 
 ### Injecting files with bind-mounts
 

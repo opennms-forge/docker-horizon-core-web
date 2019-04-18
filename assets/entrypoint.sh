@@ -47,8 +47,8 @@ configTester() {
 }
 
 processConfdTemplates() {
-  echo "Processing confd templates using the backend ${CONFD_BACKEND}."
-  confd -onetime -backend "${CONFD_BACKEND}"
+  echo "Processing confd templates using /etc/confd/confd.toml"
+  confd -onetime
 }
 
 # Initialize configuration directory from etc-pristine when empty
