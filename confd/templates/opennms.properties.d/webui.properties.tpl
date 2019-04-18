@@ -1,21 +1,21 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-{{if exists "/ui/datetime/format"}}
+{{if exists "/ui/datetime/format" -}}
 org.opennms.ui.datetimeformat={{getv "/ui/datetime/format"}}
-{{end}}
-{{if exists "/ui/show/stacktrace"}}
+{{end -}}
+{{if exists "/ui/show/stacktrace" -}}
 org.opennms.ui.show_stacktrace={{getv "/ui/show/stacktrace"}}
-{{end}}
-{{if exists "/ui/topology/entity/cache/duration"}}
+{{end -}}
+{{if exists "/ui/topology/entity/cache/duration" -}}
 org.opennms.ui.topology-entity-cache-duration={{getv "/ui/topology/entity/cache/duration"}}
-{{end}}
-{{if exists "/assets/allow/html/fields"}}
+{{end -}}
+{{if exists "/assets/allow/html/fields" -}}
 opennms.assets.allowHtmlFields={{getv "/assets/allow/html/fields"}}
-{{end}}
-{{if exists "/web/acls/enabled"}}
+{{end -}}
+{{if exists "/web/acls/enabled" -}}
 org.opennms.web.aclsEnabled={{getv "/web/acls/enabled"}}
-{{end}}
+{{end -}}
 opennms.eventlist.acknowledge={{getv "/eventlist/acknowledge" "false"}}
 opennms.eventlist.showCount={{getv "/eventlist/show/count" "false"}}
 opennms.nodesWithOutages.count={{getv "/nodes/with/outages/count" "12"}}
@@ -36,6 +36,6 @@ opennms.alarmlist.sound.status={{getv "/alarmlist/sound/status" "off"}}
 opennms.alarmlist.unackflash={{getv "/alarmlist/unackflash" "false"}}
 org.opennms.jasperReportsVersion={{getv "/jasper/reports/version" "6.3.0"}}
 net.sf.jasperreports.chart.pie.ignore.duplicated.key={{getv "/jasper/reports/chart/pie/ignore/duplicated/key" "true"}}
-{{if exists "/statusbox/elements"}}
+{{if exists "/statusbox/elements" -}}
 org.opennms.statusbox.elements={{getv "/statusbox/elements" "business-services,nodes-by-alarms,nodes-by-outages"}}
-{{end}}
+{{end -}}
