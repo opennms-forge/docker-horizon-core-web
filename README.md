@@ -68,7 +68,7 @@ The image is created with the tag `horizon-core-web:latest` and also persisted i
 
 ### Run OpenNMS Horizon with Docker Compose
 
-A OpenNMS Horizon requirese minimal a running PostgreSQL service.
+A OpenNMS Horizon minimally requires a running PostgreSQL service.
 Applications like Grafana, Elasticsearch or Kafka are optional and depend on your setup and use cases, e.g. processing network flows or having a scalable time series storage with Newts based on Cassandra.
 
 It is recommended to run a application stack with `docker-compose`.
