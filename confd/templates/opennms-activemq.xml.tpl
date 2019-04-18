@@ -30,7 +30,7 @@
         <!-- By default, use the data/tmp/activemq directory for on-disk storage -->
         <property name="properties">
              <value>
-                 activemq.data=/opt/data/tmp/activemq
+                 activemq.data=${opennms.home}/data/tmp/activemq
              </value>
         </property>
     </bean>
