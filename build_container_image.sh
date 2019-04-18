@@ -6,6 +6,10 @@ source ./config.sh
 # shellcheck source=registry-config.sh
 source ./registry-config.sh
 
+if [ -d images ]; then
+  rm -rf mages/*
+fi
+
 docker build -t "${CONTAINER_PROJECT}" \
   --build-arg BUILD_DATE="${BUILD_DATE}" \
   --build-arg BASE_IMAGE="${BASE_IMAGE}" \
