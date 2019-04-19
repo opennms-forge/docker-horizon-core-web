@@ -7,9 +7,6 @@ java.awt.headless={{getv "/java/awt/headless" "true"}}
 {{if exists "/dao/ipinterface/findby/servicetype" -}}
 org.opennms.dao.ipinterface.findByServiceType={{getv "/dao/ipinterface/findby/servicetype"}}
 {{end -}}
-{{if exists "/collectd/default/collection/agent/load/snmp/data/oninit" -}}
-org.opennms.netmgt.collectd.DefaultCollectionAgent.loadSnmpDataOnInit={{getv "/collectd/default/collection/agent/load/snmp/data/oninit"}}
-{{end -}}
 {{if exists "/interface/node/cache/refresh/timer" -}}
 org.opennms.interface-node-cache.refresh-timer={{getv "/interface/node/cache/refresh/timer"}}
 {{end -}}

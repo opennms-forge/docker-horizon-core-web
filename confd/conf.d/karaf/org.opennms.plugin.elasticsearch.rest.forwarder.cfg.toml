@@ -2,36 +2,5 @@
 src = "karaf/org.opennms.plugin.elasticsearch.rest.forwarder.cfg.tpl"
 dest = "/opt/opennms/etc/org.opennms.plugin.elasticsearch.rest.forwarder.cfg"
 keys = [
-    "/plugin/elasticsearch/rest/forwarder/elasticurl",
-    "/plugin/elasticsearch/rest/forwarder/globa/lelasticuser",
-    "/plugin/elasticsearch/rest/forwarder/global/elasticpassword",
-    "/plugin/elasticsearch/rest/forwarder/elastic/index/strategy",
-    "/plugin/elasticsearch/rest/forwarder/default/max/total/connection/per/route",
-    "/plugin/elasticsearch/rest/forwarder/max/total/connection",
-    "/plugin/elasticsearch/rest/forwarder/node/discovery",
-    "/plugin/elasticsearch/rest/forwarder/node/discovery/frequency",
-    "/plugin/elasticsearch/rest/forwarder/proxy",
-    "/plugin/elasticsearch/rest/forwarder/retry/cooldown",
-    "/plugin/elasticsearch/rest/forwarder/conntimeout",
-    "/plugin/elasticsearch/rest/forwarder/readtimeout",
-    "/plugin/elasticsearch/rest/forwarder/retries",
-    "/plugin/elasticsearch/rest/forwarder/batch/size",
-    "/plugin/elasticsearch/rest/forwarder/batch/interval",
-    "/plugin/elasticsearch/rest/forwarder/threads",
-    "/plugin/elasticsearch/rest/forwarder/cache/maxttl",
-    "/plugin/elasticsearch/rest/forwarder/cache/maxsize",
-    "/plugin/elasticsearch/rest/forwarder/log/event/description",
-    "/plugin/elasticsearch/rest/forwarder/local/levents",
-    "/plugin/elasticsearch/rest/forwarder/archive/raw/events",
-    "/plugin/elasticsearch/rest/forwarder/archive/alarms",
-    "/plugin/elasticsearch/rest/forwarder/archive/alarm/change/events",
-    "/plugin/elasticsearch/rest/forwarder/archive/old/alarm/values",
-    "/plugin/elasticsearch/rest/forwarder/archive/new/alarm/values",
-    "/plugin/elasticsearch/rest/forwarder/archive/asset/data",
-    "/plugin/elasticsearch/rest/forwarder/group/oid/parameters",
-    "/plugin/elasticsearch/rest/forwarder/bulkr/etry/count",
-    "/plugin/elasticsearch/rest/forwarder/settings/index/number/of/shards",
-    "/plugin/elasticsearch/rest/forwarder/settings/index/number/of/replicas",
-    "/plugin/elasticsearch/rest/forwarder/settings/index/refresh/interval",
-    "/plugin/elasticsearch/rest/forwarder/settings/index/routing/partition/size"
+    "/plugin/elasticsearch/rest/forwarder"
 ]

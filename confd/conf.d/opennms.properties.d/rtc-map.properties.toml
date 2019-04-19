@@ -1,6 +1,6 @@
 [template]
-src = "opennms.properties.d/rtc-map.ipc.properties.tpl"
-dest = "/opt/opennms/etc/opennms.properties.d/rtc-map.ipc.properties"
+src = "opennms.properties.d/rtc-map.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/rtc-map.properties"
 keys = [
     "/rtc/event/proxy/host",
     "/rtc/event/proxy/port",

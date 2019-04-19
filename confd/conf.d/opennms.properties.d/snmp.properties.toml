@@ -2,12 +2,6 @@
 src = "opennms.properties.d/snmp.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/snmp.properties"
 keys = [
-    "/snmp/strategy/class",
-    "/snmp/workarounds/allow/64bit/ipaddress",
-    "/snmp/workarounds/allow/zero/length/ipaddress",
-    "/snmp4j/smi/syntaxes",
-    "/snmp4j/forward/runtime/exceptions",
-    "/snmp4j/log/log4j/logfactory",
-    "/snmp4j/no/getbulk",
-    "/snmp4j/allow/snmpv2/in/v1"
+    "/snmp",
+    "/snmp4j"
 ]

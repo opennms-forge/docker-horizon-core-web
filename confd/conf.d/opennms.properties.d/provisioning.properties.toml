@@ -2,17 +2,9 @@
 src = "opennms.properties.d/provisioning.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/provisioning.properties"
 keys = [
-    "/provisiond/enable/discovery",
-    "/provisiond/schedule/rescan/for/existing/nodes",
-    "/provisiond/schedule/rescan/for/updated/nodes",
-    "/provisiond/repository/implementation",
-    "/provisiond/resolve/missing/coordinates/from/address/string",
-    "/requisition/dir",
-    "/importer/foreignsource/dir",
+    "/importer",
     "/minion/provisioning",
-    "/minion/provisioning/foreignsource/pattern",
-    "/provision/max/concurrent/connections",
-    "/importer/adapter/dns/server",
-    "/importer/adapter/dns/level",
-    "/importer/adapter/dns/reverse/level"
+    "/provision",
+    "/provisiond",
+    "/requisition/dir"
 ]

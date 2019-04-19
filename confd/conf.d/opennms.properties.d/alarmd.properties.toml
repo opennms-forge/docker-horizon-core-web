@@ -2,6 +2,5 @@
 src = "opennms.properties.d/alarmd.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/alarmd.properties"
 keys = [
-    "/alarmd/new/if/cleared/alarm/exists",
-    "/alarmd/legacy/alarm/state"
+    "/alarmd"
 ]

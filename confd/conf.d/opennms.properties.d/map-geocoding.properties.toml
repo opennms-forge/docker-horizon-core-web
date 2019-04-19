@@ -2,14 +2,9 @@
 src = "opennms.properties.d/map-geocoding.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/map-geocoding.properties"
 keys = [
-    "/gwt/maptype",
     "/gwt/apikey",
-    "/gwt/geocoder/class",
-    "/gwt/geocoder/rate",
-    "/gwt/geocoder/referer",
-    "/gwt/geocoder/minimum/quality",
-    "/gwt/geocoder/email",
-    "/gwt/openlayers/url",
-    "/gwt/openlayers/options/attribution",
-    "/gwt/max/cluster/radius"
+    "/gwt/geocoder",
+    "/gwt/maptype",
+    "/gwt/max/cluster/radius",
+    "/gwt/openlayers"
 ]

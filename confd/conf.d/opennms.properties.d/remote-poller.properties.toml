@@ -2,8 +2,6 @@
 src = "opennms.properties.d/remote-poller.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/remote-poller.properties"
 keys = [
-    "/poller/backend/minimum/configuration/reload/interval",
-    "/poller/backend/disconnected/timeout",
-    "/poller/server/server/port",
-    "/poller/server/registry/port"
+    "/poller/backend",
+    "/poller/server"
 ]

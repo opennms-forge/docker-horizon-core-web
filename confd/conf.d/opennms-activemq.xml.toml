@@ -2,23 +2,7 @@
 src = "opennms-activemq.xml.tpl"
 dest = "/opt/opennms/etc/opennms-activemq.xml"
 keys = [
-    "/activemq/authorizationentry/queue/read",
-    "/activemq/authorizationentry/queue/write",
-    "/activemq/authorizationentry/queue/admin",
-    "/activemq/authorizationentry/topic/read",
-    "/activemq/authorizationentry/topic/write",
-    "/activemq/authorizationentry/topic/admin",
-    "/activemq/authorizationentry/queue/opennms/prefix",
-    "/activemq/authorizationentry/queue/opennms/read",
-    "/activemq/authorizationentry/queue/opennms/write",
-    "/activemq/authorizationentry/queue/opennms/admin",
-    "/activemq/authorizationentry/topic/activemq/advisory/read",
-    "/activemq/authorizationentry/topic/activemq/advisory/write",
-    "/activemq/authorizationentry/topic/activemq/advisory/admin",
-    "/activemq/system/usage/memory",
-    "/activemq/system/usage/storage",
-    "/activemq/system/usage/temp",
-    "/activemq/broker/disable"
+    "/activemq"
 ]
 
 

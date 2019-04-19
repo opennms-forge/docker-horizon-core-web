@@ -1,0 +1,6 @@
+[template]
+src = "opennms.properties.d/core.ipc.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/core.ipc.properties"
+keys = [
+    "/core/ipc"
+]

@@ -2,6 +2,5 @@
 src = "opennms.properties.d/utils.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/utils.properties"
 keys = [
-    "/utils/propertiescache/enable/check/file/modified",
-    "/utils/propertiescache/cache/timeout"
+    "/utils/propertiescache"
 ]

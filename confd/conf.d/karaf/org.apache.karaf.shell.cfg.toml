@@ -2,8 +2,5 @@
 src = "karaf/org.apache.karaf.shell.cfg.tpl"
 dest = "/opt/opennms/etc/org.apache.karaf.shell.cfg"
 keys = [
-    "/karaf/shell/ssh/port",
-    "/karaf/shell/ssh/host",
-    "/karaf/shell/ssh/realm",
-    "/karaf/shell/hostkey"
+    "/karaf/shell"
 ]

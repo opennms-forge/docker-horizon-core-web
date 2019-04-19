@@ -2,10 +2,6 @@
 src = "opennms.properties.d/ticketer.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/ticketer.properties"
 keys = [
-    "/ticketer/service/layer",
-    "/ticketer/plugin",
-    "/alarm/trouble/ticket/link/template",
-    "/alarm/trouble/ticke/enabled",
-    "/ticketer/skip/create/when/cleared",
-    "/ticketer/skip/close/when/not/cleared"
+    "/ticketer",
+    "/alarm/trouble/ticket"
 ]
