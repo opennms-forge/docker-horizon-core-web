@@ -8,6 +8,7 @@ FROM ${BASE_IMAGE}:${BASE_IMAGE_VERSION}
 
 ARG VERSION=${BASE_IMAGE_VERSION}
 ARG BUILD_DATE="1970-01-01T00:00:00+0000"
+ARG ONMS_UID=10001
 
 ARG PACKAGES="wget gettext"
 ARG CONFD_VERSION="0.16.0"
@@ -40,8 +41,8 @@ RUN setcap cap_net_raw+ep ${JAVA_HOME}/bin/java && \
     rm -rf /var/cache/yum && \
     rm -rf /tmp/rpms && \
     mkdir -p "${OPENNMS_OVERLAY}" && \
-    groupadd opennms && \
-    useradd -g opennms -r -d /opt/opennms -s /bin/bash opennms && \
+    groupadd -g ${ONMS_UID} opennms && \
+    useradd -u ${ONMS_UID} -g ${ONMS_UID} -r -d /opt/opennms -s /bin/bash opennms && \
     chmod 0775 /opt/opennms "${OPENNMS_OVERLAY}" /entrypoint.sh && \
     chown opennms:opennms -R /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
     chgrp -R 0 /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
@@ -59,7 +60,7 @@ WORKDIR /opt/opennms
 
 ENTRYPOINT [ "/entrypoint.sh" ]
 
-USER opennms
+USER ${ONMS_UID}
 
 STOPSIGNAL SIGTERM
 
