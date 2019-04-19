@@ -4,7 +4,3 @@ dest = "/opt/opennms/etc/opennms-activemq.xml"
 keys = [
     "/activemq"
 ]
-
-
-
-

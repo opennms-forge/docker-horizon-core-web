@@ -2,6 +2,6 @@
 src = "opennms.properties.d/reporting.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/reporting.properties"
 keys = [
-    "/report",
-    "/ksc"
+    "/ksc",
+    "/report"
 ]

@@ -2,13 +2,7 @@
 src = "opennms.properties.d/rtc-map.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/rtc-map.properties"
 keys = [
-    "/rtc/event/proxy/host",
-    "/rtc/event/proxy/port",
-    "/rtc/event/proxy/timeout",
-    "/rtc/client/http/post/baseurl",
-    "/rtc/client/http/post/username",
-    "/rtc/client/http/post/password",
-    "/map/client/http/post/url",
-    "/map/client/http/post/username",
-    "/map/client/http/post/password"
+    "/map/client",
+    "/rtc/client",
+    "/rtc/event"
 ]

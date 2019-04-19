@@ -2,7 +2,7 @@
 src = "opennms.properties.d/collectd.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/collectd.properties"
 keys = [
-    "/threshd",
+    "/collectd",
     "/data/collection",
-    "/collectd"
+    "/threshd"
 ]
