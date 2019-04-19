@@ -25,7 +25,7 @@ usage() {
   echo ""
   echo "Overlay Config file:"
   echo "If you want to overwrite the default configuration with your custom config, you can use an overlay"
-  echo "folder in which needs to be mounted to ${OPENNMS_OVERLAY}."
+  echo "folder which needs to be mounted to ${OPENNMS_OVERLAY}."
   echo "Every file in this folder is overwriting files in ${OPENNMS_HOME}."
   echo ""
   echo "-h: Show this help."
