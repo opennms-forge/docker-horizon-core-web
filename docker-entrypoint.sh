@@ -61,7 +61,7 @@ doInitOrUpgrade() {
   if [ -f ${OPENNMS_UPGRADE_GUARD} ]; then
     echo "Enforce config and database update."
     rm -rf ${OPENNMS_CONFIGURED_GUARD}
-    ${OPENNMS_HOME}/bin/runjava -s
+    echo ${JAVA_HOME}/bin/java > ${OPENNMS_HOME}/etc/java.conf
     ${OPENNMS_HOME}/bin/install -dis
     rm -rf ${OPENNMS_UPGRADE_GUARD}
     rm -rf ${OPENNMS_OVERLAY_ETC}/do-upgrade
@@ -90,7 +90,7 @@ initConfig() {
     echo "Initialize database and Karaf configuration and do install or upgrade the database schema."
     envsubst < ${OPENNMS_DATASOURCES_TPL} > ${OPENNMS_DATASOURCES_CFG}
     envsubst < ${OPENNMS_KARAF_TPL} > ${OPENNMS_KARAF_CFG}
-    ${OPENNMS_HOME}/bin/runjava -s || exit ${E_INIT_CONFIG}
+    echo ${JAVA_HOME}/bin/java > ${OPENNMS_HOME}/etc/java.conf
     ${OPENNMS_HOME}/bin/install -dis || exit ${E_INIT_CONFIG}
   fi
 }
