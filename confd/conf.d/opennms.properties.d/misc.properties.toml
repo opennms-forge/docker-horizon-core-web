@@ -2,12 +2,9 @@
 src = "opennms.properties.d/misc.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/misc.properties"
 keys = [
-    "/dao/ipinterface/findby/servicetype",
-    "/distributed/layout/applications/vertically",
-    "/eventd/event/template/cache/size",
-    "/exclude/service/monitors/from/remote/poller",
-    "/interface/node/cache/refresh/timer",
-    "/java/awt/headless",
-    "/opennms/bin/dir",
-    "/osgi/bridge/rest/aliases"
+    "/dao",
+    "/eventd",
+    "/java",
+    "/opennms",
+    "/osgi"
 ]

@@ -2,7 +2,5 @@
 src = "opennms.properties.d/rtc-map.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/rtc-map.properties"
 keys = [
-    "/map/client",
-    "/rtc/client",
-    "/rtc/event"
+    "/rtc"
 ]

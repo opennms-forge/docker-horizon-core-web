@@ -2,6 +2,5 @@
 src = "opennms.properties.d/ticketer.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/ticketer.properties"
 keys = [
-    "/alarm/trouble/ticket",
     "/ticketer"
 ]

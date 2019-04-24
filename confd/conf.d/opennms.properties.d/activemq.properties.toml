@@ -2,6 +2,5 @@
 src = "opennms.properties.d/activemq.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/activemq.properties"
 keys = [
-    "/activemq/",
-    "/jms/timeout"
+    "/activemq"
 ]

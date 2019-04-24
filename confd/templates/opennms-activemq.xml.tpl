@@ -38,7 +38,7 @@
     <!--
         The <broker> element is used to configure the ActiveMQ broker.
     -->
-    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}">
+    <broker xmlns="http://activemq.apache.org/schema/core" brokerName="localhost" dataDirectory="${activemq.data}" deleteAllMessagesOnStartup="{{getv "/activemq/broker/delete-all-messages-on-startup" "false"}}">
         <plugins>
           <bean id="openNMSJaasBrokerPlugin" class="org.opennms.netmgt.activemq.auth.OpenNMSJaasBrokerPlugin" xmlns="http://www.springframework.org/schema/beans" />
 
@@ -46,15 +46,16 @@
             <map>
               <authorizationMap>
                 <authorizationEntries>
+                  {{$auth := "/activemq/authorization-entry" -}}
                   <!-- Users in the admin role can read/write/create any queue/topic -->
-                  <authorizationEntry queue=">" read="{{getv "/activemq/authorizationentry/queue/read" "admin"}}" write="{{getv "/activemq/authorizationentry/queue/write" "admin"}}" admin="{{getv "/activemq/authorizationentry/queue/admin" "admin"}}" />
-                  <authorizationEntry topic=">" read="{{getv "/activemq/authorizationentry/topic/read" "admin"}}" write="{{getv "/activemq/authorizationentry/topic/write" "admin"}}" admin="{{getv "/activemq/authorizationentry/topic/admin" "admin"}}" />
+                  <authorizationEntry queue=">" read="{{getv (print $auth "/queue/read") "admin"}}" write="{{getv (print $auth "/queue/write") "admin"}}" admin="{{getv (print $auth "/queue/admin") "admin"}}" />
+                  <authorizationEntry topic=">" read="{{getv (print $auth "/topic/read") "admin"}}" write="{{getv (print $auth "/topic/write") "admin"}}" admin="{{getv (print $auth "/topic/admin") "admin"}}" />
                   <!-- Users in the minion role can write/create queues that are not keyed by location -->
-                  <authorizationEntry queue="{{getv "/activemq/authorizationentry/queue/prefix" "OpenNMS"}}.*.*" write="{{getv "/activemq/authorizationentry/queue/write" "minion"}}" admin="{{getv "/activemq/authorizationentry/queue/admin" "minion"}}" />
+                  <authorizationEntry queue="{{getv (print $auth "/queue/prefix") "OpenNMS"}}.*.*" write="{{getv (print $auth "/queue/write") "minion"}}" admin="{{getv (print $auth "/queue/admin") "minion"}}" />
                   <!-- Users in the minion role can read/create from queues that are keyed by location -->
-                  <authorizationEntry queue="{{getv "/activemq/authorizationentry/queue/prefix" "OpenNMS"}}.*.*.*" read="{{getv "/activemq/authorizationentry/queue/read" "minion"}}" admin="{{getv "/activemq/authorizationentry/queue/admin" "minion"}}" />
+                  <authorizationEntry queue="{{getv (print $auth "/queue/prefix") "OpenNMS"}}.*.*.*" read="{{getv (print $auth "/queue/read") "minion"}}" admin="{{getv (print $auth "/queue/admin") "minion"}}" />
                   <!-- Users in the minion role can read/write/create advisory topics -->
-                  <authorizationEntry topic="ActiveMQ.Advisory.>" read="{{getv "/activemq/authorizationentry/topic/activemq/advisory/read" "minion"}}" write="{{getv "/activemq/authorizationentry/topic/activemq/advisory/write" "minion"}}" admin="{{getv "/activemq/authorizationentry/topic/activemq/advisory/admin" "minion"}}" />
+                  <authorizationEntry topic="ActiveMQ.Advisory.>" read="{{getv (print $auth "/topic/activemq/advisory/read") "minion"}}" write="{{getv (print $auth "/topic/activemq-advisory/write") "minion"}}" admin="{{getv (print $auth "/topic/activemq-advisory/admin") "minion"}}" />
                 </authorizationEntries>
                 <!-- Allow all users to read/write/create temporary destinations (by omitting a <tempDestinationAuthorizationEntry>) -->
               </authorizationMap>
@@ -68,7 +69,7 @@
 
             http://activemq.apache.org/message-cursors.html
 
-            Also, if your producer is "hanging", it's probably due to producer flow control.
+            Also, if your producer is "hanging", it is probably due to producer flow control.
             For more information, see:
             http://activemq.apache.org/producer-flow-control.html
         -->
@@ -144,14 +145,15 @@
         -->
         <systemUsage>
             <systemUsage>
+                {{$usage := "/activemq/system-usage" -}}
                 <memoryUsage>
-                    <memoryUsage limit="{{getv "/activemq/system/usage/memory" "20 mb"}}"/>
+                    <memoryUsage limit="{{getv (print $usage "/memory") "128 mb"}}"/>
                 </memoryUsage>
                 <storeUsage>
-                    <storeUsage limit="{{getv "/activemq/system/usage/storage" "1 gb"}}"/>
+                    <storeUsage limit="{{getv (print $usage "/storage") "1 gb"}}"/>
                 </storeUsage>
                 <tempUsage>
-                    <tempUsage limit="{{getv "/activemq/system/usage/temp" "100 mb"}}"/>
+                    <tempUsage limit="{{getv (print $usage "/temp") "1 gb"}}"/>
                 </tempUsage>
             </systemUsage>
         </systemUsage>

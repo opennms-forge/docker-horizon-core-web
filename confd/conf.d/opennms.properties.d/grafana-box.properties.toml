@@ -2,5 +2,5 @@
 src = "opennms.properties.d/grafana-box.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/grafana-box.properties"
 keys = [
-    "/grafanabox"
+    "/grafana-box"
 ]

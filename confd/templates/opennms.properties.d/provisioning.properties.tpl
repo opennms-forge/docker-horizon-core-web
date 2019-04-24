@@ -1,41 +1,41 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-
-{{if exists "/provisiond/enable/discovery" -}}
-org.opennms.provisiond.enableDiscovery={{getv "/provisiond/enable/discovery"}}
+{{$base := "/provisiond" -}}
+{{if exists (print $base "/enableDiscovery") -}}
+org.opennms.provisiond.enableDiscovery={{getv (print $base "/enableDiscovery")}}
 {{end -}}
-{{if exists "/provisiond/schedule/rescan/for/existing/nodes" -}}
-org.opennms.provisiond.scheduleRescanForExistingNodes={{getv "/provisiond/schedule/rescan/for/existing/nodes"}}
+{{if exists (print $base "/scheduleRescanForExistingNodes") -}}
+org.opennms.provisiond.scheduleRescanForExistingNodes={{getv (print $base "/scheduleRescanForExistingNodes")}}
 {{end -}}
-{{if exists "/provisiond/schedule/rescan/for/updated/nodes" -}}
-org.opennms.provisiond.scheduleRescanForUpdatedNodes={{getv "/provisiond/schedule/rescan/for/updated/nodes"}}
+{{if exists (print $base "/scheduleRescanForUpdatedNodes") -}}
+org.opennms.provisiond.scheduleRescanForUpdatedNodes={{getv (print $base "/scheduleRescanForUpdatedNodes")}}
 {{end -}}
-{{if exists "/provisiond/repository/implementation" -}}
-org.opennms.provisiond.repositoryImplementation={{getv "/provisiond/repository/implementation"}}
+{{if exists (print $base "/repositoryImplementation") -}}
+org.opennms.provisiond.repositoryImplementation={{getv (print $base "/repositoryImplementation")}}
 {{end -}}
-{{if exists "/provisiond/resolve/missing/coordinates/from/address/string" -}}
-org.opennms.provisiond.resolveMissingCoordinatesFromAddressString={{getv "/provisiond/resolve/missing/coordinates/from/address/string"}}
+{{if exists (print $base "/resolveMissingCoordinatesFromAddressString") -}}
+org.opennms.provisiond.resolveMissingCoordinatesFromAddressString={{getv (print $base "/resolveMissingCoordinatesFromAddressString")}}
 {{end -}}
-{{if exists "/requisition/dir" -}}
-importer.requisition.dir={{getv "/requisition/dir"}}
+{{if exists (print $base "/maxConcurrentConnections") -}}
+org.opennms.netmgt.provision.maxConcurrentConnections={{getv (print $base "/maxConcurrentConnections")}}
 {{end -}}
-{{if exists "/importer/foreignsource/dir" -}}
-importer.foreign-source.dir={{getv "/importer/foreignsource/dir"}}
+{{if exists (print $base "/requisition-dir") -}}
+importer.requisition.dir={{getv (print $base "/requisition-dir")}}
 {{end -}}
-{{if exists "/minion/provisioning" -}}
-opennms.minion.provisioning={{getv "/minion/provisioning"}}
+{{if exists (print $base "/foreign-source-dir") -}}
+importer.foreign-source.dir={{getv (print $base "/foreign-source-dir")}}
 {{end -}}
-{{if exists "/minion/provisioning/foreignsource/pattern" -}}
-opennms.minion.provisioning.foreignSourcePattern={{getv "/minion/provisioning/foreignsource/pattern"}}
+importer.adapter.dns.server={{getv (print $base "/dns-adapter/server") "127.0.0.1"}}
+{{if exists (print $base "/dns-adapter/level") -}}
+importer.adapter.dns.level={{getv (print $base "/dns-adapter/level")}}
 {{end -}}
-{{if exists "/provision/max/concurrent/connections" -}}
-org.opennms.netmgt.provision.maxConcurrentConnections={{getv "/provision/max/concurrent/connections"}}
+{{if exists (print $base "/dns-adapter/reverse-level") -}}
+importer.adapter.dns.reverse.level={{getv (print $base "/dns-adapter/reverse-level")}}
 {{end -}}
-importer.adapter.dns.server={{getv "/importer/adapter/dns/server" "127.0.0.1"}}
-{{if exists "/importer/adapter/dns/level" -}}
-importer.adapter.dns.level={{getv "/importer/adapter/dns/level"}}
+{{if exists "/minion/provisioning/enable" -}}
+opennms.minion.provisioning={{getv "/minion/provisioning/enable"}}
 {{end -}}
-{{if exists "/importer/adapter/dns/reverse/level" -}}
-importer.adapter.dns.reverse.leveli={{getv "/importer/adapter/dns/reverse/level"}}
+{{if exists "/minion/provisioning/foreignSourcePattern" -}}
+opennms.minion.provisioning.foreignSourcePattern={{getv "/minion/provisioning/foreignSourcePattern"}}
 {{end -}}

@@ -2,8 +2,5 @@
 src = "opennms.properties.d/timeseries.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/timeseries.properties"
 keys = [
-    "/evaluate/dump",
-    "/newts",
-    "/rrd",
-    "/timeseries/strategy"
+    "/timeseries"
 ]

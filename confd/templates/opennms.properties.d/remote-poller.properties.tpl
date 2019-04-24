@@ -1,15 +1,19 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-{{if exists "/poller/backend/minimum/configuration/reload/interval" -}} 
-opennms.pollerBackend.minimumConfigurationReloadInterval={{getv "/poller/backend/minimum/configuration/reload/interval"}}
+{{$base := "/remote-poller" -}}
+{{if exists (print $base "/backend/minimumConfigurationReloadInterval") -}} 
+opennms.pollerBackend.minimumConfigurationReloadInterval={{getv (print $base "/backend/minimumConfigurationReloadInterval")}}
 {{end -}}
-{{if exists "/poller/backend/disconnected/timeout" -}}
-opennms.pollerBackend.disconnectedTimeout={{getv "/pollerbackend/disconnected/timeout"}}
+{{if exists (print $base "/backend/disconnectedTimeout") -}}
+opennms.pollerBackend.disconnectedTimeout={{getv (print $base "/backend/disconnectedTimeout")}}
 {{end -}}
-{{if exists "/poller/server/server/port" -}}
-opennms.poller.server.serverPort={{getv "/poller/server/server/port"}}
+{{if exists (print $base "/server/serverPort") -}}
+opennms.poller.server.serverPort={{getv (print $base "/server/serverPort")}}
 {{end -}}
-{{if exists "/poller/server/registry/port" -}}
-opennms.poller.server.registryPort={{getv "/poller/server/registry/port"}}
+{{if exists (print $base "/server/registryPort") -}}
+opennms.poller.server.registryPort={{getv (print $base "/server/registryPort")}}
+{{end -}}
+{{if exists (print $base "/excludeServiceMonitorsFromRemotePoller") -}}
+excludeServiceMonitorsFromRemotePoller={{getv (print $base "/excludeServiceMonitorsFromRemotePoller")}}
 {{end -}}

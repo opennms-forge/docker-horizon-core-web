@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- DO NOT CHANGE THIS FILE! GENERATED FROM confd -->
+
 <datasource-configuration xmlns:this="http://xmlns.opennms.org/xsd/config-datasources"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://xmlns.opennms.org/xsd/config-datasources
   http://www.opennms.org/xsd/config-datasources.xsd ">
-
-  <!-- DO NOT CHANGE THIS FILE! GENERATED FROM confd -->
   
   <!--
     Available implementations:
@@ -21,24 +22,26 @@
       org.opennms.core.db.HikariCPConnectionFactory
         - Uses HikariCP (http://brettwooldridge.github.io/HikariCP/), a lightweight and extremely fast connection pool
    -->
-  <connection-pool factory="{{getv "/database/connection/pool/factory" "org.opennms.core.db.C3P0ConnectionFactory"}}"
-    idleTimeout="{{getv "/database/connection/pool/idle/timeout" "600"}}"
-    loginTimeout="{{getv "/database/connection/pool/login/timeout" "3"}}"
-    minPool="{{getv "/database/connection/pool/min/pool" "50"}}"
-    maxPool="{{getv "/database/connection/pool/max/pool" "50"}}"
-    maxSize="{{getv "/database/connection/pool/max/size" "50"}}" />
+  {{$db := "/database" -}}
+  {{$pg := "/postgres" -}}
+  <connection-pool factory="{{getv (print $db "/connection-pool/factory") "org.opennms.core.db.C3P0ConnectionFactory"}}"
+    idleTimeout="{{getv (print $db "/connection-pool/idle-timeout") "600"}}"
+    loginTimeout="{{getv (print $db "/connection-pool/login-timeout") "3"}}"
+    minPool="{{getv (print $db "/connection-pool/min-pool") "50"}}"
+    maxPool="{{getv (print $db "/connection-pool/max-pool") "50"}}"
+    maxSize="{{getv (print $db "/connection-pool/max-size") "50"}}" />
 
   <jdbc-data-source name="opennms"
-                    database-name="{{getv "/database/name" "opennms"}}"
+                    database-name="{{getv (print $db "/name") "opennms"}}"
                     class-name="org.postgresql.Driver"
-                    url="jdbc:postgresql://{{getv "/postgres/host" "127.0.0.1"}}:{{getv "/postgres/port" "5432"}}/{{getv "/database/name" "opennms"}}"
-                    user-name="{{getv "/database/user" "opennms"}}"
-                    password="{{getv "/database/password" "opennms"}}" />
+                    url="jdbc:postgresql://{{getv (print $pg "/host") "127.0.0.1"}}:{{getv (print $pg "/port") "5432"}}/{{getv (print $db "/name") "opennms"}}"
+                    user-name="{{getv (print $db "/user") "opennms"}}"
+                    password="{{getv (print $db "/password") "opennms"}}" />
 
   <jdbc-data-source name="opennms-admin"
                     database-name="template1"
                     class-name="org.postgresql.Driver"
-                    url="jdbc:postgresql://{{getv "/postgres/host" "127.0.0.1"}}:{{getv "/postgres/port" "5432"}}/template1"
-                    user-name="{{getv "/postgres/user" "postgres"}}"
-                    password="{{getv "/postgres/password" "postgres"}}" />
+                    url="jdbc:postgresql://{{getv (print $pg "/host") "127.0.0.1"}}:{{getv (print $pg "/port") "5432"}}/template1"
+                    user-name="{{getv (print $pg "/user") "postgres"}}"
+                    password="{{getv (print $pg "/password") "postgres"}}" />
 </datasource-configuration>

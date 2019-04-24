@@ -1,0 +1,6 @@
+[template]
+src = "karaf/featuresBoot/opennms-kafka-producer.tpl"
+dest = "/opt/opennms/etc/featuresBoot.d/opennms-kafka-producer.boot"
+keys = [
+    "/kafka-producer"
+]

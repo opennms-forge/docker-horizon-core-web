@@ -2,30 +2,5 @@
 src = "opennms.properties.d/webui.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/webui.properties"
 keys = [
-    "/alarmlist/sound/enabled",
-    "/alarmlist/sound/status",
-    "/alarmlist/unackflash",
-    "/assets/allow/html/fields",
-    "/eventlist/acknowledge",
-    "/eventlist/show/count",
-    "/dashboard/redirect",
-    "/interface/availabilitybox/max/interface/count",
-    "/jasper/reports/version",
-    "/jasper/reports/chart/pie/ignore/duplicated/key",
-    "/node/statusbar/show",
-    "/nodes/with/outages/count",
-    "/nodes/with/outages/show",
-    "/nodes/with/problems/count",
-    "/nodes/with/problems/show",
-    "/ui/datetime/format",
-    "/ui/show/stacktrace",
-    "/ui/topology/entity/cache/duration",
-    "/security/disable/login/success/event",
-    "/situations/count",
-    "/situations/show",
-    "/statusbox/elements",
-    "/web/acls/enabled",
-    "/web/console/center/url",
-    "/web/default/graph/period",
-    "/web/graphs/engine"
+    "/webui"
 ]

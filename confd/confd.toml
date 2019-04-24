@@ -1,1 +1,3 @@
-backend = "env"
+confdir = "/etc/confd"
+backend = "file"
+file = [ "/etc/confd/opennms.yaml" ]

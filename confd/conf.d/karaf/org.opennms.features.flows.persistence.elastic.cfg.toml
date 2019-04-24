@@ -2,5 +2,5 @@
 src = "karaf/org.opennms.features.flows.persistence.elastic.cfg.tpl"
 dest = "/opt/opennms/etc/org.opennms.features.flows.persistence.elastic.cfg"
 keys = [
-    "/flows/persistence/elastic"
+    "/flows-persistence"
 ]

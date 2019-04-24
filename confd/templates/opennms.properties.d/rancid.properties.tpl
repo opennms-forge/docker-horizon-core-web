@@ -1,9 +1,10 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-{{if exists "/rancid/integration/enabled" -}}
-opennms.rancidIntegrationEnabled={{getv "/rancid/integration/enabled"}}
+{{$base := "/rancid-integration" -}}
+{{if exists (print $base "/enabled") -}}
+opennms.rancidIntegrationEnabled={{getv (print $base "/enabled")}}
 {{end -}}
-{{if exists "/rancid/integration/use/only/rancid/adapter" -}}
-opennms.rancidIntegrationUseOnlyRancidAdapter={{getv "/rancid/integration/use/only/rancid/adapter"}}
+{{if exists (print $base "/use-only-rancid-adapter") -}}
+opennms.rancidIntegrationUseOnlyRancidAdapter={{getv (print $base "/use-only-rancid-adapter")}}
 {{end -}}

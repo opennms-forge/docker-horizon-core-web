@@ -3,5 +3,5 @@ src = "opennms.properties.d/jetty.properties.tpl"
 dest = "/opt/opennms/etc/opennms.properties.d/jetty.properties"
 keys = [
     "/jetty",
-    "/web/baseurl"
+    "/jetty-server"
 ]
