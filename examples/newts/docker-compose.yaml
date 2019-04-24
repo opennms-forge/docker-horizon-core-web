@@ -5,40 +5,64 @@ volumes:
   data-opennms-rrd: {}
   data-opennms-reports: {}
   data-opennms-mibs: {}
+  data-cassandra: {}
 
 services:
   database:
     container_name: horizon-psql
     image: postgres:11
     env_file:
-      - .postgres.env
+      - postgres.env
     volumes:
       - data-pgsql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 30s
       timeout: 30s
       retries: 3
 
+  cassandra:
+    container_name: cassandra
+    hostname: cassandra
+    image: cassandra:3.11.4
+    env_file:
+      - cassandra.env
+    volumes:
+      - data-cassandra:/var/lib/cassandra
+    ports:
+      - 7000:7000
+      - 7001:7001
+      - 9042:9042
+      - 9160:9160
+      - 7199:7199
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   horizon:
     container_name: horizon-app
-    image: opennms/horizon-core-web:NMS-10640
-    env_file:
-      - .opennms.env
-      - .postgres.env
+    image: opennms/horizon-core-web:24.0.0-rc
+    command: ["-s"]
+    depends_on:
+      - database
+      - cassandra
     volumes:
+      - ./opennms.yaml:/etc/confd/opennms.yaml
       - ./opennms-etc:/opt/opennms/etc
       - data-opennms-mibs:/opt/opennms/share/mibs
       - data-opennms-rrd:/opt/opennms/share/rrd
       - data-opennms-reports:/opt/opennms/share/reports
       - ./overlay:/opt/opennms-overlay
-    command: ["-s"]
+    ports:
+      - 8980:8980
+      - 8101:8101
+      - 162:1162/udp
     healthcheck:
       test: ["CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp"]
       interval: 1m
       timeout: 5s
       retries: 3
-    ports:
-      - "8980:8980"
-      - "8101:8101"
-      - "162:1162/udp"

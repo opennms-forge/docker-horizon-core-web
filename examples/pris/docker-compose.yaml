@@ -1,0 +1,65 @@
+version: '3'
+
+volumes:
+  data-pgsql: {}
+  data-opennms-rrd: {}
+  data-opennms-reports: {}
+  data-opennms-mibs: {}
+  data-pris: {}
+
+services:
+  database:
+    container_name: horizon-psql
+    image: postgres:11
+    env_file:
+      - postgres.env
+    volumes:
+      - data-pgsql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  horizon:
+    container_name: horizon-app
+    image: opennms/horizon-core-web:24.0.0-rc
+    command: ["-s"]
+    depends_on:
+      - database
+    volumes:
+      - ./opennms.yaml:/etc/confd/opennms.yaml
+      - ./opennms-etc:/opt/opennms/etc
+      - data-opennms-mibs:/opt/opennms/share/mibs
+      - data-opennms-rrd:/opt/opennms/share/rrd
+      - data-opennms-reports:/opt/opennms/share/reports
+      - ./overlay:/opt/opennms-overlay
+    ports:
+      - 8980:8980
+      - 8101:8101
+      - 162:1162/udp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp"]
+      interval: 1m
+      timeout: 5s
+      retries: 3
+
+  pris:
+    container_name: opennms-pris
+    image: opennms/pris:latest
+    environment:
+      - TZ=Europe/Berlin
+    networks:
+      - opennms.net
+    volumes:
+      - data-pris:/opt/opennms-pris/requisitions
+      - data-pris:/opt/opennms-pris/scriptsteps
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "-I", "http://localhost:8000/documentation/index.html"]
+      interval: 30s
+      timeout: 5s
+      retries: 1

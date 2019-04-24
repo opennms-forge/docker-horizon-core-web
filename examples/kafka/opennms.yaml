@@ -1,0 +1,50 @@
+# Basic YAML configuration for OpenNMS
+
+database:
+  name: opennms
+  user: opennms
+  password: opennms
+
+postgres:
+  host: database
+  user: postgres
+  password: postgres
+
+activemq:
+  broker:
+    disable: true
+
+core:
+  ipc:
+    rpc:
+      strategy: kafka
+      kafka:
+        bootstrap.servers: kafka:9092
+        ttl: 60000
+        compression.type: gzip
+        request.timeout.ms: 30000
+        max.partition.fetch.bytes: 5000000 # Consumer
+        max.request.size: 5000000 # Producer
+    sink:
+      strategy: kafka
+      kafka:
+        bootstrap.servers: kafka:9092
+        group.id: OpenNMS
+
+kafka-producer:
+  enabled: true
+  config:
+    eventTopic: OpenNMS.Events
+    alarmTopic: OpenNMS.Alarms
+    nodeTopic: OpenNMS.Nodes
+    metricTopic: OpenNMS.Metrics
+    topologyVertexTopic: OpenNMS.Vertices
+    topologyEdgeTopic: OpenNMS.Edges
+    alarmFeedbackTopic: OpenNMS.Alarms.Feedback
+    forward.metrics: true
+  kafka:
+    bootstrap.servers: kafka:9092
+    compression.type: gzip
+    request.timeout.ms: 30000
+    max.partition.fetch.bytes: 5000000 # Consumer
+    max.request.size: 5000000 # Producer
