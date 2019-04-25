@@ -1,4 +1,4 @@
-version: '3'
+version: '2.4'
 
 volumes:
   data-pgsql: {}
@@ -7,9 +7,13 @@ volumes:
   data-opennms-mibs: {}
   data-helm: {}
 
+networks:
+  opennms-net:
+    driver: bridge
+
 services:
   database:
-    container_name: opennms.psql
+    container_name: database
     image: postgres:11
     env_file:
       - postgres.env
@@ -17,18 +21,21 @@ services:
       - data-pgsql:/var/lib/postgresql/data
     ports:
       - 5432:5432
+    networks:
+      - opennms-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
+      test: pg_isready -U postgres
+      interval: 30s
       timeout: 30s
       retries: 3
 
-  horizon:
-    container_name: horizon-app
-    image: opennms/horizon-core-web:24.0.0-rc
-    command: ["-s"]
+  opennms:
+    container_name: opennms
+    image: opennms/horizon-core-web:24.0.0-1
+    command: [ -s ]
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     volumes:
       - ./opennms.yaml:/etc/confd/opennms.yaml
       - ./opennms-etc:/opt/opennms/etc
@@ -40,14 +47,16 @@ services:
       - 8980:8980
       - 8101:8101
       - 162:1162/udp
+    networks:
+      - opennms-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp"]
+      test: curl -f -I http://localhost:8980/opennms/login.jsp
       interval: 1m
       timeout: 5s
       retries: 3
 
   helm:
-    container_name: opennms.helm
+    container_name: helm
     image: opennms/helm:latest
     env_file:
       - helm.env
@@ -56,8 +65,10 @@ services:
       - data-helm:/var/log/grafana
     ports:
       - 3000:3000
+    networks:
+      - opennms-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "-I", "http://localhost:3000/login"]
+      test: curl -f -I http://localhost:3000/login
       interval: 30s
       timeout: 3s
       retries: 1

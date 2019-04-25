@@ -41,9 +41,16 @@ install() {
   ${JAVA_HOME}/bin/java -Dopennms.home="${OPENNMS_HOME}" -Dlog4j.configurationFile="${OPENNMS_HOME}"/etc/log4j2-tools.xml -cp "${OPENNMS_HOME}/lib/opennms_bootstrap.jar" org.opennms.bootstrap.InstallerBootstrap "${@}" || exit ${E_INIT_CONFIG}
 }
 
+initNewts() {
+  if [ -n "${INIT_NEWTS}" ]; then
+    REPLICATION_FACTOR=${REPLICATION_FACTOR-1}
+    ${JAVA_HOME}/bin/java -Dopennms.manager.class="org.opennms.netmgt.newts.cli.Newts" -Dopennms.home="${OPENNMS_HOME}" -Dlog4j.configurationFile="${OPENNMS_HOME}"/etc/log4j2-tools.xml -jar ${OPENNMS_HOME}/lib/opennms_bootstrap.jar init -r ${REPLICATION_FACTOR} || exit ${E_INIT_CONFIG}
+  fi
+}
+
 configTester() {
   echo "Run config tester to validate existing configuration files."
-  ${JAVA_HOME}/bin/java -Dopennms.manager.class="org.opennms.netmgt.config.tester.ConfigTester" -Dopennms.home="${OPENNMS_HOME}" -Dlog4j.configurationFile="$OPENNMS_HOME"/etc/log4j2-tools.xml -jar $OPENNMS_HOME/lib/opennms_bootstrap.jar "${@}" || exit ${E_INIT_CONFIG}
+  ${JAVA_HOME}/bin/java -Dopennms.manager.class="org.opennms.netmgt.config.tester.ConfigTester" -Dopennms.home="${OPENNMS_HOME}" -Dlog4j.configurationFile="${OPENNMS_HOME}"/etc/log4j2-tools.xml -jar ${OPENNMS_HOME}/lib/opennms_bootstrap.jar "${@}" || exit ${E_INIT_CONFIG}
 }
 
 processConfdTemplates() {
@@ -106,18 +113,15 @@ preflightchecks() {
   fi
 
   if [ -n "${OPENNMS_DBNAME}" ]; then
-    echo "WARNING: The OPENNMS_DBNAME is deprecated use OPENNMS_DATABASE_NAME instead."
-    export OPENNMS_DATABASE_NAME=${OPENNMS_DBNAME}
+    echo "WARNING: The OPENNMS_DBNAME is deprecated."
   fi
 
   if [ -n "${OPENNMS_DBUSER}" ]; then
-    echo "WARNING: The OPENNMS_DBUSER is deprecated use OPENNMS_DATABASE_USER instead."
-    export OPENNMS_DATABASE_USER=${OPENNMS_DBUSER}
+    echo "WARNING: The OPENNMS_DBUSER is deprecated."
   fi
 
   if [ -n "${OPENNMS_DBPASS}" ]; then
-    echo "WARNING: The OPENNMS_DBPASS is deprecated use OPENNMS_DATABASE_PASSWORD instead."
-    export OPENNMS_DATABASE_PASSWORD=${OPENNMS_DBPASS}
+    echo "WARNING: The OPENNMS_DBPASS is deprecated."
   fi
 
   if [ -d /opennms-data ]; then
@@ -180,26 +184,14 @@ while getopts "hist" flag; do
       usage
       exit
       ;;
-    i)
+    s)
       preflightchecks
       initConfigWhenEmpty
       processConfdTemplates
       applyOverlayConfig
       testConfig -t -a
       install -dis
-      exit
-      ;;
-    s)
-      if [ ! -f "${OPENNMS_HOME}"/etc/configured ]; then
-        echo "ERROR: Can't start OpenNMS Horizon. Configuration files not initialized."
-        echo "Run -i to initialize a configuration directory which creates"
-        echo "${OPENNMS_HOME/etc/configured}."
-        exit ${E_INIT_CONFIG}
-      fi
-      preflightchecks
-      processConfdTemplates
-      applyOverlayConfig
-      testConfig -t -a
+      initNewts
       start
       exit
       ;;

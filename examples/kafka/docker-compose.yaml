@@ -1,4 +1,4 @@
-version: '3'
+version: '2.4'
 
 volumes:
   data-pgsql: {}
@@ -8,9 +8,13 @@ volumes:
   data-opennms-reports: {}
   data-opennms-mibs: {}
 
+networks:
+  opennms-net:
+    driver: bridge
+
 services:
   database:
-    container_name: horizon-psql
+    container_name: database
     image: postgres:11
     env_file:
       - postgres.env
@@ -18,15 +22,16 @@ services:
       - data-pgsql:/var/lib/postgresql/data
     ports:
       - 5432:5432
+    networks:
+      - opennms-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: pg_isready -U postgres
       interval: 30s
       timeout: 30s
       retries: 3
 
   zookeeper:
     container_name: zookeeper
-    hostname: zookeeper
     image: zookeeper:3.4
     env_file:
       - zookeeper.env
@@ -34,6 +39,8 @@ services:
       - data-zookeeper:/data
     ports:
       - 2181:2181
+    networks:
+      - opennms-net
     healthcheck:
       test: echo stat | nc zookeeper 2181
       interval: 30s
@@ -42,29 +49,31 @@ services:
 
   kafka:
     container_name: kafka
-    hostname: kafka
     image: wurstmeister/kafka
     depends_on:
-      - zookeeper
+      zookeeper:
+        condition: service_healthy
     env_file:
       - kafka.env
     volumes:
       - data-kafka:/kafka
     ports:
       - 9092:9092
+    networks:
+      - opennms-net
     healthcheck:
       test: JMX_PORT="" kafka-topics.sh --zookeeper zookeeper:2181/kafka --list 2>&1 | grep OpenNMS
       interval: 30s
       timeout: 30s
       retries: 3
 
-  horizon:
-    container_name: horizon-app
-    image: opennms/horizon-core-web:24.0.0-rc
-    command: ["-s"]
+  opennms:
+    container_name: opennms
+    image: opennms/horizon-core-web:24.0.0-1
+    command: [ -s ]
     depends_on:
-      - database
-      - kafka
+      database:
+        condition: service_healthy
     volumes:
       - ./opennms.yaml:/etc/confd/opennms.yaml
       - ./opennms-etc:/opt/opennms/etc
@@ -76,8 +85,10 @@ services:
       - 8980:8980
       - 8101:8101
       - 162:1162/udp
+    networks:
+      - opennms-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp"]
+      test: curl -f -I http://localhost:8980/opennms/login.jsp
       interval: 1m
       timeout: 5s
       retries: 3

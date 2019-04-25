@@ -1,4 +1,4 @@
-version: '3'
+version: '2.4'
 
 volumes:
   data-pgsql: {}
@@ -12,7 +12,7 @@ networks:
 
 services:
   database:
-    container_name: horizon-psql
+    container_name: database
     image: postgres:11
     env_file:
       - postgres.env
@@ -23,17 +23,18 @@ services:
     networks:
       - opennms-net
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: pg_isready -U postgres
       interval: 30s
       timeout: 30s
       retries: 3
 
-  horizon:
-    container_name: horizon-app
-    image: opennms/horizon-core-web:24.0.0-rc
-    command: ["-s"]
+  opennms:
+    container_name: opennms
+    image: opennms/horizon-core-web:24.0.0-1
+    command: [ -s ]
     depends_on:
-      - database
+      database:
+        condition: service_healthy
     volumes:
       - ./opennms.yaml:/etc/confd/opennms.yaml
       - ./opennms-etc:/opt/opennms/etc
@@ -48,7 +49,7 @@ services:
     networks:
       - opennms-net
     healthcheck:
-      test: ["CMD", "curl", "-f", "-I", "http://localhost:8980/opennms/login.jsp"]
+      test: curl -f -I http://localhost:8980/opennms/login.jsp
       interval: 1m
       timeout: 5s
       retries: 3
