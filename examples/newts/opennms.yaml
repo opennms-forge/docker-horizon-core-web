@@ -11,8 +11,8 @@ postgres:
   password: postgres
 
 timeseries:
-  store-by-group: true
-  store-by-foreign-source: true
+  storeByGroup: true
+  storeByForeignSource: true
   strategy: newts
   newts:
     config:
