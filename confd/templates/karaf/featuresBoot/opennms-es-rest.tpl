@@ -2,6 +2,6 @@
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
 {{$base := "/elasticsearch-rest-forwarder" -}}
-{{if and (exists (print $base "/enabled")) (eq (getv (print $base "/enabled") "") ("true")) -}}
+{{if (eq (getv (print $base "/enabled") "false") "true") -}}
 opennms-es-rest
 {{end -}}
