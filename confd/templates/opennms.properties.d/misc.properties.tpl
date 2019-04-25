@@ -4,7 +4,7 @@
 opennms.bin.dir={{getv "/opennms/bin-dir" "/opt/opennms/bin"}}
 java.awt.headless={{getv "/java/awt/headless" "true"}}
 {{if exists "/dao/ipinterface/find-by-service-type" -}}
-org.opennms.dao.ipinterface.findByServiceType={{getv "/dao/ipinterface/find-by-service-type"}}
+org.opennms.dao.ipinterface.findByServiceType={{getv "/dao/ipinterface/findByServiceType"}}
 {{end -}}
 {{if exists "/dao/interface-node-cache-refresh-timer" -}}
 org.opennms.interface-node-cache.refresh-timer={{getv "/dao/interface-node-cache-refresh-timer"}}
