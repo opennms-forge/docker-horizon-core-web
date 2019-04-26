@@ -53,7 +53,9 @@ RUN yum -y --setopt=tsflags=nodocs update && \
     sed -r -i '/^myuser/s/=.*/=$RUNAS/' /opt/opennms/bin/opennms && \
     sed -r -i 's/"162"/"1162"/' /opt/opennms/etc/trapd-configuration.xml && \
     sed -r -i 's/"162"/"1162"/' /opt/opennms/share/etc-pristine/trapd-configuration.xml && \
-    groupadd -g ${OPENNMS_UID} opennms && useradd -u ${OPENNMS_UID} -g ${OPENNMS_UID} -r -d /opt/opennms -s /usr/bin/bash opennms && \
+    groupadd -g ${OPENNMS_UID} opennms && \
+    useradd -u ${OPENNMS_UID} -g ${OPENNMS_UID} -r -d /opt/opennms -s /usr/bin/bash opennms && \
+    cp /etc/skel/.bash* /opt/opennms/ && \
     chown opennms:opennms -R /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
     chgrp -R 0 /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
     chmod -R g=u /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
