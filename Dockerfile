@@ -2,7 +2,7 @@ FROM opennms/openjdk:11
 
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
-ARG OPENNMS_VERSION="branches/release-24.0.0"
+ARG OPENNMS_VERSION="stable"
 ARG MIRROR_HOST=yum.opennms.org
 ARG OPENNMS_UID=10001
 
@@ -15,6 +15,7 @@ RUN yum -y --setopt=tsflags=nodocs update && \
     rpm --import https://${MIRROR_HOST}/OPENNMS-GPG-KEY && \
     curl https://yum.opennms.org/stable/rhel7/jicmp/jicmp-2.0.3-1.el7.centos.x86_64.rpm -o /tmp/jicmp.rpm && \
     curl https://yum.opennms.org/stable/rhel7/jicmp6/jicmp6-2.0.2-1.el7.centos.x86_64.rpm -o /tmp/jicmp6.rpm && \
+    yum -y install rsync && \
     yum -y install /tmp/jicmp.rpm && \
     yum -y install /tmp/jicmp6.rpm && \
     yum -y install gettext \
@@ -89,4 +90,4 @@ CMD [ "-f" ]
 ## -- OpenNMS Eventd      5817/TCP
 ## -- SNMP Trapd          1162/UDP
 ## -- Syslog Receiver    10514/UDP
-EXPOSE 8980 8101 1162
+EXPOSE 8980 8101 1162/udp
