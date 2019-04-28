@@ -135,7 +135,7 @@ You can also set them in the docker-compose file if you want.
 
 ### Persistence your data
 
-Running the container images are ephemeral and by default do not persist data.
+The container images are ephemeral and by default do not persist data.
 The following directories are required to be persisted in a volume or as a bind-mount depending on your environment.
 The minimal example uses volumes for data which is not required to be edited on the file system and bind-mounts for configurations.
 
