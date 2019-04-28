@@ -133,7 +133,7 @@ Ensure the time zone `TZ` is set to the correct time zone you're in.
 The examples use `.opennms.env` and `.postgres.env` files which contain these settings.
 You can also set them in the docker-compose file if you want.
 
-### Persistence your data
+### Persisting your data
 
 The container images are ephemeral and by default do not persist data.
 The following directories are required to be persisted in a volume or as a bind-mount depending on your environment.
