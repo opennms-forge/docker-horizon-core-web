@@ -1,7 +1,7 @@
 #
 # DO NOT CHANGE THIS FILE! GENERATED FROM confd
 #
-{{$base := "/opennms-es-rest" -}}
+{{$base := "/opennms-alarm-history-elastic" -}}
 {{if (eq (getv (print $base "/enabled") "false") "true") -}}
-opennms-es-rest
+opennms-alarm-history-elastic
 {{end -}}

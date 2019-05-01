@@ -2,5 +2,5 @@
 src = "karaf/org.opennms.features.kafka.producer.client.cfg.tpl"
 dest = "/opt/opennms/etc/org.opennms.features.kafka.producer.client.cfg"
 keys = [
-    "/kafka-producer"
+    "/opennms-kafka-producer"
 ]

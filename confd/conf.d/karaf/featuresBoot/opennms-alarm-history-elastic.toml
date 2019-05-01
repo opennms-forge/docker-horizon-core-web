@@ -1,0 +1,6 @@
+[template]
+src = "karaf/featuresBoot/opennms-alarm-history-elastic.tpl"
+dest = "/opt/opennms/etc/featuresBoot.d/opennms-alarm-history-elastic.boot"
+keys = [
+    "/opennms-alarm-history-elastic"
+]
