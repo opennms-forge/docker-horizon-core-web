@@ -43,6 +43,7 @@ RUN setcap cap_net_raw+ep ${JAVA_HOME}/bin/java && \
     mkdir -p "${OPENNMS_OVERLAY}" && \
     groupadd -g ${ONMS_UID} opennms && \
     useradd -u ${ONMS_UID} -g ${ONMS_UID} -r -d /opt/opennms -s /bin/bash opennms && \
+    cp /etc/skel/.bash* /opt/opennms/ && \
     chmod 0775 /opt/opennms "${OPENNMS_OVERLAY}" /entrypoint.sh && \
     chown opennms:opennms -R /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
     chgrp -R 0 /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
