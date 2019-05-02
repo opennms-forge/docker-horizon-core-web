@@ -11,7 +11,7 @@ BASE_IMAGE_VERSION="11.0.2.7"
 BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%S%z")"
 
 # Horizon version
-VERSION="24.0.0"
+VERSION="25.0.0-SNAPSHOT"
 
 # Docker Tags, use version by default
 IMAGE_VERSION=("${VERSION}")
@@ -22,7 +22,7 @@ if [ -n "${CIRCLE_BUILD_NUM}" ]; then
 fi
 
 REPO_HOST="yum.opennms.org"
-REPO_RELEASE="stable"
+REPO_RELEASE="develop"
 REPO_RPM="https://${REPO_HOST}/repofiles/opennms-repo-${REPO_RELEASE}-rhel7.noarch.rpm"
 REPO_KEY_URL="https://${REPO_HOST}/OPENNMS-GPG-KEY"
 CONFD_VERSION="0.16.0"
