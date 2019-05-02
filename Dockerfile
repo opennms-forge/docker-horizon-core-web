@@ -1,8 +1,8 @@
 #
 # Dockerfile to build the Official OpenNMS Horizon OCI image with Docker
 #
-ARG BASE_IMAGE="opennms/openjdk"
-ARG BASE_IMAGE_VERSION="11.0.2.7"
+ARG BASE_IMAGE="opennms/base-horizon"
+ARG BASE_IMAGE_VERSION="jdk11-1.0.0"
 
 FROM ${BASE_IMAGE}:${BASE_IMAGE_VERSION}
 
@@ -10,12 +10,8 @@ ARG VERSION=${BASE_IMAGE_VERSION}
 ARG BUILD_DATE="1970-01-01T00:00:00+0000"
 ARG ONMS_UID=10001
 
-ARG PACKAGES="wget gettext"
-ARG CONFD_VERSION="0.16.0"
-ARG CONFD_URL="https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64"
+ARG PACKAGES
 
-ARG REPO_KEY_URL="https://${REPO_HOST}/OPENNMS-GPG-KEY"
-ARG REPO_RPM="https://${REPO_HOST}/repofiles/opennms-repo-${REPO_RELEASE}-rhel7.noarch.rpm"
 ARG ONMS_PACKAGES="opennms-core opennms-webapp-jetty opennms-webapp-hawtio"
 ARG OPENNMS_OVERLAY="/opt/opennms-overlay"
 
@@ -27,16 +23,8 @@ COPY ./rpms /tmp/rpms
 COPY ./confd /etc/confd
 
 # Install packages, repositories and dependencies
-RUN setcap cap_net_raw+ep ${JAVA_HOME}/bin/java && \
-    echo ${JAVA_HOME}/lib/jli > /etc/ld.so.conf.d/java-latest.conf && \
-    ldconfig && \
-    curl -L ${CONFD_URL} -o /usr/bin/confd && \
-    chmod +x /usr/bin/confd && \
-    yum -y install epel-release && \
-    rpm --import "${REPO_KEY_URL}" && \
-    yum -y install ${REPO_RPM} && \
-    yum -y install ${PACKAGES} && \
-    if [ "$(ls -1 /tmp/rpms/*.rpm 2>/dev/null | wc -l)" != 0 ]; then yum -y localinstall /tmp/rpms/*.rpm; else yum -y install ${ONMS_PACKAGES}; fi && \
+RUN if [[ -n ${PACKAGES} ]]; then yum -y install ${PACKAGES}; fi && \
+    if [[ "$(ls -1 /tmp/rpms/*.rpm 2>/dev/null | wc -l)" != 0 ]]; then yum -y localinstall /tmp/rpms/*.rpm; else yum -y install ${ONMS_PACKAGES}; fi && \
     yum clean all -y && \
     rm -rf /var/cache/yum && \
     rm -rf /tmp/rpms && \
@@ -54,8 +42,7 @@ LABEL maintainer="The OpenNMS Group" \
       name="Horizon" \
       version="${VERSION}" \
       build.date="${BUILD_DATE}" \
-      vendor="OpenNMS Community" \
-      io.confd.version="${CONFD_VERSION}"
+      vendor="OpenNMS Community"
 
 WORKDIR /opt/opennms
 
