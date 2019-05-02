@@ -1,0 +1,6 @@
+[template]
+src = "opennms.properties.d/timeseries.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/timeseries.properties"
+keys = [
+    "/timeseries"
+]

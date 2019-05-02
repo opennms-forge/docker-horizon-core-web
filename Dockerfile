@@ -1,77 +1,79 @@
-FROM opennms/openjdk:latest
+#
+# Dockerfile to build the Official OpenNMS Horizon OCI image with Docker
+#
+ARG BASE_IMAGE="opennms/openjdk"
+ARG BASE_IMAGE_VERSION="11.0.2.7"
 
-LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
+FROM ${BASE_IMAGE}:${BASE_IMAGE_VERSION}
 
-ARG OPENNMS_VERSION=develop
-ARG MIRROR_HOST=yum.opennms.org
-ARG UID=10001
+ARG VERSION=${BASE_IMAGE_VERSION}
+ARG BUILD_DATE="1970-01-01T00:00:00+0000"
+ARG ONMS_UID=10001
 
-ENV OPENNMS_KARAF_SSH_HOST 0.0.0.0
-ENV OPENNMS_KARAF_SSH_PORT 8101
+ARG PACKAGES="wget gettext"
+ARG CONFD_VERSION="0.16.0"
+ARG CONFD_URL="https://github.com/kelseyhightower/confd/releases/download/v${CONFD_VERSION}/confd-${CONFD_VERSION}-linux-amd64"
 
-RUN yum -y --setopt=tsflags=nodocs update && \
-    rpm -Uvh https://${MIRROR_HOST}/repofiles/opennms-repo-${OPENNMS_VERSION/\//-}-rhel7.noarch.rpm && \
-    rpm --import https://${MIRROR_HOST}/OPENNMS-GPG-KEY && \
-    curl https://yum.opennms.org/stable/rhel7/jicmp/jicmp-2.0.3-1.el7.centos.x86_64.rpm -o /tmp/jicmp.rpm && \
-    curl https://yum.opennms.org/stable/rhel7/jicmp6/jicmp6-2.0.2-1.el7.centos.x86_64.rpm -o /tmp/jicmp6.rpm && \
-    yum -y install /tmp/jicmp.rpm && \
-    yum -y install /tmp/jicmp6.rpm && \
-    yum -y install gettext \
-                   iplike \
-                   rrdtool \
-                   jrrd2 \
-                   opennms-core \
-                   opennms-webapp-jetty \
-                   opennms-plugin-protocol-cifs \
-                   opennms-webapp-hawtio && \
-    yum clean all && \
+ARG REPO_KEY_URL="https://${REPO_HOST}/OPENNMS-GPG-KEY"
+ARG REPO_RPM="https://${REPO_HOST}/repofiles/opennms-repo-${REPO_RELEASE}-rhel7.noarch.rpm"
+ARG ONMS_PACKAGES="opennms-core opennms-webapp-jetty opennms-webapp-hawtio"
+ARG OPENNMS_OVERLAY="/opt/opennms-overlay"
+
+SHELL ["/bin/bash", "-c"]
+
+# Add templates replaced at runtime and entrypoint
+COPY ./assets/entrypoint.sh /
+COPY ./rpms /tmp/rpms
+COPY ./confd /etc/confd
+
+# Install packages, repositories and dependencies
+RUN setcap cap_net_raw+ep ${JAVA_HOME}/bin/java && \
+    echo ${JAVA_HOME}/lib/jli > /etc/ld.so.conf.d/java-latest.conf && \
+    ldconfig && \
+    curl -L ${CONFD_URL} -o /usr/bin/confd && \
+    chmod +x /usr/bin/confd && \
+    yum -y install epel-release && \
+    rpm --import "${REPO_KEY_URL}" && \
+    yum -y install ${REPO_RPM} && \
+    yum -y install ${PACKAGES} && \
+    if [ "$(ls -1 /tmp/rpms/*.rpm 2>/dev/null | wc -l)" != 0 ]; then yum -y localinstall /tmp/rpms/*.rpm; else yum -y install ${ONMS_PACKAGES}; fi && \
+    yum clean all -y && \
     rm -rf /var/cache/yum && \
-    rm -rf /opt/opennms/logs \
-           /var/opennms/rrd \
-           /var/opennms/reports && \
-    mkdir -p /opennms-data/logs \
-             /opennms-data/rrd \
-             /opennms-data/mibs \
-             /opennms-data/reports \
-             /opt/opennms-etc-overlay \
-             /opt/opennms/assets && \
-    mv /var/opennms/mibs/compiled /opennms-data/mibs/ && \
-    rm -rf /var/opennms/mibs && \
-    ln -s /opennms-data/logs /opt/opennms/logs && \
-    ln -s /opennms-data/rrd /var/opennms/rrd && \
-    ln -s /opennms-data/mibs /var/opennms/mibs && \
-    ln -s /opennms-data/reports /var/opennms/reports && \
-    mkdir -p /var/opennms/data-pristine && \
-    cp -r /opennms-data/* /var/opennms/data-pristine/ && \
-    sed -r -i '/RUNAS/s/root/opennms/' /opt/opennms/bin/opennms && \
-    sed -r -i '/RUNAS/s/root/opennms/' /opt/opennms/bin/install && \
-    sed -r -i '/RUNAS/s/root/opennms/' /opt/opennms/bin/upgrade && \
-    sed -r -i 's/"162"/"1162"/' /opt/opennms/etc/trapd-configuration.xml && \
-    sed -r -i '/^myuser/s/=.*/=$RUNAS/' /opt/opennms/bin/install && \
-    sed -r -i '/^myuser/s/=.*/=$RUNAS/' /opt/opennms/bin/upgrade && \
-    sed -r -i '/^myuser/s/=.*/=$RUNAS/' /opt/opennms/bin/opennms && \
-    groupadd -g ${UID} opennms && useradd -u ${UID} -g ${UID} -r -d /opt/opennms -s /usr/bin/bash opennms && \
-    chown opennms:opennms -R /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
-    chgrp -R 0 /opt/opennms /opennms-data /opt/opennms-etc-overlay && \
-    chmod -R g=u /opt/opennms /opennms-data /opt/opennms-etc-overlay
+    rm -rf /tmp/rpms && \
+    mkdir -p "${OPENNMS_OVERLAY}" && \
+    groupadd -g ${ONMS_UID} opennms && \
+    useradd -u ${ONMS_UID} -g ${ONMS_UID} -r -d /opt/opennms -s /bin/bash opennms && \
+    cp /etc/skel/.bash* /opt/opennms/ && \
+    chmod 0775 /opt/opennms "${OPENNMS_OVERLAY}" /entrypoint.sh && \
+    chown opennms:opennms -R /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
+    chgrp -R 0 /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}" && \
+    chmod -R g=u /opt/opennms /var/opennms /var/log/opennms "${OPENNMS_OVERLAY}"
 
-COPY ./assets/opennms-datasources.xml.tpl /opt/opennms/assets
-COPY ./assets/org.apache.karaf.shell.cfg.tpl /opt/opennms/assets
-COPY ./assets/newts.properties.tpl /opt/opennms/assets
-
-COPY ./docker-entrypoint.sh /
-
-LABEL license="AGPLv3" \
-      org.opennms.horizon.version="${OPENNMS_VERSION}" \
+LABEL maintainer="The OpenNMS Group" \
+      license="AGPLv3" \
+      name="Horizon" \
+      version="${VERSION}" \
+      build.date="${BUILD_DATE}" \
       vendor="OpenNMS Community" \
-      name="Horizon"
+      io.confd.version="${CONFD_VERSION}"
 
 WORKDIR /opt/opennms
-USER ${UID}
 
-ENTRYPOINT [ "/docker-entrypoint.sh" ]
+ENTRYPOINT [ "/entrypoint.sh" ]
 
-CMD [ "-f" ]
+USER ${ONMS_UID}
+
+STOPSIGNAL SIGTERM
+
+CMD [ "-h" ]
+
+### Runtime information and not relevant at build time
+
+ENV JAVA_MEM_OPTS="-Xmx1024m -XX:MaxMetaspaceSize=512m"
+ENV JAVA_OPTS ""
+
+# Volumes for data which need to be persistent
+VOLUME [ "/opt/opennms-overlay", "/opt/opennms/etc", "/opt/opennms/share/rrd", "/opt/opennms/share/reports", "/opt/opennms/share/mibs" ]
 
 ##------------------------------------------------------------------------------
 ## EXPOSED PORTS
@@ -83,5 +85,5 @@ CMD [ "-f" ]
 ## -- OpenNMS MQ         61616/TCP
 ## -- OpenNMS Eventd      5817/TCP
 ## -- SNMP Trapd          1162/UDP
-## -- Syslog Receiver    10514/UDP
-EXPOSE 8980 8101 1162
+## -- Syslog Receiver     1514/UDP
+EXPOSE 8980 8101 1162/udp

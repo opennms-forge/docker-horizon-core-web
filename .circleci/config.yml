@@ -1,33 +1,52 @@
-version: 2.0
+---
+version: 2.1
 
-defaults: &defaults
-
-  working_directory: /home/circleci/horizon-core-web
-
-  workspace_root: &workspace_root
-    /tmp/workspace
-
-  attach_workspace: &attach_workspace
-    attach_workspace:
-      at: *workspace_root
-
-references:
-  container_config: &container_config
+executors:
+  docker-executor:
     docker:
-      - image: docker:18.06.0-ce-git
-
-  dockerhub_login: &dockerhub_login
-    run:
-      name: DockerHub Login
-      command: |
-        docker login -u ${DOCKERHUB_LOGIN} -p ${DOCKERHUB_PASS}
-
-jobs:
-  shellcheck:
-    <<: *defaults
+      - image: docker:18
+  shellcheck-executor:
     docker:
       - image: opennms/shellcheck:0.5.0-b1
 
+commands:
+  dockerhub-login:
+    description: "Connect to DockerHub"
+    steps:
+      - run:
+          name: Login to DockerHub
+          command: |
+            docker login -u ${DOCKERHUB_LOGIN} -p ${DOCKERHUB_PASS}
+
+  script-env-alpine:
+    description: "Add bash support in Alpine based images"
+    steps:
+      - run:
+          name: Add Bash support
+          command: |
+            apk add --no-cache bash python
+
+workflows:
+  build-publish:
+    jobs:
+      - shellcheck
+      - build-oci-image:
+          requires:
+            - shellcheck
+      - publish-oci-image:
+          requires:
+            - build-oci-image
+          filters:
+            tags:
+              only: /^v.*/
+            branches:
+              only:
+                - master
+                - develop
+
+jobs:
+  shellcheck:
+    executor: shellcheck-executor
     steps:
       - checkout
       - run:
@@ -36,127 +55,37 @@ jobs:
             find . -type f -name '*.sh' | wc -l
             find . -type f -name '*.sh' | xargs shellcheck --external-sources -e SC2129,SC2001,SC2013
 
-  build_docker_image:
-    <<: *defaults
-    <<: *container_config
-
+  build-oci-image:
+    executor: docker-executor
     steps:
-      - setup_remote_docker
-      - *attach_workspace
+      - script-env-alpine
       - checkout
-      - run:
-          name: Build Horizon Docker Image
-          no_output_timeout: 20m
-          command: |
-            docker build -t horizon-core-web .
-      - run:
-          name: Save Docker Container Image as artifact in workspace
-          command: |
-            docker image save horizon-core-web -o /tmp/workspace/horizon-docker-image
-      - store_artifacts:
-          path: /tmp/workspace/horizon-docker-image
-      - persist_to_workspace:
-          root: *workspace_root
-          paths:
-            - horizon-docker-image
-            - dockertag
-
-  publish_dockerhub:
-    <<: *defaults
-    <<: *container_config
-
-    steps:
       - setup_remote_docker
-      - *attach_workspace
-      - *dockerhub_login
       - run:
-          name: Load Docker Container Image file
+          name: Build Horizon OCI image
           command: |
-            docker image load -i /tmp/workspace/horizon-docker-image
-      - run:
-          name: Set DockerHub project user and ensure lower case
-          command: |
-            if [ -z ${DOCKERHUB_PROJECT_USER+x} ]; then
-                DOCKERHUB_PROJECT_USER=$(echo "${CIRCLE_PROJECT_USERNAME}" | tr '[:upper:]' '[:lower:]')
-                echo "export DOCKERHUB_PROJECT_USER=${DOCKERHUB_PROJECT_USER}" >> ${BASH_ENV}
-                echo "Use CIRCLE_PROJECT_USERNAME instead which is set to ${DOCKERHUB_PROJECT_USER}."
-            else
-                DOCKERHUB_PROJECT_USER=$(echo "${DOCKERHUB_PROJECT_USER}" | tr '[:upper:]' '[:lower:]')
-                echo "export DOCKERHUB_PROJECT_USER=${DOCKERHUB_PROJECT_USER}" >> ${BASH_ENV}
-                echo "Overwrite DOCKERHUB_PROJECT_USER with ${DOCKERHUB_PROJECT_USER}."
-            fi
-      - run:
-          name: Set DockerHub project name and ensure lower case
-          command: |
-            if [ -z ${DOCKERHUB_PROJECT_NAME+x} ]; then
-                DOCKERHUB_PROJECT_NAME=$(echo "${CIRCLE_PROJECT_REPONAME}" | tr '[:upper:]' '[:lower:]')
-                echo "export DOCKERHUB_PROJECT_NAME=${DOCKERHUB_PROJECT_NAME}" >> ${BASH_ENV}
-                echo "Use CIRCLE_PROJECT_REPONAME instead which is set to ${DOCKERHUB_PROJECT_NAME}."
-            else
-                DOCKERHUB_PROJECT_NAME=$(echo "${DOCKERHUB_PROJECT_NAME}" | tr '[:upper:]' '[:lower:]')
-                echo "export DOCKERHUB_PROJECT_NAME=${DOCKERHUB_PROJECT_NAME}" >> ${BASH_ENV}
-                echo "Overwrite DOCKERHUB_PROJECT_NAME with ${DOCKERHUB_PROJECT_NAME}."
-            fi
-      - run:
-          name: Generate Docker Tag for releases from branch name
-          command: |
-            DOCKERHUB_TAG=${CIRCLE_BRANCH#release/}
-            DOCKERHUB_TAG=${DOCKERHUB_TAG/\//-}
-            echo "export DOCKERHUB_TAG=${DOCKERHUB_TAG}" >> ${BASH_ENV}
-      - run:
-          name: Tag Docker Container Images and push to DockerHub
-          command: |
-            source ${BASH_ENV}
-            case "${CIRCLE_BRANCH}" in
-              master)
-                docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:bleeding
-                docker push ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:bleeding
-                ;;
-              release*)
-                docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:latest
-                docker tag horizon-core-web ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:${DOCKERHUB_TAG}
-                docker push ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:latest
-                docker push ${DOCKERHUB_PROJECT_USER}/${DOCKERHUB_PROJECT_NAME}:${DOCKERHUB_TAG}
-                ;;
-              *)
-                echo "This is not a branch build which needs to be published"
-                ;;
-            esac
+            ./build_container_image.sh
+      - store_artifacts:
+          path: ~/project/images/horizon-core-web.oci
+          destination: horizon-core-web.oci
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
 
-workflows:
-  version: 2
-  build_and_deploy:
-    jobs:
-      - shellcheck
-      - build_docker_image:
-          requires:
-            - shellcheck
-      - publish_dockerhub:
-          filters:
-            branches:
-              only:
-                - /release\/.*/
-                - master
-          requires:
-            - build_docker_image
-
-  daily-build:
-    triggers:
-      - schedule:
-          cron: "0 0 * * *"
-          filters:
-            branches:
-              only:
-                - master
-    jobs:
-      - shellcheck
-      - build_docker_image:
-          requires:
-            - shellcheck
-      - publish_dockerhub:
-          filters:
-            branches:
-              only:
-                - master
-          requires:
-            - build_docker_image
+  publish-oci-image:
+    executor: docker-executor
+    steps:
+      - attach_workspace:
+          at: ~/
+      - setup_remote_docker
+      - script-env-alpine
+      - dockerhub-login
+      - run:
+          name: Load Horizon OCI image
+          command: |
+            docker image load -i images/horizon-core-web.oci
+      - run:
+          name: Tag and publish Horizon OCI image
+          command: |
+            ./tag-n-push.sh

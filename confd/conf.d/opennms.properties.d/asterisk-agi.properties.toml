@@ -1,0 +1,6 @@
+[template]
+src = "opennms.properties.d/asterisk-agi.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/asterisk-agi.properties"
+keys = [
+    "/asterisk"
+]

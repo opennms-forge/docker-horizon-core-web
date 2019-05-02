@@ -1,0 +1,74 @@
+version: '2.4'
+
+volumes:
+  data-pgsql: {}
+  data-opennms-rrd: {}
+  data-opennms-reports: {}
+  data-opennms-mibs: {}
+  data-helm: {}
+
+networks:
+  opennms-net:
+    driver: bridge
+
+services:
+  database:
+    container_name: database
+    image: postgres:11
+    env_file:
+      - postgres.env
+    volumes:
+      - data-pgsql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - opennms-net
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 30s
+      timeout: 30s
+      retries: 3
+
+  opennms:
+    container_name: opennms
+    image: opennms/horizon-core-web:24.0.0-1
+    command: [ -s ]
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - ./opennms.yaml:/etc/confd/opennms.yaml
+      - ./opennms-etc:/opt/opennms/etc
+      - data-opennms-mibs:/opt/opennms/share/mibs
+      - data-opennms-rrd:/opt/opennms/share/rrd
+      - data-opennms-reports:/opt/opennms/share/reports
+      - ./overlay:/opt/opennms-overlay
+    ports:
+      - 8980:8980
+      - 8101:8101
+      - 162:1162/udp
+    networks:
+      - opennms-net
+    healthcheck:
+      test: curl -f -I http://localhost:8980/opennms/login.jsp
+      interval: 1m
+      timeout: 5s
+      retries: 3
+
+  helm:
+    container_name: helm
+    image: opennms/helm:latest
+    env_file:
+      - helm.env
+    volumes:
+      - data-helm:/var/lib/grafana
+      - data-helm:/var/log/grafana
+    ports:
+      - 3000:3000
+    networks:
+      - opennms-net
+    healthcheck:
+      test: curl -f -I http://localhost:3000/login
+      interval: 30s
+      timeout: 3s
+      retries: 1

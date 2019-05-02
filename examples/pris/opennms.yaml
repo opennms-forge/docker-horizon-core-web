@@ -1,0 +1,11 @@
+# Basic YAML configuration for OpenNMS
+
+database:
+  name: opennms
+  user: opennms
+  password: opennms
+
+postgres:
+  host: database
+  user: postgres
+  password: postgres

@@ -1,0 +1,6 @@
+[template]
+src = "karaf/org.opennms.plugin.elasticsearch.rest.forwarder.cfg.tpl"
+dest = "/opt/opennms/etc/org.opennms.plugin.elasticsearch.rest.forwarder.cfg"
+keys = [
+    "/opennms-es-rest"
+]

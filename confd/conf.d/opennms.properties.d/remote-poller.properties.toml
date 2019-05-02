@@ -1,0 +1,6 @@
+[template]
+src = "opennms.properties.d/remote-poller.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/remote-poller.properties"
+keys = [
+    "/remote-poller"
+]

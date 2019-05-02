@@ -1,0 +1,6 @@
+[template]
+src = "opennms.properties.d/icmp.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/icmp.properties"
+keys = [
+    "/icmp"
+]

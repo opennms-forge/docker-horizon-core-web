@@ -1,0 +1,6 @@
+[template]
+src = "opennms.properties.d/grafana-box.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/grafana-box.properties"
+keys = [
+    "/grafana-box"
+]

@@ -1,0 +1,7 @@
+[template]
+src = "opennms.properties.d/snmp.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/snmp.properties"
+keys = [
+    "/snmp",
+    "/snmp4j"
+]

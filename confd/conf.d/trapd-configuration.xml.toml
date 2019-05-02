@@ -1,0 +1,6 @@
+[template]
+src = "trapd-configuration.xml.tpl"
+dest = "/opt/opennms/etc/trapd-configuration.xml"
+keys = [
+    "/trapd"
+]

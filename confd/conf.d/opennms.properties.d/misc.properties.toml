@@ -1,0 +1,10 @@
+[template]
+src = "opennms.properties.d/misc.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/misc.properties"
+keys = [
+    "/dao",
+    "/eventd",
+    "/java",
+    "/opennms",
+    "/osgi"
+]

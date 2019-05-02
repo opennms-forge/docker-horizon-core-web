@@ -1,0 +1,6 @@
+[template]
+src = "karaf/featuresBoot/opennms-es-rest.tpl"
+dest = "/opt/opennms/etc/featuresBoot.d/opennms-es-rest.boot"
+keys = [
+    "/opennms-es-rest"
+]

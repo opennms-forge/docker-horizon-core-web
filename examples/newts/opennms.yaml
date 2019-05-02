@@ -1,0 +1,25 @@
+# Basic YAML configuration for OpenNMS
+
+database:
+  name: opennms
+  user: opennms
+  password: opennms
+
+postgres:
+  host: database
+  user: postgres
+  password: postgres
+
+timeseries:
+  storeByGroup: true
+  storeByForeignSource: true
+  strategy: newts
+  newts:
+    config:
+      hostname: cassandra
+      port: 9042
+      ring_buffer_size: 65536
+      writer_threads: 2
+      cache.max_entries: 65536
+    query:
+      minimum_step: 60000 # To allow presenting data collected every 60 seconds

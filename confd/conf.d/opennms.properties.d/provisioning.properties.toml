@@ -1,0 +1,7 @@
+[template]
+src = "opennms.properties.d/provisioning.properties.tpl"
+dest = "/opt/opennms/etc/opennms.properties.d/provisioning.properties"
+keys = [
+    "/provisiond",
+    "/minion/provisioning"
+]
