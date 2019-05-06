@@ -3,7 +3,7 @@
 ## Version Tags
 
 * `bleeding`, daily bleeding edge version of Horizon 24 using OpenJDK 11
-* `23.0.4-1`, last stable release of Horizon using OpenJDK 8
+* `24.0.0`, last stable release of Horizon using OpenJDK 11
 
 ## General Project Information
 
