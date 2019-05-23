@@ -26,7 +26,7 @@ jobs:
   shellcheck:
     <<: *defaults
     docker:
-      - image: opennms/shellcheck:0.5.0-b1
+      - image: opennms/shellcheck:0.5.0-b3
 
     steps:
       - checkout
@@ -152,7 +152,6 @@ workflows:
             branches:
               only:
                 - master
-                - release/24.0.0-rc
     jobs:
       - shellcheck
       - build_docker_image:
@@ -163,6 +162,5 @@ workflows:
             branches:
               only:
                 - master
-                - release/24.0.0-rc
           requires:
             - build_docker_image
