@@ -11,7 +11,7 @@ BASE_IMAGE_VERSION="jdk11-1.0.0"
 BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%S%z")"
 
 # Horizon version
-VERSION="25.0.0-SNAPSHOT"
+VERSION="24.1.0-confd"
 
 # Docker Tags, use version by default
 IMAGE_VERSION=("${VERSION}")
@@ -20,8 +20,6 @@ IMAGE_VERSION=("${VERSION}")
 if [[ -n "${CIRCLE_BUILD_NUM}" ]]; then
   IMAGE_VERSION+=("${VERSION}-cb.${CIRCLE_BUILD_NUM}")
 fi
-
-PACKAGES="https://yum.opennms.org/repofiles/opennms-repo-develop-rhel7.noarch.rpm"
 
 #
 # If you want to install packages from the official repository, add your packages here.
