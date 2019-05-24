@@ -3,7 +3,7 @@
 ## Version Tags
 
 * `bleeding`, daily bleeding edge version of Horizon Minion 25 using OpenJDK 11-jdk
-* `24.0.0-1`, `latest` is a reference to last stable release of Horizon Minion using OpenJDK 11-jdk
+* `24.1.0-1`, `latest` is a reference to last stable release of Horizon Minion using OpenJDK 11-jdk
 
 ## General Project Information
 
