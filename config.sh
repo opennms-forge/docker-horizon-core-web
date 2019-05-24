@@ -7,7 +7,7 @@ CONTAINER_PROJECT="horizon-core-web"
 
 # Base Image Dependency
 BASE_IMAGE="opennms/base-horizon"
-BASE_IMAGE_VERSION="jdk11-1.0.0"
+BASE_IMAGE_VERSION="jdk11-1.0.1"
 BUILD_DATE="$(date -u +"%Y-%m-%dT%H:%M:%S%z")"
 
 # Horizon version
