@@ -1,4 +1,4 @@
-FROM opennms/openjdk:11
+FROM opennms/openjdk:11.0.3.7-b1
 
 LABEL maintainer "Ronny Trommer <ronny@opennms.org>"
 
