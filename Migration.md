@@ -68,7 +68,17 @@ services:
       - OPENNMS_CASSANDRA_PASSWORD=cassandra
 ```
 
-By default [confd] uses a file as configuration source in `YAML` format:
+By default [confd.io] uses a file as configuration source in `YAML` format in `opennms.yaml` which is injected into the container with:
+
+```yaml
+services:
+  horizon:
+    image: opennms/horizon-core-web:24.1.0-1
+    volumes:
+      - ./opennms.yaml:/etc/confd/opennms.yaml
+```
+
+The content for the configuration shown in the example above needs to be converted into the following structure:
 
 ```yaml
 # Basic YAML configuration for OpenNMS
@@ -97,7 +107,7 @@ timeseries:
       password: cassandra             # OPENNMS_CASSANDRA_PASSWORD=cassandra
 ```
 
-It is important define all properties from the `opennms.yaml` file.
+It is important to define all properties from the `opennms.yaml` file.
 If you inject property files you will get a mix of properties which are hard to debug.
 
 ## Migrate data directories
