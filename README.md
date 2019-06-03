@@ -1,9 +1,22 @@
-# Docker Image for OpenNMS Horizon
+# DEPRECATION of this repository
+
+This repository is deprecated.
+We have moved the build code into the [OpenNMS repository](https://github.com/OpenNMS/opennms/tree/develop/opennms-container/horizon).
+The publish and build workflow is now integrated as part of our CI/CD workflow.
+
+We will archive this repository with Horizon 25 and will no longer maintain this repository.
+
+## General Project Information
+
+* Docker Container Image Repository: [DockerHub]
+* Issue- and Bug-Tracking: [JIRA]
+* Source code: [GitHub]
+* Chat: [Web Chat]
 
 ## Version Tags
 
 * `bleeding`, daily bleeding edge version of Horizon 24 using OpenJDK 11
-* `24.0.0`, last stable release of Horizon using OpenJDK 11
+* `24.1.0`, last stable release of Horizon using OpenJDK 11
 
 ## General Project Information
 
@@ -212,10 +225,7 @@ environment:
   - JAVA_MEM_OPTS=-Xmx2g -XX:MaxMetaspaceSize=1g`
 ```
 
-[GitHub]: https://github.com/opennms-forge/docker-horizon-core-web.git
-[DockerHub]: https://hub.docker.com/r/opennms/horizon-core-web
-[GitHub issue]: https://github.com/opennms-forge/docker-horizon-core-web
-[CircleCI]: https://circleci.com/gh/opennms-forge/docker-horizon-core-web
-[Discourse]: https://opennms.discourse.group
+[GitHub]: https://github.com/OpenNMS/opennms/tree/develop/opennms-container/horizon
+[DockerHub]: https://hub.docker.com/r/opennms/horizon
+[JIRA]: https://issues.opennms.org
 [Web Chat]: https://chats.opennms.org/opennms-discuss
-[confd]: http://www.confd.io
