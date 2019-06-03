@@ -1,21 +1,22 @@
-# Docker Image for OpenNMS Horizon
+# DEPRECATION of this repository
 
-## Version Tags
+This repository is deprecated.
+We have moved the build code into the [OpenNMS repository](https://github.com/OpenNMS/opennms/tree/develop/opennms-container/horizon).
+The publish and build workflow is now integrated as part of our CI/CD workflow.
 
-* `bleeding`, daily bleeding edge version of Horizon 24 using OpenJDK 8u191-jdk
-* `23.0.4-1`, `latest` is a reference to last stable release of Horizon using OpenJDK 8u191-jdk
+We will archive this repository with Horizon 25 and will no longer maintain this repository.
 
 ## General Project Information
 
-* CI/CD Status: [![CircleCI](https://circleci.com/gh/opennms-forge/docker-horizon-core-web.svg?style=svg)](https://circleci.com/gh/opennms-forge/docker-horizon-core-web)
-* Container Image Info: [![Container Image Info](https://images.microbadger.com/badges/version/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own version badge on microbadger.com") [![Container Image Info](https://images.microbadger.com/badges/image/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own image badge on microbadger.com") [![Container Image License](https://images.microbadger.com/badges/license/opennms/horizon-core-web.svg)](https://microbadger.com/images/opennms/horizon-core-web "Get your own license badge on microbadger.com") [![Anchore Image Overview](https://anchore.io/service/badges/image/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756)](https://anchore.io/image/dockerhub/84ef23ff2ddbda394e259fbab5c17d21656e837e949c39aba2579ffc3ad75756?repo=opennms%2Fhorizon-core-web&tag=bleeding)
-* CI/CD System: [CircleCI]
 * Docker Container Image Repository: [DockerHub]
-* Issue- and Bug-Tracking: [GitHub issue]
-* Support from Community: [Discourse]
+* Issue- and Bug-Tracking: [JIRA]
 * Source code: [GitHub]
-* Mattermost Chat: [Chat]
-* Maintainer: ronny@opennms.org
+* Chat: [Web Chat]
+
+## Version Tags
+
+* `bleeding`, daily bleeding edge version of Horizon 24 using OpenJDK 11
+* `24.1.0`, last stable release of Horizon using OpenJDK 11
 
 ## Horizon Docker files
 
@@ -246,9 +247,7 @@ The `opennms-cassandra-helm.yml` is provided which illustrates how to run _OpenN
 * `MIRROR_HOST`: Server with RPM packages, default: `yum.opennms.org`
 * `OPENNMS_VERSION`: Version of OpenNMS Horizon RPM files, default: `stable`
 
-[GitHub]: https://github.com/opennms-forge/docker-horizon-core-web.git
-[DockerHub]: https://hub.docker.com/r/opennms/horizon-core-web
-[GitHub issue]: https://github.com/opennms-forge/docker-horizon-core-web
-[CircleCI]: https://circleci.com/gh/opennms-forge/docker-horizon-core-web
-[Chat]: https://chats.opennms.org/opennms-discuss
-[Discourse]: https://opennms.discourse.group/categories
+[GitHub]: https://github.com/OpenNMS/opennms/tree/develop/opennms-container/horizon
+[DockerHub]: https://hub.docker.com/r/opennms/horizon
+[JIRA]: https://issues.opennms.org
+[Web Chat]: https://chats.opennms.org/opennms-discuss
